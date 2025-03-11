@@ -28,7 +28,7 @@ OBJ_FILES =  $(addprefix $(OBJS_DIR)/, $(SOURCES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIBFT)
-	$(CC) $(CFLAGS) -lreadline $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) -lreadline -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
