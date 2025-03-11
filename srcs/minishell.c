@@ -12,6 +12,7 @@
 
 #include "../incs/mini_header.h"
 
+
 void	handle_signal(int signal)
 {
 	if (signal == SIGINT)
