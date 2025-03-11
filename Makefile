@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/03/11 16:49:01 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/03/11 18:31:59 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJ_FILES =  $(addprefix $(OBJS_DIR)/, $(SOURCES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) -lreadline $(OBJ_FILES) $(LIBFT) -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
