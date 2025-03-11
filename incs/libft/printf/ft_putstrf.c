@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putstrf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/11 16:58:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 14:25:35 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/04 14:34:00 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/mini_header.h"
+#include "ft_printf.h"
 
-int	main(void)
+void	ft_putstrf(const char *str, int *counter)
 {
-	ft_printf("minishell\n");
+	int	i;
+
+	i = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		(*counter) += 6;
+		return ;
+	}
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+		(*counter)++;
+	}
 }

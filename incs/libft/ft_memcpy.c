@@ -1,18 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/11 16:58:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/10/28 11:49:30 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/10/31 11:16:52 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/mini_header.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	ft_printf("minishell\n");
+	size_t			i;
+	unsigned char	*arrayd;
+	unsigned char	*arrays;
+
+	i = 0;
+	arrayd = (unsigned char *)dest;
+	arrays = (unsigned char *)src;
+	while (i < n)
+	{
+		arrayd[i] = arrays[i];
+		i++;
+	}
+	return (dest);
 }
+
+/*int main()
+{
+    char str[] = "Hello, world";
+    char str2[50];
+    ft_memcpy(str2,str,5);
+    printf("%s\n",str2);
+}*/

@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_putnbrbasef.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/11 16:58:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 12:55:00 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/05 14:43:57 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/mini_header.h"
+#include "ft_printf.h"
 
-int	main(void)
+void	ft_putnbrbasef(unsigned int nb, char *base, int *counter)
 {
-	ft_printf("minishell\n");
+	if (nb < 16)
+		ft_putcharf(base[nb], counter);
+	else
+	{
+		ft_putnbrbasef(nb / 16, base, counter);
+		ft_putnbrbasef(nb % 16, base, counter);
+	}
 }

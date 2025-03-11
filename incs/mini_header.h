@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/11 16:58:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/03/11 16:57:58 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/mini_header.h"
-
-int	main(void)
-{
-	ft_printf("minishell\n");
-}
+#ifndef MINI_HEADER_H
+# define MINI_HEADER_H
+# include "libft/libft.h"
+#endif

@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/11 16:58:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/10/28 11:50:43 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/10/31 11:34:31 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incs/mini_header.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memchr(const void *str, int c, size_t n)
 {
-	ft_printf("minishell\n");
+	unsigned char	*s1;
+	size_t			i;
+
+	s1 = (unsigned char *)str;
+	i = 0;
+	while (i < n)
+	{
+		if (s1[i] == (unsigned char)c)
+		{
+			return (s1 + i);
+		}
+		i++;
+	}
+	return (NULL);
 }
