@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 15:39:01 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:45:11 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sig_init(void)
 		return (perror("Failed sigaction"));
 }
 
-void	check_built_in(char	*input)
+void	check_built_in(char	**input)
 {
 	if (ft_strncpm(input, "echo", 4) == 0)
 		build_echo();
@@ -50,7 +50,7 @@ void	check_built_in(char	*input)
 	if (ft_strncmp(input, "env", 3) == 0)
 		build_env();
 	if (ft_strncmp(input, "exit", 4) == 0)
-		build_exit();
+		build_exit(input);
 }
 
 int	main(void)
@@ -64,7 +64,7 @@ int	main(void)
 		if (*input)
 		{
 			add_history(input);
-			check_built_in(input);
+			check_built_in(&input);
 			// placeholder for exit cuz i cant fucking ctrl C
 			if (ft_strncmp(input, "exit", 4) == 0)
 			{
