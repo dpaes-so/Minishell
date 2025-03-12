@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 16:59:28 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:36:52 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	check_built_in(t_mini *mini)
 {
 	if (ft_strncmp(mini->input, "echo ", 5) == 0)
 		build_echo(mini);
-	// if (ft_strncmp(input, "cd", 2) == 0)
-	// 	build_cd();
+	if (ft_strncmp(mini->input, "cd", 2) == 0)
+		build_cd(mini);
 	// if (ft_strncmp(input, "pwd", 3) == 0)
 	// 	build_pwd();
 	// if (ft_strncmp(input, "export", 6) == 0)
@@ -66,16 +66,6 @@ int	main(void)
 		{
 			add_history(mini.input);
 			check_built_in(&mini);
-			// placeholder for exit cuz i cant fucking ctrl C
-			if (ft_strncmp(mini.input, "cd", 4) == 0)
-			{
-				char *temp = NULL;
-				char *cdw = getcwd(temp,100);
-				free(mini.path);
-				mini.path = ft_strjoin("minishell >",cdw);
-				free(temp);
-				free(cdw);
-			}
 		}
 		free(mini.input);
 	}

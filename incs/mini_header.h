@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/12 16:57:47 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:36:46 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ typedef struct s_mini
 void	build_exit(t_mini *mini);
 void	build_echo(t_mini *mini);
 
+void	build_cd(t_mini *mini);
 #endif
