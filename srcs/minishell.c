@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 16:09:21 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:59:28 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	sig_init(void)
 
 void	check_built_in(t_mini *mini)
 {
-	// if (ft_strncpm(input, "echo", 4) == 0)
-	// 	build_echo();
+	if (ft_strncmp(mini->input, "echo ", 5) == 0)
+		build_echo(mini);
 	// if (ft_strncmp(input, "cd", 2) == 0)
 	// 	build_cd();
 	// if (ft_strncmp(input, "pwd", 3) == 0)
