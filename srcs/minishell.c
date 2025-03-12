@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 14:52:10 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:36:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ void	sig_init(void)
 int	main(void)
 {
 	char	*input;
+	char *path = ft_strjoin("minishell ","");
 
 	sig_init();
 	while (1)
 	{
-		input = readline("minishell >");
+		input = readline(path);
 		if (*input)
 		{
 			add_history(input);
@@ -50,7 +51,18 @@ int	main(void)
 			{
 				free(input);
 				clear_history();
+				if(path)
+					free(path);
 				exit(0);
+			}
+			if (ft_strncmp(input, "cd", 4) == 0)
+			{
+				char *temp = NULL;
+				char *cdw = getcwd(temp,100);
+				free(path);
+				path = ft_strjoin("minishell >",cdw);
+				free(temp);
+				free(cdw);
 			}
 		}
 		free(input);
