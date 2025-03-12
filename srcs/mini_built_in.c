@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 16:09:25 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:58:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,25 @@
 void	build_exit(t_mini *mini)
 {
 	free(mini->input);
-	if(mini->path)
+	if (mini->path)
 		free(mini->path);
 	clear_history();
 	exit(0);
 }
 
-		// build_env();		
-		// build_unset();
-		// build_export();
-		// build_pwd();
-		// build_cd();
-		// build_echo();
+// build_env();
+// build_unset();
+// build_export();
+// build_pwd();
+void	build_cd(t_mini *mini)
+{
+	char	*temp;
+	char	*cdw;
+
+	temp = NULL;
+	cdw = getcwd(temp, 100);
+	free(mini->path);
+	mini->path = ft_strjoin("minishell >", cdw);
+	free(temp);
+	free(cdw);
+}
