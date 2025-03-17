@@ -10,6 +10,9 @@ Mess around with bash commands [];
 
 stuff exec beets to do:
 1. use readline in my here doc
+   
 2.start making the built ins
+
 3.make a function that makes pipes, in a loop it only recevies a string with the commands and flags together
-3.stil dont know how ima do the redirections, problem for my future self
+
+4.stil dont know how ima do the redirections, problem for my future self
