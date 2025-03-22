@@ -1,6 +1,10 @@
 # Minishell
 The goal of this project is to create a minimalist shell.
 
+-> Executte project with this flags: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+fot readline leaks supp
+
+
 Studying ast tree, and bash manual [];
 
 Learning to code with binary trees from C13[✔];
