@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/12 18:36:46 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:37:56 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,27 @@
 
 typedef struct s_mini
 {
-	char	*path;
-	char	*input;
-}			t_mini;
+	char				*path;
+	char				*input;
+}						t_mini;
 
-void	build_exit(t_mini *mini);
-void	build_echo(t_mini *mini);
+typedef struct s_cmd
+{
+	char				*cmd;
+	char				*args;
+	char				**redirections;
+}						t_cmd;
 
-void	build_cd(t_mini *mini);
+typedef struct s_ast_node
+{
+	t_cmd				value;
+	bool				pipe;
+
+	struct s_ast_node	left;
+	struct s_ast_node	rigth;
+
+}						t_node;
+void					build_exit(t_mini *mini);
+void					build_echo(t_mini *mini);
+void					build_cd(t_mini *mini);
 #endif

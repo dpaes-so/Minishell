@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/12 18:36:19 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:02:43 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	build_exit(t_mini *mini)
 void	build_echo(t_mini *mini)
 {
 	if (ft_strncmp(mini->input + 5, "-n ", 3) == 0)
-		printf("%s", mini->input + 8);
+		ft_printf("%s", mini->input + 8);
 	else
-		printf("%s\n", mini->input + 5);
+		ft_printf("%s\n", mini->input + 5);
 }
 
 // build_env();
