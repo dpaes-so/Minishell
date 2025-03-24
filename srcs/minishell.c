@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/24 19:44:41 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:55:05 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(void)
 		{
 			add_history(mini.input);
 			check_built_in(&mini);
+			// printf("str = %s\n",mini.input);
 		}
 		free(mini.input);
 	}

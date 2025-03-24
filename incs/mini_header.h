@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/24 19:37:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:55:46 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 # define MINI_HEADER_H
 
 # include "libft/libft.h"
+# include "stdbool.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
-
-typedef struct s_mini
-{
-	char				*path;
-	char				*input;
-}						t_mini;
 
 typedef struct s_cmd
 {
@@ -32,15 +27,21 @@ typedef struct s_cmd
 	char				**redirections;
 }						t_cmd;
 
-typedef struct s_ast_node
+typedef struct s_ast_tree
 {
 	t_cmd				value;
 	bool				pipe;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	
+}						t_tree;
 
-	struct s_ast_node	left;
-	struct s_ast_node	rigth;
-
-}						t_node;
+typedef struct s_mini
+{
+	char				*path;
+	char				*input;
+	t_tree				*ast;
+}						t_mini;
 void					build_exit(t_mini *mini);
 void					build_echo(t_mini *mini);
 void					build_cd(t_mini *mini);
