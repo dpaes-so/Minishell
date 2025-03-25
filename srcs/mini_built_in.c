@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/24 16:02:43 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:01:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,33 @@ void	build_echo(t_mini *mini)
 // build_export();
 // build_pwd();
 
-void	build_cd(t_mini *mini)
+
+
+void get_pwd(t_mini *mini)
 {
 	char	*temp;
 	char	*cdw;
-
+	
 	temp = NULL;
 	cdw = getcwd(temp, 100);
 	free(mini->path);
-	mini->path = ft_strjoin("minishell >", cdw);
+	mini->path = ft_strjoin(cdw,"");
 	free(temp);
 	free(cdw);
+}
+void	build_cd(t_mini *mini)
+{
+	char *cd;
+	char *cd2;
+	if(!ft_strcmp(mini->input,"cd"))
+		chdir("/home/dpaes-so");
+	else
+	{
+		cd = ft_strjoin(mini->path,"/");
+		cd2 = ft_strjoin(cd,mini->input + 3);
+		chdir(cd2);
+		get_pwd(mini);
+		free(cd2);
+		free(cd);
+	}
 }

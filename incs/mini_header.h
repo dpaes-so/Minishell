@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/24 19:55:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:46:22 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 typedef struct s_cmd
 {
@@ -33,7 +36,7 @@ typedef struct s_ast_tree
 	bool				pipe;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-	
+
 }						t_tree;
 
 typedef struct s_mini
@@ -45,4 +48,6 @@ typedef struct s_mini
 void					build_exit(t_mini *mini);
 void					build_echo(t_mini *mini);
 void					build_cd(t_mini *mini);
+void					get_pwd(t_mini *mini);
+void					freetrix(char **matrix);
 #endif

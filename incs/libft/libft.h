@@ -6,17 +6,17 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/01/14 14:06:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:53:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include "printf/ft_printf.h"
+# include "get_next_line.h"
+# include "printf/ft_printf.h"
 # include <stdlib.h>
 # include <unistd.h>
-#include "get_next_line.h"
 
 int					ft_isalpha(int c);
 
@@ -39,6 +39,8 @@ char				*ft_strchr(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
 
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+
+int					ft_strcmp(const char *s1, const char *s2);
 
 int					ft_strlcat(char *dest, const char *src, unsigned int size);
 
@@ -113,4 +115,4 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 
-#endif 
+#endif

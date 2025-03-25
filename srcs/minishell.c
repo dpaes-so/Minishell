@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/24 19:55:05 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:11:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,40 @@ void	check_built_in(t_mini *mini)
 		build_exit(mini);
 }
 
-int	main(void)
+int	main(int ac,char **av,char **ev)
 {
 	t_mini mini;
-	mini.path = ft_strjoin("minishell","");
+	int pid;
+	char **matrix;
+	char *shit;
+	mini.path = NULL;
+	get_pwd(&mini);
 
+	(void)ac;
+	(void)av;
 	sig_init();
 	while (1)
 	{
-		mini.input = readline(mini.path);
+		mini.input = readline("Minishell >");
 		if (mini.input)
 		{
 			add_history(mini.input);
 			check_built_in(&mini);
-			// printf("str = %s\n",mini.input);
+			
+			pid = fork();
+			if(pid == 0)
+			{
+				matrix = ft_split(mini.input,' ');
+				printf("str = %s\n",mini.input);
+				shit = ft_strjoin("/usr/bin/",mini.input);
+				execve(shit,matrix,ev);
+				perror("");
+				free(shit);
+				free(mini.path);
+				freetrix(matrix);
+				exit(0);
+			}
+			wait(&pid);
 		}
 		free(mini.input);
 	}
