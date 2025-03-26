@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/25 16:46:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:29:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,26 @@ typedef struct s_ast_tree
 
 }						t_tree;
 
+typedef struct s_env
+{
+	char				**my_env;
+	char				*oldpwd;
+	char				*home;
+}						t_env;
+
 typedef struct s_mini
 {
 	char				*path;
 	char				*input;
 	t_tree				*ast;
+	t_env				*my_env;
 }						t_mini;
+
+void					my_env_start(t_mini *mini, char **ev);
 void					build_exit(t_mini *mini);
 void					build_echo(t_mini *mini);
-void					build_cd(t_mini *mini);
+int						build_cd(t_mini *mini);
+int						build_env(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 #endif

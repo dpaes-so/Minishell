@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/25 19:01:06 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:38:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	build_exit(t_mini *mini)
 	free(mini->input);
 	if (mini->path)
 		free(mini->path);
+	free(mini->my_env);
 	clear_history();
 	exit(0);
 }
@@ -30,7 +31,17 @@ void	build_echo(t_mini *mini)
 		ft_printf("%s\n", mini->input + 5);
 }
 
-// build_env();
+int build_env(t_mini *mini)
+{
+	int i;
+
+	i = -1;
+	ft_printf("AYOOOOOO MY ENV");
+	while(mini->my_env->my_env[++i])
+		ft_printf("%s\n",mini->my_env->my_env[i]);
+	ft_printf("AYOOOOOO MY ENV ENDED");
+	return(1);
+}
 // build_unset();
 // build_export();
 // build_pwd();
@@ -49,19 +60,40 @@ void get_pwd(t_mini *mini)
 	free(temp);
 	free(cdw);
 }
-void	build_cd(t_mini *mini)
+void pwd_update(t_mini *mini)
+{
+	int i;
+
+	i = -1;
+	while(mini->my_env->my_env[++i])
+		if (ft_strnstr(mini->my_env->my_env[i], "PWD=", 4))
+			break ;
+	mini->my_env->my_env[i] = mini->path;
+}
+int	build_cd(t_mini *mini)
 {
 	char *cd;
 	char *cd2;
+	int i;
+	
+	i = 3;
 	if(!ft_strcmp(mini->input,"cd"))
-		chdir("/home/dpaes-so");
+	{
+		chdir(mini->my_env->home);
+		get_pwd(mini);
+	}
 	else
 	{
 		cd = ft_strjoin(mini->path,"/");
 		cd2 = ft_strjoin(cd,mini->input + 3);
-		chdir(cd2);
+		if (chdir(cd2) < 0)
+			ft_printf("Minishell: cd: %s: No such file or directory\n",mini->input + 3);
 		get_pwd(mini);
 		free(cd2);
 		free(cd);
 	}
+	// pwd_update(mini);
+	ft_printf("Mini path = %s\n",mini->path);
+	return(1);
 }
+
