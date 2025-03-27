@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/26 19:29:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:27:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,15 @@ typedef struct s_ast_tree
 typedef struct s_env
 {
 	char				**my_env;
-	char				*oldpwd;
 	char				*home;
 }						t_env;
 
 typedef struct s_mini
 {
-	char				*path;
+	char				*pwd;
 	char				*input;
 	t_tree				*ast;
-	t_env				*my_env;
+	t_env				*env;
 }						t_mini;
 
 void					my_env_start(t_mini *mini, char **ev);

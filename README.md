@@ -18,7 +18,7 @@ stuff exec needs to do:
    
 2.start making the built ins
 
-3.make a function that makes pipes, in a loop it only recevies a string with the commands and flags together(need to make pipex work with true path add a strtrim or someshit to make it work problem for later)
+3.make a function that makes pipes, in a loop it only recevies a string with the commands and flags together(need to make pipex work with true path add a strtrim or someshit to make it work problem for later(not hard just an access before the path if not acccescible executael dup coamnds)) and also correct exit cods also with acces easy
 
 4.stil dont know how ima do the redirections, problem for my future self
 

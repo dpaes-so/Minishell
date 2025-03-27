@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/26 19:38:27 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:40:37 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 void	build_exit(t_mini *mini)
 {
 	free(mini->input);
-	if (mini->path)
-		free(mini->path);
-	free(mini->my_env);
+	if (mini->pwd)
+		free(mini->pwd);
+	free(mini->env->home);
+	freetrix(mini->env->my_env);
+	free(mini->env);
 	clear_history();
 	exit(0);
 }
@@ -36,10 +38,8 @@ int build_env(t_mini *mini)
 	int i;
 
 	i = -1;
-	ft_printf("AYOOOOOO MY ENV");
-	while(mini->my_env->my_env[++i])
-		ft_printf("%s\n",mini->my_env->my_env[i]);
-	ft_printf("AYOOOOOO MY ENV ENDED");
+	while(mini->env->my_env[++i])
+		ft_printf("%s\n",mini->env->my_env[i]);
 	return(1);
 }
 // build_unset();
@@ -55,8 +55,8 @@ void get_pwd(t_mini *mini)
 	
 	temp = NULL;
 	cdw = getcwd(temp, 100);
-	free(mini->path);
-	mini->path = ft_strjoin(cdw,"");
+	free(mini->pwd);
+	mini->pwd = ft_strjoin(cdw,"");
 	free(temp);
 	free(cdw);
 }
@@ -65,10 +65,11 @@ void pwd_update(t_mini *mini)
 	int i;
 
 	i = -1;
-	while(mini->my_env->my_env[++i])
-		if (ft_strnstr(mini->my_env->my_env[i], "PWD=", 4))
+	while(mini->env->my_env[++i])
+		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
-	mini->my_env->my_env[i] = mini->path;
+	free(mini->env->my_env[i]);
+	mini->env->my_env[i] = ft_strjoin("PWD=",mini->pwd);
 }
 int	build_cd(t_mini *mini)
 {
@@ -79,12 +80,12 @@ int	build_cd(t_mini *mini)
 	i = 3;
 	if(!ft_strcmp(mini->input,"cd"))
 	{
-		chdir(mini->my_env->home);
+		chdir(mini->env->home);
 		get_pwd(mini);
 	}
 	else
 	{
-		cd = ft_strjoin(mini->path,"/");
+		cd = ft_strjoin(mini->pwd,"/");
 		cd2 = ft_strjoin(cd,mini->input + 3);
 		if (chdir(cd2) < 0)
 			ft_printf("Minishell: cd: %s: No such file or directory\n",mini->input + 3);
@@ -92,8 +93,8 @@ int	build_cd(t_mini *mini)
 		free(cd2);
 		free(cd);
 	}
-	// pwd_update(mini);
-	ft_printf("Mini path = %s\n",mini->path);
+	pwd_update(mini);
+	ft_printf("Mini path = %s\n",mini->pwd);
 	return(1);
 }
 

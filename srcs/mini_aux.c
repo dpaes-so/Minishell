@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:45:21 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/25 16:46:18 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:57:02 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	freetrix(char **matrix)
 		return ;
 	while (matrix[i])
 	{
+		printf("i = %d\n",i);
 		free(matrix[i]);
 		i++;
 	}

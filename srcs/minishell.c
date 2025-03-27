@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/26 19:39:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:04:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_built_in(t_mini *mini)
 	// 	build_export();
 	// if (ft_strncmp(input, "unset", 5) == 0)
 	// 	build_unset();
-	if (ft_strncmp(mini->input, "exit", 4) == 0)
+	if (ft_strcmp(mini->input, "exit") == 0)
 		build_exit(mini);
 	return(0);
 }
@@ -58,23 +58,36 @@ int	check_built_in(t_mini *mini)
 void my_env_start(t_mini *mini, char **ev)
 {
 	int i;
+	int j;
+	int k;
 
 	i = -1;
-	mini->my_env = malloc(sizeof(t_env));
-	mini->my_env->my_env = ev;
+	j = 0;
+	k = 0;
+	mini->env = malloc(sizeof(t_env));
+	while(ev[k])
+		k++;
+	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char * ));
+	// mini->env->my_env[k] = NULL;
+	while(ev[j])
+	{
+		mini->env->my_env[j] = ft_strdup(ev[j]);
+		j++;
+	}
 	while(ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
-	mini->my_env->home = ev[i] + 5;
-	// ft_printf("my home = %s\n",mini->my_env->home);
+	mini->env->home = ft_strdup(ev[i] + 5);
+	// ft_printf("my home = %s\n",mini->env->home);
 }
+
 int	main(int ac,char **av,char **ev)
 {
 	t_mini mini;
 	int pid;
 	char **matrix;
-	char *shit;
-	mini.path = NULL;
+	char *path;
+	mini.pwd = NULL;
 	get_pwd(&mini);
 
 	(void)ac;
@@ -95,12 +108,13 @@ int	main(int ac,char **av,char **ev)
 				{
 					matrix = ft_split(mini.input,' ');
 					printf("str = %s\n",mini.input);
-					shit = ft_strjoin("/usr/bin/",mini.input);
-					execve(shit,matrix,ev);
-					perror("");
-					free(shit);
-					free(mini.my_env);
-					free(mini.path);
+					path = ft_strjoin("/usr/bin/",mini.input);
+					execve(path,matrix,ev);
+					free(path);
+					free(mini.pwd);
+					free(mini.env->home);
+					freetrix(mini.env->my_env);
+					free(mini.env);
 					freetrix(matrix);
 					exit(0);
 				}
