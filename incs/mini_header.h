@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/27 17:27:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:22:15 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_mini
 void					my_env_start(t_mini *mini, char **ev);
 void					build_exit(t_mini *mini);
 void					build_echo(t_mini *mini);
+int						build_pwd(t_mini *mini);
 int						build_cd(t_mini *mini);
 int						build_env(t_mini *mini);
 void					get_pwd(t_mini *mini);

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/27 17:40:37 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:21:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int build_env(t_mini *mini)
 }
 // build_unset();
 // build_export();
-// build_pwd();
+int build_pwd(t_mini *mini)
+{
+	ft_printf("%s\n",mini->pwd);
+	return(1);
+}
 
 
 

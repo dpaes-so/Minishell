@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/03/27 18:04:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:25:39 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,77 +39,75 @@ int	check_built_in(t_mini *mini)
 {
 	if (ft_strncmp(mini->input, "echo ", 5) == 0)
 		build_echo(mini);
-	// if (ft_strncmp(input, "pwd", 3) == 0)
-		// 	build_pwd();
-	if (ft_strncmp(mini->input, "env", 3) == 0)
-			return(build_env(mini));
-
-	if (ft_strncmp(mini->input, "cd", 2) == 0)
-		return(build_cd(mini));
+	if (ft_strcmp(mini->input, "pwd") == 0)
+		return (build_pwd(mini));
+	if (ft_strcmp(mini->input, "env") == 0)
+		return (build_env(mini));
+		
+	if (ft_strncmp(mini->input, "cd",2) == 0)
+		return (build_cd(mini));
 	// if (ft_strncmp(input, "export", 6) == 0)
 	// 	build_export();
 	// if (ft_strncmp(input, "unset", 5) == 0)
 	// 	build_unset();
 	if (ft_strcmp(mini->input, "exit") == 0)
 		build_exit(mini);
-	return(0);
+	return (0);
 }
 
-void my_env_start(t_mini *mini, char **ev)
+void	my_env_start(t_mini *mini, char **ev)
 {
-	int i;
-	int j;
-	int k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = -1;
 	j = 0;
 	k = 0;
 	mini->env = malloc(sizeof(t_env));
-	while(ev[k])
+	while (ev[k])
 		k++;
-	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char * ));
-	// mini->env->my_env[k] = NULL;
-	while(ev[j])
+	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
+	while (ev[j])
 	{
 		mini->env->my_env[j] = ft_strdup(ev[j]);
 		j++;
 	}
-	while(ev[++i])
+	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
 	mini->env->home = ft_strdup(ev[i] + 5);
-	// ft_printf("my home = %s\n",mini->env->home);
 }
 
-int	main(int ac,char **av,char **ev)
+int	main(int ac, char **av, char **ev)
 {
-	t_mini mini;
-	int pid;
-	char **matrix;
-	char *path;
+	t_mini	mini;
+	int		pid;
+	char	**matrix;
+	char	*path;
+
 	mini.pwd = NULL;
 	get_pwd(&mini);
-
 	(void)ac;
 	(void)av;
-	my_env_start(&mini,ev);
+	my_env_start(&mini, ev);
 	sig_init();
 	while (1)
 	{
 		mini.input = readline("Minishell >");
-		
 		if (mini.input)
 		{
 			add_history(mini.input);
-			if(!check_built_in(&mini))
+			if (!check_built_in(&mini))
 			{
+				printf("I SHOULD PROB NO BE HERE IDK ASK THE GUY IN THE CHAIR\n");
 				pid = fork();
-				if(pid == 0)
+				if (pid == 0)
 				{
-					matrix = ft_split(mini.input,' ');
-					printf("str = %s\n",mini.input);
-					path = ft_strjoin("/usr/bin/",mini.input);
-					execve(path,matrix,ev);
+					matrix = ft_split(mini.input, ' ');
+					printf("str = %s\n", mini.input);
+					path = ft_strjoin("/usr/bin/", mini.input);
+					execve(path, matrix, ev);
 					free(path);
 					free(mini.pwd);
 					free(mini.env->home);
