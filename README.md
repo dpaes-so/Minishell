@@ -26,9 +26,9 @@ stuff exec needs to do:
 
 
 stuff parser needs to do:
-
+echo ola > txt ola > outro | echo banana > banana
 1.make lexer
-
+   • ever node has struct cmd, cmd wil only be used if node isnt pipe, in char *cmd just holds first string, **redirections will hold all redirections in a array
 2.make parser
 
 3.help exec with redirect logic
