@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/09 18:24:54 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:58:34 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	check_built_in(t_mini *mini)
 		return (build_cd(mini));
 	// if (ft_strncmp(input, "export", 6) == 0)
 	// 	build_export();
-	// if (ft_strncmp(input, "unset", 5) == 0)
-	// 	build_unset();
+	if (ft_strncmp(mini->input, "unset", 5) == 0)
+		return(build_unset(mini));
 	if (ft_strcmp(mini->input, "exit") == 0)
 		build_exit(mini);
 	return (0);

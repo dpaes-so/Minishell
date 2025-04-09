@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/09 18:26:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:46:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ typedef struct s_ast_tree
 	t_cmd				node;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-
 }						t_tree;
 
 typedef struct s_env
 {
 	char				**my_env;
 	char				*home;
+	int					error_code;
 }						t_env;
 
 typedef struct s_mini
@@ -75,6 +75,7 @@ void					build_echo(t_mini *mini);
 int						build_pwd(t_mini *mini);
 int						build_cd(t_mini *mini);
 int						build_env(t_mini *mini);
+int						build_unset(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 #endif

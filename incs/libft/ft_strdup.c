@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:54:50 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/10/28 12:45:52 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:31:57 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
+	if(!s)
+		return(NULL);
 	buffer = malloc(ft_strlen(s) + 1);
 	if (buffer == NULL)
 		return (NULL);
