@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/27 19:22:15 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:26:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,33 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+typedef enum TokenType
+{
+	T_WORD,
+	T_PIPE,
+	T_HERE_DOC,
+	T_IN_REDIR,
+	T_OUT_REDIR,
+	T_APPEND_REDIR,
+}						t_tokentype;
+
+typedef struct s_token
+{
+	char				*value;
+	t_tokentype			type;
+}						t_token;
+
 typedef struct s_cmd
 {
+	bool				pipe;
 	char				*cmd;
 	char				*args;
-	char				**redirections;
+	t_token				*redirections;
 }						t_cmd;
 
 typedef struct s_ast_tree
 {
-	t_cmd				value;
-	bool				pipe;
+	t_cmd				node;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 
