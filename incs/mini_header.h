@@ -76,6 +76,7 @@ int						build_pwd(t_mini *mini);
 int						build_cd(t_mini *mini);
 int						build_env(t_mini *mini);
 int						build_unset(t_mini *mini);
+int						build_export(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 #endif

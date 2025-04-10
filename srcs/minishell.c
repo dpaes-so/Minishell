@@ -46,8 +46,8 @@ int	check_built_in(t_mini *mini)
 		
 	if (ft_strncmp(mini->input, "cd",2) == 0)
 		return (build_cd(mini));
-	// if (ft_strncmp(input, "export", 6) == 0)
-	// 	build_export();
+	if (ft_strncmp(mini->input, "export", 6) == 0)
+		return(build_export(mini));
 	if (ft_strncmp(mini->input, "unset", 5) == 0)
 		return(build_unset(mini));
 	if (ft_strcmp(mini->input, "exit") == 0)
