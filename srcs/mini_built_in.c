@@ -47,7 +47,8 @@ int	build_unset(t_mini *mini)
 
 	i = -1;
 	while (mini->env->my_env[++i])
-		if (ft_strnstr(mini->env->my_env[i],mini->input + 6,ft_strlen(mini->input + 6)))
+		if (ft_strncmp(mini->env->my_env[i], mini->input + 6, ft_strlen(mini->input + 6)) == 0 && mini->env->my_env[i][ft_strlen(mini->input + 6)] == '='
+)
 			break ;
 	
 	printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
@@ -68,14 +69,11 @@ int	build_pwd(t_mini *mini)
 
 void	get_pwd(t_mini *mini)
 {
-	char	*temp;
 	char	*cdw;
 
-	temp = NULL;
-	cdw = getcwd(temp, 100);
+	cdw = getcwd(NULL, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	free(temp);
 	free(cdw);
 }
 void	pwd_update(t_mini *mini)
@@ -93,9 +91,9 @@ int	build_cd(t_mini *mini)
 {
 	char	*cd;
 	char	*cd2;
-	int		i;
+	char *arg;
 
-	i = 3;
+	arg = mini->input + 3;
 	if (!ft_strcmp(mini->input, "cd"))
 	{
 		chdir(mini->env->home);
@@ -103,14 +101,22 @@ int	build_cd(t_mini *mini)
 	}
 	else
 	{
-		cd = ft_strjoin(mini->pwd, "/");
-		cd2 = ft_strjoin(cd, mini->input + 3);
+		if(arg[0] == '/')
+		{
+			cd2 = ft_strdup(mini->input + 3);
+			printf("ABSOLUTE PATH DETED\n");
+		}
+		else
+		{
+			cd = ft_strjoin(mini->pwd, "/");
+			cd2 = ft_strjoin(cd, mini->input + 3);
+			free(cd);
+		}
 		if (chdir(cd2) < 0)
-			ft_printf("Minishell: cd: %s: No such file or directory\n",
-				mini->input + 3);
-		get_pwd(mini);
+			ft_printf("Minishell: cd: %s: No such file or directory\n",mini->input + 3);
+		else 
+			get_pwd(mini);
 		free(cd2);
-		free(cd);
 	}
 	pwd_update(mini);
 	ft_printf("Mini path = %s\n", mini->pwd);
