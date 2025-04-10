@@ -89,9 +89,53 @@ int check_valid_variable_name(char *s)
 	// 	GO TO FUNC TO SEE IF IT EXIS AND UPD TO NULL OR JUST CREAT
 	return(i);
 }
+
+char	*ft_strchr(const char *str, int c)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	s = (char *)str;
+	while (s[i])
+	{
+		if (str[i] == (char)c)
+			return (s + i);
+		i++;
+	}
+	return (NULL);
+}
 void make_export(t_mini *mini,char *arg)
 {
+	char **new_env;
+	int size;
+	int break_point;
+	int i;
 
+	size  = 0;
+	i = -1;
+	break_point = 0;
+	while(mini->env->my_env[size])
+		size++;
+	new_env = malloc(sizeof(char *) * (size + 2));
+	while(mini->env->my_env[break_point])
+	{
+		if(!ft_strncmp(mini->env->my_env[break_point],arg,(int)ft_strchr(arg,'=') - arg))
+		{
+			free(mini->env->my_env[break_point]);
+			mini->env->my_env[break_point] = arg;
+			return;
+		}
+		break_point++;
+	}
+	while(++i < break_point)
+		new_env[i] = mini->env->my_env[i];
+	new_env[i] = arg;
+	while(++i < size)
+		new_env[i] = mini->env->my_env[i];
+	new_env[++i] = NULL;
+	free(mini->env->my_env);
+	mini->env->my_env = new_env;
 }
 int build_export(t_mini *mini)
 {
@@ -114,8 +158,7 @@ int build_export(t_mini *mini)
             split_index++;
             continue;
         }
-		if(arg[i] != '=')
-			ft_printf("ADD HAS AN NULL VAL")
+		make_export(mini,arg);
 		ft_printf("OK ALL GOOD GOTTA IMPLEMENT THE REST THO   %d\n",i);
 	}
 	return(1);
