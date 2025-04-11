@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:41:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/10/31 13:33:13 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:24:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,3 @@ char	*ft_strchr(const char *str, int c)
 		return (s + i);
 	return (NULL);
 }
-
-/*int main()
-{
-	char *s = "hello world";
-	char c = 'l';
-	char *res = ft_strchr(s,c);
-	printf("%s\n",res);
-}*/
