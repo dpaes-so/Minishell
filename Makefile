@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/11 14:07:54 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/04/14 15:35:09 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT = ./incs/libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-SOURCES = minishell.c mini_built_in.c mini_aux.c
+SOURCES = minishell.c built-ins/mini_built_in.c built-ins/mini_cd.c built-ins/mini_env.c built-ins/mini_export.c mini_aux.c
 
 SRCS_DIR = srcs
 SRCS =	$(addprefix $(SRCS_DIR)/, $(SOURCES))
