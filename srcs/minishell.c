@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/16 19:20:20 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:41:27 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,29 +82,13 @@ void	my_env_start(t_mini *mini, char **ev)
 int	main(void)
 {
 	char	*input;
-	t_token	*split;
-	int		amount;
-	int		i;
 
 	while (1)
 	{
-		i = 0;
 		input = readline("minishell > ");
 		add_history(input);
 		printf("str = %s\n", input);
-		split = split_tokens(input);
-		amount = count_tokens(input, NULL);
-		if (amount == 0)
-			continue;
-		while (i < amount)
-		{
-			printf("token = %s$ type = %u\n", split[i].value, split[i].type);
-			if (check_redir(split[i]) == false)
-				printf("syntax error noob\n");
-			i++;
-		}
-		error_syntax(split, amount);
-		free_tokens(split, amount);
+		parser(input);
 		if (strcmp(input, "exit") == 0)
 			exit(0);
 		free(input);

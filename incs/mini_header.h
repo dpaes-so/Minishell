@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/16 19:14:48 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:41:39 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_cmd
 	t_token				*redirections;
 }						t_cmd;
 
+/// @brief tree lil bro
 typedef struct s_ast_tree
 {
 	t_cmd				node;
@@ -84,6 +85,7 @@ void					freetrix(char **matrix);
 
 //----------------------------PARSING ! ! ! -------------------------------------
 
+void					parser(char	*input);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens, int amount);
 int						count_tokens(char *input, t_token *result);
