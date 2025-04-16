@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/16 17:53:04 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/04/16 19:19:34 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,16 @@ LIBFT = ./incs/libft/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-SOURCES = minishell.c built-ins/mini_built_in.c built-ins/mini_cd.c built-ins/mini_env.c built-ins/mini_export.c mini_aux.c
-			parser/check_tokens.c parser/expansions.c parser/lexer_utils.c parser/split_tokens.c
+SOURCES = minishell.c \
+          parser/check_tokens.c \
+          parser/expansions.c \
+          parser/lexer_utils.c \
+          parser/split_tokens.c \
+          built-ins/mini_built_in.c \
+          built-ins/mini_cd.c \
+          built-ins/mini_env.c \
+          built-ins/mini_export.c \
+          mini_aux.c
 
 SRCS_DIR = srcs
 SRCS =	$(addprefix $(SRCS_DIR)/, $(SOURCES))
@@ -39,6 +47,8 @@ $(LIBFT):
 	
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/built-ins
+	@mkdir -p $(OBJS_DIR)/parser
 
 clean:
 	make clean -C ./incs/libft -s

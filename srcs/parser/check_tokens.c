@@ -6,11 +6,11 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/14 16:14:12 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:21:21 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../incs/mini_header.h"
 
 /// @brief Counts how many quotes a token has.
 /// @param tokens The token it will inspect.
@@ -151,7 +151,6 @@ bool	error_syntax(t_token *tokens, int amount)
 	}
 	while (i < amount)
 	{
-		printf("token = %s$ type = %u\n", tokens[i].value, tokens[i].type);
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
 			printf("syntax error noob\n");
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
