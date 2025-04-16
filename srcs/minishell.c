@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/16 17:54:49 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:20:20 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(void)
 		printf("str = %s\n", input);
 		split = split_tokens(input);
 		amount = count_tokens(input, NULL);
-		printf("amount lil bro = %d\n", amount);
 		if (amount == 0)
 			continue;
 		while (i < amount)

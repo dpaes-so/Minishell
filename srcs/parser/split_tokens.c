@@ -6,11 +6,11 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/16 16:58:10 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:19:50 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../incs/mini_header.h"
 
 /// @brief Handles quotes by skipping the string until the next quote
 /// @param input Input from readline
@@ -227,37 +227,4 @@ void	free_tokens(t_token *tokens, int amount)
 		i++;
 	}
 	free (tokens);
-}
-
-int	main(void)
-{
-	char	*input;
-	t_token	*split;
-	int		amount;
-	int		i;
-
-	while (1)
-	{
-		i = 0;
-		input = readline("minishell > ");
-		add_history(input);
-		printf("str = %s\n", input);
-		split = split_tokens(input);
-		amount = count_tokens(input, NULL);
-		printf("amount lil bro = %d\n", amount);
-		if (amount == 0)
-			continue;
-		while (i < amount)
-		{
-			printf("token = %s$ type = %u\n", split[i].value, split[i].type);
-			if (check_redir(split[i]) == false)
-				printf("syntax error noob\n");
-			i++;
-		}
-		error_syntax(split, amount);
-		free_tokens(split, amount);
-		if (strcmp(input, "exit") == 0)
-			exit(0);
-		free(input);
-	}
 }
