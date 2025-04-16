@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/14 16:06:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:38:26 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	build_unset(t_mini *mini)
 				ft_strlen(mini->input + 6)) == 0
 			&& mini->env->my_env[i][ft_strlen(mini->input + 6)] == '=')
 			break ;
-	printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
+	// printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
 	while (mini->env->my_env[i] != NULL)
 	{
 		free(mini->env->my_env[i]);
