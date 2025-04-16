@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/16 19:19:50 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:45:30 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 	return (true);
 }
 
-/// @brief Counts how many tokens the input has 
+/// @brief Counts how many tokens the input has
 /// and if the array of result has been allocated
 ///	each iteration will go to the word_alloc function.
 /// @param input input from readline
@@ -198,7 +198,7 @@ int	count_tokens(char *input, t_token *result)
 /// @brief Splits input into an array of tokens, each token with a value
 /// and the type
 /// @param input input from readline
-/// @return an array of a struct t_token 
+/// @return an array of a struct t_token
 t_token	*split_tokens(char *input)
 {
 	t_token	*token;
@@ -218,13 +218,35 @@ t_token	*split_tokens(char *input)
 void	free_tokens(t_token *tokens, int amount)
 {
 	int	i;
-	
+
 	i = 0;
-	while(i < amount)
+	while (i < amount)
 	{
 		if (tokens[i].value)
 			free(tokens[i].value);
 		i++;
 	}
-	free (tokens);
+	free(tokens);
+}
+
+void	parser(char *input)
+{
+	int i;
+	int amount;
+	t_token *tokens;
+
+	i = 0;
+	tokens = split_tokens(input);
+	amount = count_tokens(input, NULL);
+	if (amount == 0)
+		return ;
+	while (i < amount)
+	{
+		printf("token = %s$ type = %u\n", tokens[i].value, tokens[i].type);
+		if (check_redir(tokens[i]) == false)
+			printf("syntax error noob\n");
+		i++;
+	}
+	error_syntax(tokens, amount);
+	free_tokens(tokens, amount);
 }
