@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/17 20:27:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:40:59 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,21 +134,11 @@ t_token	**node_creation(t_token *tokens)
 	while (i < amount)
 	{
 		len = token_count(tokens, &index);
-		tokens[i] = ft_calloc(len, sizeof(t_token));
-		tokens[i][len] = NULL;
-		// if (tokens[i].type != T_NULL && tokens[i].type == T_PIPE)
-		// {
-		// 	nodes[j][i].value = ft_strdup(tokens[i].value);
-		// 	i++;
-		// }
-		// else
-		// {
-		// 	while (tokens[i].type != T_NULL && tokens[i].type != T_PIPE)
-		// 	{
-		// 		nodes[j][i].value = ft_strdup(tokens[i].value);
-		// 		i++;
-		// 	}
-		// }
+		nodes[i] = ft_calloc(len + 1, sizeof(t_token));
+		if (nodes[i] == NULL)
+			return (NULL);
+		nodes[i][len].value = NULL;
+		nodes[i][len].type = T_NULL;
 		i++;
 	}
 	return (nodes);
@@ -161,10 +151,11 @@ void	init_nodes(t_token **nodes, t_token *tokens)
 	int	k;
 
 	i = 0;
+	k = 0;
 	while (nodes[i])
 	{
 		j = 0;
-		while (nodes[i][j])
+		while (nodes[i][j].type != T_NULL)
 		{
 			nodes[i][j].value = ft_strdup(tokens[k].value);
 			k++;
@@ -184,9 +175,10 @@ void	create_tree(t_token *tokens)
 	t_token **nodes;
 
 	nodes = node_creation(tokens);
+	init_nodes(nodes, tokens);
 	while (nodes[i])
 	{
-		while (nodes[i][j].value)
+		while (nodes[i][j].type != T_NULL)
 		{
 			printf("%s\n", nodes[i][j].value);
 			j++;

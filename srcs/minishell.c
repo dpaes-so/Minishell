@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/17 17:22:32 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:38:43 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	check_built_in(t_mini *mini)
 		return (build_pwd(mini));
 	if (ft_strcmp(mini->input, "env") == 0)
 		return (build_env(mini));
-		
 	if (ft_strncmp(mini->input, "cd",2) == 0)
 		return (build_cd(mini));
 	if (ft_strncmp(mini->input, "export", 6) == 0)
