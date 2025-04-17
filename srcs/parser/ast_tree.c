@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/17 20:40:59 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 23:40:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,20 @@ void	init_nodes(t_token **nodes, t_token *tokens)
 	while (nodes[i])
 	{
 		j = 0;
-		while (nodes[i][j].type != T_NULL)
+		if (nodes[i][j].type != T_NULL && nodes[i][j].type == T_PIPE)
 		{
 			nodes[i][j].value = ft_strdup(tokens[k].value);
 			k++;
 			j++;
+		}
+		else
+		{
+			while (nodes[i][j].type != T_NULL && nodes[i][j].type != T_PIPE)
+			{
+				nodes[i][j].value = ft_strdup(tokens[k].value);
+				k++;
+				j++;
+			}
 		}
 		i++;
 	}
@@ -178,9 +187,10 @@ void	create_tree(t_token *tokens)
 	init_nodes(nodes, tokens);
 	while (nodes[i])
 	{
+		j = 0;
 		while (nodes[i][j].type != T_NULL)
 		{
-			printf("%s\n", nodes[i][j].value);
+			printf("i = %d j = %d %s\n", i, j, nodes[i][j].value);
 			j++;
 		}
 		i++;

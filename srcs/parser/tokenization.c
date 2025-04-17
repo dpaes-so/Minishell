@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_tokens.c                                     :+:      :+:    :+:   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/17 18:25:07 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 23:26:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ bool	is_quote(char **input, int *len)
 /// @return True when its just a word false if it is a pipe or redirection
 bool	is_word(char **input, int *len, int flag)
 {
-	int	check;
-
-	check = 0;
 	if (**input && ft_strchr("|<>", **input) == NULL)
 	{
 		while (**input && ft_strchr(" |<>", **input) == NULL)
