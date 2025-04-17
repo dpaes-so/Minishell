@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/16 19:19:34 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/04/17 18:28:44 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,12 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SOURCES = minishell.c \
+		  parser/parsing.c \
           parser/check_tokens.c \
           parser/expansions.c \
-          parser/lexer_utils.c \
-          parser/split_tokens.c \
+          parser/tokenization_utils.c \
+          parser/tokenization.c \
+		  parser/ast_tree.c \
           built-ins/mini_built_in.c \
           built-ins/mini_cd.c \
           built-ins/mini_env.c \

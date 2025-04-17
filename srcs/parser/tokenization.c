@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/16 19:45:30 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:25:07 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,60 +107,6 @@ bool	is_token(char **input, int *len, int *flag)
 	return (false);
 }
 
-/// @brief Identifies each token
-/// @param value String of the token
-/// @return The type of token
-t_tokentype	token_type(char *value)
-{
-	t_tokentype	type;
-	int			i;
-
-	i = 0;
-	type = T_WORD;
-	while (value[i] && (value[i] == ' ' || (value[i] >= 9 && value[i] <= 13)))
-		i++;
-	if (value[i] && value[i] == '|')
-		type = T_PIPE;
-	else if (value[i] && (value[i] == '>' || value[i] == '<'))
-	{
-		if (value[i] == '>')
-			type = T_OUT_REDIR;
-		else if (value[i] == '<')
-			type = T_IN_REDIR;
-		i++;
-		if (value[i] && (value[i] == '<'))
-			type = T_HERE_DOC;
-		if (value[i] && (value[i] == '>'))
-			type = T_APPEND_REDIR;
-	}
-	return (type);
-}
-
-/// @brief Allocates memory for each element of the array result
-/// @param input Input from readline
-/// @param len Length of the word
-/// @param result The array of tokens
-/// @param i Index to free allocated memory if error occurs
-/// @return Will return true if everything goes well false if an error occurs
-bool	word_alloc(char *input, int len, t_token *result, int i)
-{
-	result[i].value = ft_substr(input, 0, len);
-	result[i].type = token_type(result[i].value);
-	if (result[i].value == NULL)
-	{
-		i = 0;
-		while (result[i].value)
-		{
-			free(result[i].value);
-			i++;
-		}
-		free(result);
-		return (false);
-	}
-	i++;
-	return (true);
-}
-
 /// @brief Counts how many tokens the input has
 /// and if the array of result has been allocated
 ///	each iteration will go to the word_alloc function.
@@ -209,44 +155,8 @@ t_token	*split_tokens(char *input)
 	if (token == NULL)
 		return (NULL);
 	token[amount].value = NULL;
-	token[amount].type = T_WORD;
+	token[amount].type = T_NULL;
 	if (count_tokens(input, token) == 0)
 		return (free(token), NULL);
 	return (token);
-}
-
-void	free_tokens(t_token *tokens, int amount)
-{
-	int	i;
-
-	i = 0;
-	while (i < amount)
-	{
-		if (tokens[i].value)
-			free(tokens[i].value);
-		i++;
-	}
-	free(tokens);
-}
-
-void	parser(char *input)
-{
-	int i;
-	int amount;
-	t_token *tokens;
-
-	i = 0;
-	tokens = split_tokens(input);
-	amount = count_tokens(input, NULL);
-	if (amount == 0)
-		return ;
-	while (i < amount)
-	{
-		printf("token = %s$ type = %u\n", tokens[i].value, tokens[i].type);
-		if (check_redir(tokens[i]) == false)
-			printf("syntax error noob\n");
-		i++;
-	}
-	error_syntax(tokens, amount);
-	free_tokens(tokens, amount);
 }

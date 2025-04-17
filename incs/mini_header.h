@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/16 19:41:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:08:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ typedef enum TokenType
 	T_IN_REDIR,
 	T_OUT_REDIR,
 	T_APPEND_REDIR,
+	T_NULL,
 }						t_tokentype;
 
 typedef struct s_token
 {
+	int					index;
 	char				*value;
 	t_tokentype			type;
 }						t_token;
@@ -87,7 +89,7 @@ void					freetrix(char **matrix);
 
 void					parser(char	*input);
 t_token					*split_tokens(char *input);
-void					free_tokens(t_token *tokens, int amount);
+void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
 bool					word_alloc(char *input, int len, t_token *result, int i);
 t_tokentype				token_type(char *value);
@@ -96,6 +98,8 @@ bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
-bool					error_syntax(t_token *tokens, int amount);
+bool					error_syntax(t_token *tokens);
+int						count_nodes(t_token *tokens);
+void					create_tree(t_token *tokens);
 
 #endif
