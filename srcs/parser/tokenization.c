@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/17 23:26:09 by root             ###   ########.fr       */
+/*   Updated: 2025/04/18 19:45:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	is_word(char **input, int *len, int flag)
 {
 	if (**input && ft_strchr("|<>", **input) == NULL)
 	{
-		while (**input && ft_strchr(" |<>", **input) == NULL)
+		while (**input && ft_strchr(" \t\n\v\f\r|<>", **input) == NULL)
 		{
 			if (is_quote(input, len) == false)
 			{
