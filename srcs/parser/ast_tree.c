@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/21 19:09:06 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:34:57 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,7 @@ void	init_array(t_token **array, t_token *tokens)
 			while (array[i][j].type != T_NULL && array[i][j].type != T_PIPE)
 			{
 				array[i][j].value = ft_strdup(tokens[k].value);
-				array[i][j].type = tokens[k].type;
-				k++;
+				array[i][j].type = tokens[k++].type;
 				j++;
 			}
 		}
@@ -229,8 +228,7 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 
 void	init_tree_node(t_tree *tree_node, t_token *tokens)
 {
-	int		i;
-	// char	*temp;
+	int	i;
 
 	i = 0;
 	init_redirs(tree_node, tokens);
@@ -244,11 +242,11 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 			return ;
 		i++;
 	}
-	else
-	{
-		tree_node->node.cmd = NULL;
-		tree_node->node.args = NULL;
-	}
+	// else
+	// {
+	// 	tree_node->node.cmd = NULL;
+	// 	tree_node->node.args = NULL;
+	// }
 	while (tokens[i].type != T_NULL)
 	{
 		if (tokens[i].type == T_WORD)
@@ -307,48 +305,43 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 	}
 }
 
+void	print_tabs(int level)
+{
+	while (level != 0)
+	{
+		printf("\t");
+		level--;
+	}
+}
+
 void	print_tree(t_tree *root, int level)
 {
 	int	i;
-	int	hold;
 
-	hold = level;
 	i = 0;
 	if (level == 0)
 		printf("ROOT!\n");
-	while (level != 0 && root->node.cmd)
-	{
-		printf("\t");
-		level--;
-	}
-	level = hold;
 	if (root->node.cmd)
+	{
+		print_tabs(level);
 		printf("cmd = %s\n", root->node.cmd);
-	while (level != 0 && root->node.args)
-	{
-		printf("\t");
-		level--;
 	}
-	level = hold;
 	if (root->node.args)
+	{
+		print_tabs(level);
 		printf("args = %s\n", root->node.args);
-	while (level != 0 && root->node.pipe == true)
-	{
-		printf("\t");
-		level--;
 	}
-	level = hold;
 	if (root->node.pipe == true)
-		printf("|\n");
-	while (root->node.redirections != NULL && root->node.redirections[i].type != T_NULL)
 	{
-		while (level != 0)
-		{
-			printf("\t");
-			level--;
-		}
-		level = hold;
-		printf("i = %d redir = %s\n", i, root->node.redirections[i].value);
+		print_tabs(level);
+		printf("|\n");
+	}
+	while (root->node.redirections != NULL
+		&& root->node.redirections[i].type != T_NULL)
+	{
+		print_tabs(level);
+		printf("redir = %s type = %u\n", root->node.redirections[i].value,
+				root->node.redirections[i].type);
 		i++;
 	}
 }
@@ -396,18 +389,18 @@ void	create_array(t_token *tokens)
 	j = 0;
 	array = array_creation(tokens);
 	init_array(array, tokens);
-	while (array[i])
-	{
-		j = 0;
-		while (array[i][j].type != T_NULL)
-		{
-			printf("i = %d j = %d value = %s$ type = %d\n", i, j,
-					array[i][j].value, array[i][j].type);
-			j++;
-		}
-		i++;
-	}
-	i = 0;
+	// while (array[i])
+	// {
+	// 	j = 0;
+	// 	while (array[i][j].type != T_NULL)
+	// 	{
+	// 		printf("i = %d j = %d value = %s$ type = %d\n", i, j,
+	// 				array[i][j].value, array[i][j].type);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+	// i = 0;
 	create_tree(&root, array, false, &i);
 	tree_apply_infix(root, 0);
 	free_tree(root);
