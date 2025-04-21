@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/18 19:51:20 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:37:16 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	parser(char *input)
 			printf("syntax error noob\n");
 		i++;
 	}
-	error_syntax(tokens);
+	if (error_syntax(tokens) == false)
+		return (free_tokens(tokens));
 	create_array(tokens);
 	free_tokens(tokens);
 }

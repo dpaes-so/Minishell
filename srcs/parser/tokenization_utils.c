@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/17 18:21:59 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:08:52 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 {
 	result[i].value = ft_substr(input, 0, len);
 	result[i].type = token_type(result[i].value);
-	result[i].index = i;
 	if (result[i].value == NULL)
 	{
 		i = 0;

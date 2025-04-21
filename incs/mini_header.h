@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/18 18:59:05 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:34:16 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef enum TokenType
 
 typedef struct s_token
 {
-	int					index;
 	char				*value;
 	t_tokentype			type;
 }						t_token;
@@ -53,8 +52,8 @@ typedef struct s_cmd
 typedef struct s_ast_tree
 {
 	t_cmd				node;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
+	struct s_ast_tree	*left;
+	struct s_ast_tree	*right;
 }						t_tree;
 
 typedef struct s_env
