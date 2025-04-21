@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/21 18:56:29 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:09:06 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,18 +310,44 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 void	print_tree(t_tree *root, int level)
 {
 	int	i;
+	int	hold;
 
+	hold = level;
 	i = 0;
-	while (level != 0)
+	if (level == 0)
+		printf("ROOT!\n");
+	while (level != 0 && root->node.cmd)
 	{
 		printf("\t");
 		level--;
 	}
-	printf("cmd = %s\n", root->node.cmd);
-	printf("args = %s\n", root->node.args);
-	printf("pipe = %d\n", root->node.pipe);
-	while (root->node.redirections[i].type != T_NULL)
+	level = hold;
+	if (root->node.cmd)
+		printf("cmd = %s\n", root->node.cmd);
+	while (level != 0 && root->node.args)
 	{
+		printf("\t");
+		level--;
+	}
+	level = hold;
+	if (root->node.args)
+		printf("args = %s\n", root->node.args);
+	while (level != 0 && root->node.pipe == true)
+	{
+		printf("\t");
+		level--;
+	}
+	level = hold;
+	if (root->node.pipe == true)
+		printf("|\n");
+	while (root->node.redirections != NULL && root->node.redirections[i].type != T_NULL)
+	{
+		while (level != 0)
+		{
+			printf("\t");
+			level--;
+		}
+		level = hold;
 		printf("i = %d redir = %s\n", i, root->node.redirections[i].value);
 		i++;
 	}
@@ -347,7 +373,7 @@ void	free_tree(t_tree *root)
 		free(root->node.args);
 	if (root->node.cmd)
 		free(root->node.cmd);
-	while (root->node.redirections[i].value)
+	while (root->node.redirections != NULL && root->node.redirections[i].value)
 	{
 		free(root->node.redirections[i].value);
 		i++;
