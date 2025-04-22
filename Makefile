@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/17 18:28:44 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/04/22 17:40:29 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SOURCES = minishell.c \
           parser/expansions.c \
           parser/tokenization_utils.c \
           parser/tokenization.c \
+		  parser/create_array.c \
+		  parser/ast_utils.c \
 		  parser/ast_tree.c \
           built-ins/mini_built_in.c \
           built-ins/mini_cd.c \

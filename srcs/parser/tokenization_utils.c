@@ -6,11 +6,25 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/18 20:08:52 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:34:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+/// @brief Skips whitespaces of string
+/// @param input The string
+/// @return True if whitespaces were skipped
+bool	skip_fake_wspaces(char *input)
+{
+	if (*input && (*input == ' ' || (*input >= 9 && *input <= 13)))
+	{
+		while (*input && (*input == ' ' || (*input >= 9 && *input <= 13)))
+			input++;
+		return (true);
+	}
+	return (false);
+}
 
 /// @brief Skips whitespaces of string
 /// @param input The string

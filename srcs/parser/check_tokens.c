@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/21 15:36:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:49:29 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ bool	error_syntax(t_token *tokens)
 	while (tokens[i].type != T_NULL)
 	{
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
-			return(printf("syntax error noob\n", false));
+			return(printf("syntax error noob\n"), false);
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
-			return(printf("quotes aint closed dumbass\n", false));
+			return(printf("quotes aint closed dumbass\n"), false);
 		i++;
 	}
 	return (true);

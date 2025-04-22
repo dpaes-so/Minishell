@@ -6,30 +6,35 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/21 15:37:16 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:47:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void	parser(char *input)
+void	tree_maker(t_token **array)
 {
-	int i;
-	t_token *tokens;
+	t_tree *root;
+	int	i;
 
 	i = 0;
+	create_tree(&root, array, false, &i);	
+	tree_apply_infix(root, 0);
+	free_tree(root);
+}
+
+void	parser(char *input)
+{
+	t_token *tokens;
+	t_token **array;
+
 	tokens = split_tokens(input);
 	if (tokens == NULL)
 		return ;
-	while (tokens[i].type != T_NULL)
-	{
-		// printf("token = %s$ type = %u\n", tokens[i].value, tokens[i].type);
-		if (check_redir(tokens[i]) == false)
-			printf("syntax error noob\n");
-		i++;
-	}
 	if (error_syntax(tokens) == false)
 		return (free_tokens(tokens));
-	create_array(tokens);
+	array = create_array(tokens);
 	free_tokens(tokens);
+	tree_maker(array);
+	free_array(array);
 }
