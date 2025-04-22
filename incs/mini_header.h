@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/09 19:46:45 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:41:39 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_cmd
 	t_token				*redirections;
 }						t_cmd;
 
+/// @brief tree lil bro
 typedef struct s_ast_tree
 {
 	t_cmd				node;
@@ -69,6 +70,8 @@ typedef struct s_mini
 	t_env				*env;
 }						t_mini;
 
+//----------------------------BUILT-INS ! ! ! -----------------------------------
+
 void					my_env_start(t_mini *mini, char **ev);
 void					build_exit(t_mini *mini);
 void					build_echo(t_mini *mini);
@@ -79,4 +82,20 @@ int						build_unset(t_mini *mini);
 int						build_export(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
+
+//----------------------------PARSING ! ! ! -------------------------------------
+
+void					parser(char	*input);
+t_token					*split_tokens(char *input);
+void					free_tokens(t_token *tokens, int amount);
+int						count_tokens(char *input, t_token *result);
+bool					word_alloc(char *input, int len, t_token *result, int i);
+t_tokentype				token_type(char *value);
+bool					is_token(char **input, int *len, int *flag);
+bool					is_quote(char **input, int *len);
+bool					skip_wspaces(char **input);
+bool					check_next(char *input);
+bool					check_redir(t_token tokens);
+bool					error_syntax(t_token *tokens, int amount);
+
 #endif

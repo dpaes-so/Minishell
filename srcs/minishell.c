@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/14 16:45:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:41:27 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,46 +79,18 @@ void	my_env_start(t_mini *mini, char **ev)
 	mini->env->home = ft_strdup(ev[i] + 5);
 }
 
-int	main(int ac, char **av, char **ev)
+int	main(void)
 {
-	t_mini	mini;
-	int		pid;
-	char	**matrix;
-	char	*path;
+	char	*input;
 
-	mini.pwd = NULL;
-	get_pwd(&mini);
-	(void)ac;
-	(void)av;
-	my_env_start(&mini, ev);
-	sig_init();
 	while (1)
 	{
-		mini.input = readline("Minishell >");
-		if (mini.input)
-		{
-			add_history(mini.input);
-			if (!check_built_in(&mini))
-			{
-				printf("I SHOULD PROB NO BE HERE IDK ASK THE GUY IN THE CHAIR\n");
-				pid = fork();
-				if (pid == 0)
-				{
-					matrix = ft_split(mini.input, ' ');
-					printf("str = %s\n", mini.input);
-					path = ft_strjoin("/usr/bin/", mini.input);
-					execve(path, matrix, ev);
-					free(path);
-					free(mini.pwd);
-					free(mini.env->home);
-					freetrix(mini.env->my_env);
-					free(mini.env);
-					freetrix(matrix);
-					exit(0);
-				}
-				wait(&pid);
-			}
-		}
-		free(mini.input);
+		input = readline("minishell > ");
+		add_history(input);
+		printf("str = %s\n", input);
+		parser(input);
+		if (strcmp(input, "exit") == 0)
+			exit(0);
+		free(input);
 	}
 }
