@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/21 15:34:16 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:20:17 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cmd
 {
 	bool				pipe;
 	char				*cmd;
-	char				*args;
+	char				**args;
 	t_token				*redirections;
 }						t_cmd;
 
@@ -92,13 +92,19 @@ void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
 bool					word_alloc(char *input, int len, t_token *result, int i);
 t_tokentype				token_type(char *value);
-bool					is_token(char **input, int *len, int *flag);
+bool					is_token(char **input, int *len);
 bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
+bool					skip_fake_wspaces(char *input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
 bool					error_syntax(t_token *tokens);
 int						count_nodes(t_token *tokens);
-void					create_array(t_token *tokens);
+t_token					**create_array(t_token *tokens);
+void					print_array(t_token **array);
+void					create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i);
+void					tree_apply_infix(t_tree *root, int level);
+void					free_tree(t_tree *root);
+void					free_array(t_token **array);
 
 #endif

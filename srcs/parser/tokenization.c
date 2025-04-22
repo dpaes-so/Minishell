@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/18 19:45:34 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:17:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_quote(char **input, int *len)
 /// @param flag When flag is 0 and the next token isnt a pipe nor redirection
 ///	will increase len by one to add a space
 /// @return True when its just a word false if it is a pipe or redirection
-bool	is_word(char **input, int *len, int flag)
+bool	is_word(char **input, int *len)
 {
 	if (**input && ft_strchr("|<>", **input) == NULL)
 	{
@@ -61,11 +61,11 @@ bool	is_word(char **input, int *len, int flag)
 				(*len)++;
 			}
 		}
-		if (**input && flag == 0 && check_next(*input))
-		{
-			(*len)++;
-			(*input)++;
-		}
+		// if (**input && flag == 0 && check_next(*input))
+		// {
+		// 	(*len)++;
+		// 	(*input)++;
+		// }
 		return (true);
 	}
 	return (false);
@@ -76,7 +76,7 @@ bool	is_word(char **input, int *len, int flag)
 /// @param len Length of the token string
 /// @param flag Flag is 1 whenever there is a space at the end of the word
 /// @return Returns true when it is a token false if not
-bool	is_token(char **input, int *len, int *flag)
+bool	is_token(char **input, int *len)
 {
 	if (**input && ft_strchr("|<>", **input) != NULL)
 	{
@@ -96,9 +96,9 @@ bool	is_token(char **input, int *len, int *flag)
 			(*len)++;
 			(*input)++;
 		}
-		is_word(input, len, 1);
-		if (**input && (**input == ' ' || (**input >= 9 && **input <= 13)))
-			*flag = 1;
+		is_word(input, len);
+		// if (**input && (**input == ' ' || (**input >= 9 && **input <= 13)))
+		// 	*flag = 1;
 		return (true);
 	}
 	return (false);
@@ -114,9 +114,7 @@ int	count_tokens(char *input, t_token *result)
 {
 	int	len;
 	int	count;
-	int	flag;
 
-	flag = 0;
 	count = 0;
 	if (!input)
 		return (0);
@@ -124,12 +122,11 @@ int	count_tokens(char *input, t_token *result)
 	{
 		skip_wspaces(&input);
 		len = 0;
-		if (*input && flag == 1 && *input != '|')
-			len++;
-		flag = 0;
-		if (is_word(&input, &len, 0) == true)
+		// if (*input && flag == 1 && *input != '|')
+		// 	len++;
+		if (is_word(&input, &len) == true)
 			count++;
-		else if (is_token(&input, &len, &flag) == true)
+		else if (is_token(&input, &len) == true)
 			count++;
 		if (len && result && word_alloc(input - len, len, result, count
 				- 1) == false)
