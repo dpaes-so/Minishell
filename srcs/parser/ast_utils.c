@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/22 17:39:51 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:33:44 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ void	print_tree(t_tree *root, int level)
 	}
 	if (root->node.args)
 	{
-		print_tabs(level);
-		printf("args = %s\n", root->node.args);
+		while(root->node.args[i])
+		{
+			print_tabs(level);
+			printf("args = %s\n", root->node.args[i]);
+			i++;
+		}
+		i = 0;
 	}
 	if (root->node.pipe == true)
 	{
@@ -69,10 +74,16 @@ void	free_tree(t_tree *root)
 	i = 0;
 	if (!root)
 		return ;
+	while (root->node.args && root->node.args[i])
+	{
+		free(root->node.args[i]);
+		i++;
+	}
 	if (root->node.args)
 		free(root->node.args);
 	if (root->node.cmd)
 		free(root->node.cmd);
+	i = 0;
 	while (root->node.redirections != NULL && root->node.redirections[i].value)
 	{
 		free(root->node.redirections[i].value);

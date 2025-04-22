@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/22 17:35:48 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:38:29 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,10 @@ void	free_array(t_token **array)
 
 t_token	**create_array(t_token *tokens)
 {
-	int		i;
 	t_token	**array;
-	t_tree	*root;
 
-	root = NULL;
-	i = 0;
 	array = array_creation(tokens);
 	init_array(array, tokens);
-	return (array);
 	// print_array(array);
+	return (array);
 }
