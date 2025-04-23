@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/22 23:17:53 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,6 @@ bool	is_word(char **input, int *len)
 				(*len)++;
 			}
 		}
-		// if (**input && flag == 0 && check_next(*input))
-		// {
-		// 	(*len)++;
-		// 	(*input)++;
-		// }
 		return (true);
 	}
 	return (false);
@@ -97,8 +92,6 @@ bool	is_token(char **input, int *len)
 			(*input)++;
 		}
 		is_word(input, len);
-		// if (**input && (**input == ' ' || (**input >= 9 && **input <= 13)))
-		// 	*flag = 1;
 		return (true);
 	}
 	return (false);
@@ -122,8 +115,6 @@ int	count_tokens(char *input, t_token *result)
 	{
 		skip_wspaces(&input);
 		len = 0;
-		// if (*input && flag == 1 && *input != '|')
-		// 	len++;
 		if (is_word(&input, &len) == true)
 			count++;
 		else if (is_token(&input, &len) == true)

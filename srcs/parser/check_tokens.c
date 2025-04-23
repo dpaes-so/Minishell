@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/22 18:49:29 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:21:58 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	unclosed_quotes(t_token tokens)
 	return (quote);
 }
 
-/// @brief Checks for every string of a token to see if an & exists out of quotes
+/// @brief Checks for every string of a token to see if an & exists 
+/// out of quotes
 /// @param tokens The token it will inspect
 /// @return True if no & was found out of quotes
 bool	check_and(t_token tokens)
@@ -72,6 +73,7 @@ bool	check_and(t_token tokens)
 	}
 	return (true);
 }
+
 /// @brief Checks the syntax for redirection cases
 /// @param tokens Array of tokens
 /// @return True if all checks passed
@@ -84,7 +86,7 @@ bool	check_redir(t_token tokens)
 	if (tokens.type != T_PIPE && tokens.type != T_WORD)
 	{
 		while (tokens.value[i] && (tokens.value[i] == ' '
-			|| (tokens.value[i] >= 9 && tokens.value[i] <= 13)))
+				|| (tokens.value[i] >= 9 && tokens.value[i] <= 13)))
 			i++;
 		redir = tokens.value[i];
 		i++;
@@ -149,9 +151,9 @@ bool	error_syntax(t_token *tokens)
 	while (tokens[i].type != T_NULL)
 	{
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
-			return(printf("syntax error noob\n"), false);
+			return (printf("syntax error noob\n"), false);
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
-			return(printf("quotes aint closed dumbass\n"), false);
+			return (printf("quotes aint closed dumbass\n"), false);
 		i++;
 	}
 	return (true);

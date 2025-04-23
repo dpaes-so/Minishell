@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/18 16:35:55 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:24:53 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	check_built_in(t_mini *mini)
 		return (build_pwd(mini));
 	if (ft_strcmp(mini->input, "env") == 0)
 		return (build_env(mini));
-	if (ft_strncmp(mini->input, "cd",2) == 0)
+	if (ft_strncmp(mini->input, "cd", 2) == 0)
 		return (build_cd(mini));
 	if (ft_strncmp(mini->input, "export", 6) == 0)
-		return(build_export(mini));
+		return (build_export(mini));
 	if (ft_strncmp(mini->input, "unset", 5) == 0)
-		return(build_unset(mini));
+		return (build_unset(mini));
 	if (ft_strcmp(mini->input, "exit") == 0)
 		build_exit(mini);
 	return (0);
@@ -81,6 +81,7 @@ void	my_env_start(t_mini *mini, char **ev)
 int	main(void)
 {
 	char	*input;
+
 	// t_tree	tree;
 	while (1)
 	{

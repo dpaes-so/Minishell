@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/22 23:33:44 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:57 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	print_tabs(int level)
 	}
 }
 
-void	print_tree(t_tree *root, int level)
+void	print_tree(t_tree *root, int level, char *side)
 {
 	int	i;
 
 	i = 0;
-	if (level == 0)
-		printf("ROOT!\n");
+	print_tabs(level);
+	printf("%s side: \n", side);
 	if (root->node.cmd)
 	{
 		print_tabs(level);
@@ -35,7 +35,7 @@ void	print_tree(t_tree *root, int level)
 	}
 	if (root->node.args)
 	{
-		while(root->node.args[i])
+		while (root->node.args[i])
 		{
 			print_tabs(level);
 			printf("args = %s\n", root->node.args[i]);
@@ -53,18 +53,18 @@ void	print_tree(t_tree *root, int level)
 	{
 		print_tabs(level);
 		printf("redir = %s type = %u\n", root->node.redirections[i].value,
-				root->node.redirections[i].type);
+			root->node.redirections[i].type);
 		i++;
 	}
 }
 
-void	tree_apply_infix(t_tree *root, int level)
+void	tree_apply_infix(t_tree *root, int level, char *side)
 {
-	if (root->right != NULL)
-		tree_apply_infix(root->left, level + 1);
-	print_tree(root, level);
 	if (root->left != NULL)
-		tree_apply_infix(root->right, level + 1);
+		tree_apply_infix(root->right, level + 1, "right");
+	print_tree(root, level, side);
+	if (root->right != NULL)
+		tree_apply_infix(root->left, level + 1, "left");
 }
 
 void	free_tree(t_tree *root)
@@ -108,7 +108,7 @@ void	print_array(t_token **array)
 		while (array[i][j].type != T_NULL)
 		{
 			printf("i = %d j = %d value = %s$ type = %d\n", i, j,
-					array[i][j].value, array[i][j].type);
+				array[i][j].value, array[i][j].type);
 			j++;
 		}
 		i++;

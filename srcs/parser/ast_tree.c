@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 01:36:10 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 14:24:03 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 		{
 			*tree_root = tree_create_node(array[*i], 1);
 			*i -= 1;
-			create_tree(&((*tree_root)->right), array, true, i);
+			create_tree(&((*tree_root)->left), array, true, i);
 			*i += 2;
-			create_tree(&((*tree_root)->left), array, false, i);
+			create_tree(&((*tree_root)->right), array, false, i);
 			return ;
 		}
 		else
@@ -60,4 +60,3 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 		}
 	}
 }
-

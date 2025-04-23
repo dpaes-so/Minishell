@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/04/23 01:25:27 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 14:24:17 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
-			while(ft_strchr(" ><", tokens[i].value[count]) != NULL)
+			while (ft_strchr(" ><", tokens[i].value[count]) != NULL)
 				count++;
-			tree_node->node.redirections[j].value = ft_strdup(tokens[i].value + count);
+			tree_node->node.redirections[j].value = ft_strdup(tokens[i].value
+					+ count);
 			tree_node->node.redirections[j].type = tokens[i].type;
 			j++;
 		}
@@ -75,7 +76,7 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 	if (tree_node->node.args == NULL)
 		return ;
 	tree_node->node.args[amount] = NULL;
-	while(j < amount)
+	while (j < amount)
 	{
 		if (tokens[index].type == T_WORD)
 			tree_node->node.args[j++] = ft_strdup(tokens[index].value);
