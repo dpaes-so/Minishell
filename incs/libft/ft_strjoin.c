@@ -6,11 +6,15 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:56:13 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/21 18:47:05 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:25:11 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+	// Commented because it wont let u initialize the node of a trees args
+	// if (!s1)
+	// 	return (NULL);
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -18,9 +22,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		j;
 
-	// Commented because it wont let u initialize the node of a trees args
-	// if (!s1)
-	// 	return (NULL);
 	i = 0;
 	j = 0;
 	buffer = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
