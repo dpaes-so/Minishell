@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/16 19:19:34 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/04/23 01:25:59 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SOURCES = minishell.c \
+		  parser/parsing.c \
           parser/check_tokens.c \
           parser/expansions.c \
-          parser/lexer_utils.c \
-          parser/split_tokens.c \
+          parser/tokenization_utils.c \
+          parser/tokenization.c \
+		  parser/create_array.c \
+		  parser/ast_utils.c \
+		  parser/ast_tree.c \
+		  parser/ast_creation_utils.c \
           built-ins/mini_built_in.c \
           built-ins/mini_cd.c \
           built-ins/mini_env.c \
@@ -50,6 +55,8 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/built-ins
 	@mkdir -p $(OBJS_DIR)/parser
 
+val: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 clean:
 	make clean -C ./incs/libft -s
 	@rm -rf $(OBJS_DIR)

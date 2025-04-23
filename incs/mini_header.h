@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/16 19:41:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:22:22 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum TokenType
 	T_IN_REDIR,
 	T_OUT_REDIR,
 	T_APPEND_REDIR,
+	T_NULL,
 }						t_tokentype;
 
 typedef struct s_token
@@ -43,7 +44,7 @@ typedef struct s_cmd
 {
 	bool				pipe;
 	char				*cmd;
-	char				*args;
+	char				**args;
 	t_token				*redirections;
 }						t_cmd;
 
@@ -51,8 +52,8 @@ typedef struct s_cmd
 typedef struct s_ast_tree
 {
 	t_cmd				node;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
+	struct s_ast_tree	*left;
+	struct s_ast_tree	*right;
 }						t_tree;
 
 typedef struct s_env
@@ -70,7 +71,7 @@ typedef struct s_mini
 	t_env				*env;
 }						t_mini;
 
-//----------------------------BUILT-INS ! ! ! -----------------------------------
+//----------------------------BUILT-INS ! ! ! -----------------------------
 
 void					my_env_start(t_mini *mini, char **ev);
 void					build_exit(t_mini *mini);
@@ -83,19 +84,30 @@ int						build_export(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 
-//----------------------------PARSING ! ! ! -------------------------------------
+//----------------------------PARSING ! ! ! -------------------------------
 
-void					parser(char	*input);
+void					parser(char *input);
 t_token					*split_tokens(char *input);
-void					free_tokens(t_token *tokens, int amount);
+void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
-bool					word_alloc(char *input, int len, t_token *result, int i);
+bool					word_alloc(char *input, int len, t_token *result,
+							int i);
 t_tokentype				token_type(char *value);
-bool					is_token(char **input, int *len, int *flag);
+bool					is_token(char **input, int *len);
 bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
-bool					error_syntax(t_token *tokens, int amount);
+bool					error_syntax(t_token *tokens);
+int						count_nodes(t_token *tokens);
+t_token					**array_creation(t_token *tokens);
+void					init_array(t_token **array, t_token *tokens);
+void					print_array(t_token **array);
+void					create_tree(t_tree **tree_root, t_token **array,
+							bool pipe, int *i);
+void					init_tree_node(t_tree *tree_node, t_token *tokens);
+void					tree_apply_infix(t_tree *root, int level, char *side);
+void					free_tree(t_tree *root);
+void					free_array(t_token **array);
 
 #endif
