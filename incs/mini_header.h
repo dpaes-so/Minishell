@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/22 23:20:17 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 01:28:35 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int						count_nodes(t_token *tokens);
 t_token					**create_array(t_token *tokens);
 void					print_array(t_token **array);
 void					create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i);
+void					init_tree_node(t_tree *tree_node, t_token *tokens);
 void					tree_apply_infix(t_tree *root, int level);
 void					free_tree(t_tree *root);
 void					free_array(t_token **array);
