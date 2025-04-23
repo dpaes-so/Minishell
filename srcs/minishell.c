@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:24:53 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:34:39 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,17 @@ int	main(void)
 {
 	char	*input;
 
-	// t_tree	tree;
+	t_tree	*tree;
 	while (1)
 	{
 		input = readline("minishell > ");
 		add_history(input);
 		printf("str = %s\n", input);
-		parser(input);
+		tree = parser(input);
+		if (tree == NULL)
+			continue;
+		tree_apply_infix(tree, 0, "root");
+		free_tree(tree);
 		if (strcmp(input, "exit") == 0)
 			exit(0);
 		free(input);

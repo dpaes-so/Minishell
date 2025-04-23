@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/23 15:22:22 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:15:18 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void					freetrix(char **matrix);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
-void					parser(char *input);
+t_tree					*parser(char *input);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
@@ -109,5 +109,8 @@ void					init_tree_node(t_tree *tree_node, t_token *tokens);
 void					tree_apply_infix(t_tree *root, int level, char *side);
 void					free_tree(t_tree *root);
 void					free_array(t_token **array);
+
+//-------------------------EXPANSIONS ! ! ! -------------------------------
+void	expand_strs(t_token *tokens);
 
 #endif

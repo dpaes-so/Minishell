@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:23:57 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:23:18 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	free_tree(t_tree *root)
 		free(root->node.redirections[i].value);
 		i++;
 	}
-	free(root->node.redirections);
+	if (root->node.redirections)
+		free(root->node.redirections);
 	free_tree(root->left);
 	free_tree(root->right);
 	free(root);
