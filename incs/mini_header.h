@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/23 14:28:41 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:22:22 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ bool					check_next(char *input);
 bool					check_redir(t_token tokens);
 bool					error_syntax(t_token *tokens);
 int						count_nodes(t_token *tokens);
-t_token					**create_array(t_token *tokens);
+t_token					**array_creation(t_token *tokens);
+void					init_array(t_token **array, t_token *tokens);
 void					print_array(t_token **array);
 void					create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
