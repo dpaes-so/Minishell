@@ -6,11 +6,11 @@ The goal of this project is to create a minimalist shell.
 for readline leaks supp
 
 
-Studying ast tree, and bash manual [];
+Studying ast tree, and bash manual [✔];
 
 Learning to code with binary trees from C13[✔];
 
-Mess around with bash commands [];
+Mess around with bash commands [✔];
 
 
 stuff exec needs to do:
@@ -28,9 +28,9 @@ stuff exec needs to do:
 stuff parser needs to do:
 echo ola > txt ola > outro | echo banana > banana
 1.make lexer
-   • ever node has struct cmd, cmd wil only be used if node isnt pipe, in char *cmd just holds first string, **redirections will hold all redirections in a array
+   • tokenize the input to then check syntax errors and such
 2.make parser
-
+   • every tree node has struct cmd, cmd will only be used if node isnt pipe, in char *cmd just holds first string, **redirections will hold all redirections in a array
 3.help exec with redirect logic
 
 4.eat a snickers
