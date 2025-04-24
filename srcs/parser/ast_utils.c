@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 17:23:18 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:10:39 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,19 @@ void	print_tree(t_tree *root, int level, char *side)
 	i = 0;
 	print_tabs(level);
 	printf("%s side: \n", side);
+	if (root->node.pipe == true)
+	{
+		print_tabs(level);
+		printf("|\n");
+		return ;
+	}
 	if (root->node.cmd)
 	{
 		print_tabs(level);
 		printf("cmd = %s\n", root->node.cmd);
 	}
+	print_tabs(level);
+	printf("amount = %d\n", root->node.amount);
 	if (root->node.args)
 	{
 		while (root->node.args[i])
@@ -42,11 +50,6 @@ void	print_tree(t_tree *root, int level, char *side)
 			i++;
 		}
 		i = 0;
-	}
-	if (root->node.pipe == true)
-	{
-		print_tabs(level);
-		printf("|\n");
 	}
 	while (root->node.redirections != NULL
 		&& root->node.redirections[i].type != T_NULL)
