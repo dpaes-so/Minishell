@@ -12,14 +12,14 @@
 
 #include "../../incs/mini_header.h"
 
-void	build_exit(t_mini *mini)
+void	build_exit(t_mini *mini,t_cmd cmds)
 {
-	free(mini->input);
-	if (mini->pwd)
-		free(mini->pwd);
+	(void)cmds;
+	free(mini->pwd);
 	free(mini->env->home);
 	freetrix(mini->env->my_env);
 	free(mini->env);
+	free_tree(mini->ast);
 	clear_history();
 	exit(0);
 }
@@ -32,28 +32,37 @@ void	build_echo(t_mini *mini)
 		ft_printf("%s\n", mini->input + 5);
 }
 
-int	build_unset(t_mini *mini)
+int	build_unset(t_mini *mini,t_cmd cmds)
 {
 	int	i;
+	int cmd_n;
 
-	i = -1;
-	while (mini->env->my_env[++i])
-		if (ft_strncmp(mini->env->my_env[i], mini->input + 6,
-				ft_strlen(mini->input + 6)) == 0
-			&& mini->env->my_env[i][ft_strlen(mini->input + 6)] == '=')
-			break ;
-	printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
-	while (mini->env->my_env[i] != NULL)
+	cmd_n = -1;
+	if (!cmds.args[0])
+		return (0);
+	while(cmds.args[++cmd_n])
 	{
-		free(mini->env->my_env[i]);
-		mini->env->my_env[i] = ft_strdup(mini->env->my_env[i + 1]);
-		i++;
+		i = -1;
+		printf("IMA TRY TO UNSET THIS  \n%s\n", cmds.args[cmd_n]);
+		while (mini->env->my_env[++i])
+			if (ft_strncmp(mini->env->my_env[i], cmds.args[cmd_n],
+					ft_strlen(cmds.args[cmd_n])) == 0
+				&& mini->env->my_env[i][ft_strlen(cmds.args[cmd_n])] == '=')
+				break ;
+		printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
+		while (mini->env->my_env[i] != NULL)
+		{
+			free(mini->env->my_env[i]);
+			mini->env->my_env[i] = ft_strdup(mini->env->my_env[i + 1]);
+			i++;
+		}
 	}
 	return (1);
 }
 
 int	build_pwd(t_mini *mini)
 {
+	get_pwd(mini);
 	ft_printf("%s\n", mini->pwd);
 	return (1);
 }

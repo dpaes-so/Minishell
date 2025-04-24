@@ -42,13 +42,15 @@ OBJ_FILES =  $(addprefix $(OBJS_DIR)/, $(SOURCES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) -lreadline -o $(NAME)
+	@echo DONE!
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS)  -c $< -o $@
+	@echo COMPILING...
+	@$(CC) $(CFLAGS)  -c $< -o $@
 
 $(LIBFT):
-	make -C ./incs/libft -s
+	@make -C ./incs/libft -s
 	
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
