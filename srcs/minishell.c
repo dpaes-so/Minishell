@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 17:34:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:46:21 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,37 +64,55 @@ void	my_env_start(t_mini *mini, char **ev)
 	j = 0;
 	k = 0;
 	mini->env = malloc(sizeof(t_env));
+	if (mini->env == NULL)
+		return ;
 	while (ev[k])
 		k++;
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
+	if (mini->env->my_env == NULL)
+		return ;
 	while (ev[j])
 	{
 		mini->env->my_env[j] = ft_strdup(ev[j]);
+		if (mini->env->my_env[j] == NULL)
+			return ;
 		j++;
 	}
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
 	mini->env->home = ft_strdup(ev[i] + 5);
+	if (mini->env->home == NULL)
+		return ;
 }
-
-int	main(void)
+//	malloc ifs just return if something goes wrong
+//  doesnt seem very correct to me lol probably shoudl be changed imo
+int	main(int argc, char **argv, char **env)
 {
+	(void)argc;
+	(void)argv;
 	char	*input;
+	t_mini shell;
 
-	t_tree	*tree;
+	ft_bzero(&shell, sizeof(t_mini));
+	my_env_start(&shell, env);
 	while (1)
 	{
 		input = readline("minishell > ");
 		add_history(input);
 		printf("str = %s\n", input);
-		tree = parser(input);
-		if (tree == NULL)
+		shell.ast = parser(input, shell);
+		if (shell.ast == NULL)
 			continue;
-		tree_apply_infix(tree, 0, "root");
-		free_tree(tree);
+		tree_apply_infix(shell.ast, 0, "root");
+		free_tree(shell.ast);
 		if (strcmp(input, "exit") == 0)
+		{
+			freetrix(shell.env->my_env);
+			free(shell.env->home);
+			free(shell.env);
 			exit(0);
+		}
 		free(input);
 	}
 }

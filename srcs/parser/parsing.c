@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 17:34:01 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:48:54 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	**create_array(t_token *tokens)
 }
 // print_array(array);
 
-t_tree	*parser(char *input)
+t_tree	*parser(char *input, t_mini shell)
 {
 	t_token	*tokens;
 	t_token	**array;
@@ -43,7 +43,7 @@ t_tree	*parser(char *input)
 		return (NULL);
 	if (error_syntax(tokens) == false)
 		return (free_tokens(tokens), NULL);
-	// expand_strs(tokens);
+	expand_strs(tokens, shell);
 	array = create_array(tokens);
 	free_tokens(tokens);
 	tree = tree_maker(array);
