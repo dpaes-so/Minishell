@@ -72,7 +72,7 @@ int	check_built_in(t_mini *mini,t_cmd cmds)
 	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
 		return (build_cd(mini,cmds));
 	// if (ft_strncmp(cmds.cmd, "export", 6) == 0)
-	// 	// return (build_export(mini));
+	// 	return (build_export(mini,cmds));
 	if (ft_strncmp(cmds.cmd, "unset", 5) == 0)
 		return (build_unset(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
@@ -106,7 +106,7 @@ void run_tree(t_mini *mini,t_tree *ast)
 	else
 	{
 		execute(mini,ast);
-		printf("commad = %s\n",ast->node.cmd);
+		// printf("commad = %s\n",ast->node.cmd);
 	}
 }
 int	main(int ac, char **av,char **ev)
@@ -125,7 +125,7 @@ int	main(int ac, char **av,char **ev)
 
 		input = readline("minishell > ");
 		add_history(input);
-		printf("str = %s\n", input);
+		// printf("str = %s\n", input);
 		mini.ast = parser(input);
 		ast = mini.ast;
 		if (mini.ast == NULL)

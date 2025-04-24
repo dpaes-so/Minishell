@@ -70,48 +70,48 @@ void	*make_export(t_mini *mini, char *arg)
 	break_point = -1;
 	while (mini->env->my_env[size])
 		size++;
-	new_env = malloc(sizeof(char *) * (size + 2));
-	if (!new_env)
-		return (NULL);
 	while (mini->env->my_env[++break_point])
 		if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')
 				- arg))
 			return (free(mini->env->my_env[break_point]),
 				mini->env->my_env[break_point] = ft_strdup(arg), NULL);
-	while (++i < size)
-		new_env[i] = mini->env->my_env[i];
+	new_env = malloc(sizeof(char *) * (size + 2));
+	printf("SIZE = %d\n",size);
+	if (!new_env)
+		return (NULL);
+	while (mini->env->my_env[++i])
+		new_env[i] = ft_strdup(mini->env->my_env[i]);
+	printf("is stoped here = %d\n",i);
 	new_env[i] = arg;
 	new_env[++i] = NULL;
-	free(mini->env->my_env);
+	printf("SIZE2 = %d\n",i);
+	// free(mini->env->my_env);
 	mini->env->my_env = new_env;
 	return (NULL);
 }
 
-int	build_export(t_mini *mini)
+int	build_export(t_mini *mini,t_cmd cmds)
 {
 	char	*arg;
-	char	**split;
 	int		i;
-	int		split_index;
+	int		j;
 
-	if (!ft_strcmp(mini->input, "export") || !ft_strcmp(mini->input, "export "))
+	if(!cmds.args[0])
 		return (print_env_ex(mini));
-	split_index = 0;
-	split = ft_split(mini->input + 7, ' ');
-	while (split[split_index])
+	j = 0;
+	while (cmds.args[j])
 	{
-		arg = split[split_index];
+		arg = cmds.args[j];
 		i = check_valid_variable_name(arg);
 		ft_printf("!%s!\n", arg);
 		if (!i)
 		{
 			ft_printf("Minishell: '%s' not a valid identifier\n", arg);
-			split_index++;
+			j++;
 			continue ;
 		}
 		make_export(mini, arg);
-		split++;
+		j++;
 	}
-	freetrix(split);
 	return (1);
 }

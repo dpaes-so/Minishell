@@ -68,6 +68,7 @@ typedef struct s_pipe
 	int		pid1;
 	int		infile_fd;
 	int		outfile_fd;
+	int 	status;
 	int		pipefd[2];
 }			t_pipe;
 typedef struct s_mini
@@ -89,7 +90,7 @@ int						build_pwd(t_mini *mini);
 int						build_cd(t_mini *mini,t_cmd cmds);
 int						build_env(t_mini *mini);
 int						build_unset(t_mini *mini,t_cmd cmds);
-int						build_export(t_mini *mini);
+int						build_export(t_mini *mini,t_cmd cmds);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 
