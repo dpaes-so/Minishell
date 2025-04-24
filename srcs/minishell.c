@@ -121,6 +121,8 @@ int	main(int ac, char **av,char **ev)
 {
 	t_mini mini;
 	t_tree *ast;
+	char*input;
+
 	(void)ac;
 	(void)av;
 	ft_bzero(&mini, sizeof(t_mini));
@@ -132,7 +134,7 @@ int	main(int ac, char **av,char **ev)
 		input = readline("minishell > ");
 		add_history(input);
 		// printf("str = %s\n", input);
-		mini.ast = parser(input);
+		mini.ast = parser(input,mini);
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue;
