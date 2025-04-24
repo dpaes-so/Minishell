@@ -16,49 +16,51 @@ void	get_pwd(t_mini *mini)
 {
 	char	*cdw;
 
-	cdw = getcwd(NULL, 100);
+	cdw = NULL;
+	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	free(cdw);
 }
 
 void	pwd_update(t_mini *mini)
 {
 	int	i;
+	char *prefix;
+
 
 	i = -1;
+	prefix = ft_strdup("PWD=");
 	while (mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
 	free(mini->env->my_env[i]);
-	mini->env->my_env[i] = ft_strjoin("PWD=", mini->pwd);
+	mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 }
 
-int	build_cd(t_mini *mini)
+int	build_cd(t_mini *mini,t_cmd cmds)
 {
 	char	*cd;
 	char	*cd2;
-	char	*arg;
+	char 	*pwd;
 
-	arg = mini->input + 3;
-	if (!ft_strcmp(mini->input, "cd"))
+	if (!cmds.args[0])
 		return (chdir(mini->env->home), get_pwd(mini), (1));
+	pwd = ft_strdup(mini->pwd);
+	if (cmds.args[0][0] == '/')
+	{
+		cd2 = ft_strdup(cmds.args[0]);
+		free(pwd);
+	}
 	else
 	{
-		if (arg[0] == '/')
-			cd2 = ft_strdup(mini->input + 3);
-		else
-		{
-			cd = ft_strjoin(mini->pwd, "/");
-			cd2 = ft_strjoin(cd, mini->input + 3);
-			free(cd);
-		}
-		if (chdir(cd2) < 0)
-			ft_printf("Minishell: cd: %s: No such file or directory\n",
-				mini->input + 3);
-		else
-			get_pwd(mini);
-		free(cd2);
+		cd = ft_strjoin(pwd, "/");
+		cd2 = ft_strjoin(cd,cmds.args[0]);
 	}
+	if (chdir(cd2) < 0)
+		ft_printf("Minishell: cd: %s: No such file or directory\n",cmds.args[0]);
+	else
+		get_pwd(mini);
+	if(cd2)
+		free(cd2);
 	return (pwd_update(mini), ft_printf("Mini path = %s\n", mini->pwd), 1);
 }

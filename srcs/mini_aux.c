@@ -21,6 +21,7 @@ void	freetrix(char **matrix)
 		return ;
 	while (matrix[i])
 	{
+		printf("i = %d\n",i);
 		free(matrix[i]);
 		i++;
 	}
