@@ -63,23 +63,32 @@ typedef struct s_env
 	int					error_code;
 }						t_env;
 
+typedef struct s_pipe
+{
+	int		pid1;
+	int		infile_fd;
+	int		outfile_fd;
+	int		pipefd[2];
+}			t_pipe;
 typedef struct s_mini
 {
+
 	char				*pwd;
 	char				*input;
 	t_tree				*ast;
 	t_env				*env;
+	t_pipe 				pipex;
 }						t_mini;
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
 void					my_env_start(t_mini *mini, char **ev);
-void					build_exit(t_mini *mini);
+void					build_exit(t_mini *mini,t_cmd cmds);
 void					build_echo(t_mini *mini);
 int						build_pwd(t_mini *mini);
-int						build_cd(t_mini *mini);
+int						build_cd(t_mini *mini,t_cmd cmds);
 int						build_env(t_mini *mini);
-int						build_unset(t_mini *mini);
+int						build_unset(t_mini *mini,t_cmd cmds);
 int						build_export(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);

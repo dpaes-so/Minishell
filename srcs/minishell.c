@@ -34,26 +34,6 @@ void	sig_init(void)
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (perror("Failed sigaction"));
 }
-
-int	check_built_in(t_mini *mini)
-{
-	if (ft_strncmp(mini->input, "echo ", 5) == 0)
-		build_echo(mini);
-	if (ft_strcmp(mini->input, "pwd") == 0)
-		return (build_pwd(mini));
-	if (ft_strcmp(mini->input, "env") == 0)
-		return (build_env(mini));
-	if (ft_strncmp(mini->input, "cd", 2) == 0)
-		return (build_cd(mini));
-	if (ft_strncmp(mini->input, "export", 6) == 0)
-		return (build_export(mini));
-	if (ft_strncmp(mini->input, "unset", 5) == 0)
-		return (build_unset(mini));
-	if (ft_strcmp(mini->input, "exit") == 0)
-		build_exit(mini);
-	return (0);
-}
-
 void	my_env_start(t_mini *mini, char **ev)
 {
 	int	i;
@@ -78,23 +58,81 @@ void	my_env_start(t_mini *mini, char **ev)
 	mini->env->home = ft_strdup(ev[i] + 5);
 }
 
-int	main(void)
+int	check_built_in(t_mini *mini,t_cmd cmds)
+{
+	// if (!cmds.cmd)
+	// 	return (0);
+	printf("!%s!\n",cmds.cmd);
+	// if (ft_strncmp(cmds.cmd, "echo ", 5) == 0)
+	// 	// build_echo(mini);
+	if (ft_strcmp(cmds.cmd, "pwd") == 0)
+		return (build_pwd(mini));
+	if (ft_strcmp(cmds.cmd, "env") == 0)
+		return (build_env(mini));
+	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
+		return (build_cd(mini,cmds));
+	// if (ft_strncmp(cmds.cmd, "export", 6) == 0)
+	// 	// return (build_export(mini));
+	if (ft_strncmp(cmds.cmd, "unset", 5) == 0)
+		return (build_unset(mini,cmds));
+	if (ft_strcmp(cmds.cmd, "exit") == 0)
+		build_exit(mini,cmds);
+	return (0);
+}
+
+void which_child(t_mini *mini,t_tree *ast)
+{
+	check_built_in(mini,ast->node);
+}
+
+void execute(t_mini *mini,t_tree *ast)
+{
+	if(pipe(mini->pipex.pipefd) == 0)
+    	which_child(mini,ast);
+    else
+    {
+        ft_putstr_fd("Error, Pipe faield",2);
+        exit(1);
+    }
+}
+
+void run_tree(t_mini *mini,t_tree *ast)
+{
+	if (ast->node.pipe == true)
+	{
+		run_tree(mini,ast->left);
+		run_tree(mini,ast->right);
+	}
+	else
+	{
+		execute(mini,ast);
+		printf("commad = %s\n",ast->node.cmd);
+	}
+}
+int	main(int ac, char **av,char **ev)
 {
 	char	*input;
 
-	t_tree	*tree;
+	t_mini mini;
+	t_tree *ast;
+	(void)ac;
+	(void)av;
+	ft_bzero(&mini, sizeof(t_mini));
+	my_env_start(&mini,ev);
+	get_pwd(&mini);
 	while (1)
 	{
+
 		input = readline("minishell > ");
 		add_history(input);
 		printf("str = %s\n", input);
-		tree = parser(input);
-		if (tree == NULL)
+		mini.ast = parser(input);
+		ast = mini.ast;
+		if (mini.ast == NULL)
 			continue;
-		tree_apply_infix(tree, 0, "root");
-		free_tree(tree);
-		if (strcmp(input, "exit") == 0)
-			exit(0);
+		tree_apply_infix(mini.ast, 0, "root");
+		run_tree(&mini,ast);
+		free_tree(mini.ast);
 		free(input);
 	}
 }

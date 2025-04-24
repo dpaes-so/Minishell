@@ -24,6 +24,6 @@ void	freetrix(char **matrix)
 		free(matrix[i]);
 		i++;
 	}
-	if (!matrix)
+	if (matrix)
 		free(matrix);
 }
