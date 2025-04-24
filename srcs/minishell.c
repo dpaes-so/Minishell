@@ -71,8 +71,8 @@ int	check_built_in(t_mini *mini,t_cmd cmds)
 		return (build_env(mini));
 	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
 		return (build_cd(mini,cmds));
-	// if (ft_strncmp(cmds.cmd, "export", 6) == 0)
-	// 	return (build_export(mini,cmds));
+	if (ft_strncmp(cmds.cmd, "export", 6) == 0)
+		return (build_export(mini,cmds));
 	if (ft_strncmp(cmds.cmd, "unset", 5) == 0)
 		return (build_unset(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)

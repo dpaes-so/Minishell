@@ -76,16 +76,13 @@ void	*make_export(t_mini *mini, char *arg)
 			return (free(mini->env->my_env[break_point]),
 				mini->env->my_env[break_point] = ft_strdup(arg), NULL);
 	new_env = malloc(sizeof(char *) * (size + 2));
-	printf("SIZE = %d\n",size);
 	if (!new_env)
 		return (NULL);
 	while (mini->env->my_env[++i])
 		new_env[i] = ft_strdup(mini->env->my_env[i]);
-	printf("is stoped here = %d\n",i);
-	new_env[i] = arg;
-	new_env[++i] = NULL;
-	printf("SIZE2 = %d\n",i);
-	// free(mini->env->my_env);
+	new_env[i++] = ft_strdup(arg);
+	new_env[i] = NULL;
+	freetrix(mini->env->my_env);
 	mini->env->my_env = new_env;
 	return (NULL);
 }
