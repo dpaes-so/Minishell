@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/23 17:15:18 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:42:28 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
+	int					amount;
 	bool				pipe;
 	char				*cmd;
 	char				**args;
@@ -96,7 +97,7 @@ void					freetrix(char **matrix);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
-t_tree					*parser(char *input);
+t_tree					*parser(char *input, t_mini shell);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
@@ -121,6 +122,6 @@ void					free_tree(t_tree *root);
 void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
-void	expand_strs(t_token *tokens);
+void					expand_strs(t_token *tokens, t_mini shell);
 
 #endif

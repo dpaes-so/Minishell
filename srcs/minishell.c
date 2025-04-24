@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 17:34:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:46:21 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,26 @@ void	my_env_start(t_mini *mini, char **ev)
 	j = 0;
 	k = 0;
 	mini->env = malloc(sizeof(t_env));
+	if (mini->env == NULL)
+		return ;
 	while (ev[k])
 		k++;
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
+	if (mini->env->my_env == NULL)
+		return ;
 	while (ev[j])
 	{
 		mini->env->my_env[j] = ft_strdup(ev[j]);
+		if (mini->env->my_env[j] == NULL)
+			return ;
 		j++;
 	}
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
 	mini->env->home = ft_strdup(ev[i] + 5);
+	if (mini->env->home == NULL)
+		return ;
 }
 
 int	check_built_in(t_mini *mini,t_cmd cmds)
@@ -111,8 +119,6 @@ void run_tree(t_mini *mini,t_tree *ast)
 }
 int	main(int ac, char **av,char **ev)
 {
-	char	*input;
-
 	t_mini mini;
 	t_tree *ast;
 	(void)ac;

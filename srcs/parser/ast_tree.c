@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:24:03 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:43:01 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 		return (NULL);
 	tree_node->left = NULL;
 	tree_node->right = NULL;
+	tree_node->node.amount = 0;
 	tree_node->node.args = NULL;
 	tree_node->node.cmd = NULL;
 	tree_node->node.redirections = NULL;

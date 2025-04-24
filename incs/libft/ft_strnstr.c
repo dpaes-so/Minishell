@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:46:47 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/10/31 13:11:57 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:31:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ char	*ft_strnstr(const char *hay, const char *needle, size_t n)
 			j++;
 		}
 		if (needle[j] == '\0')
-		{
 			return ((char *)(hay + i));
-		}
 		i++;
 	}
 	return (NULL);
