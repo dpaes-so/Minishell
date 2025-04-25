@@ -84,16 +84,21 @@ typedef struct s_mini
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
+int 					do_redirect(t_cmd cmds);
 void					my_env_start(t_mini *mini, char **ev);
-void					build_exit(t_mini *mini,t_cmd cmds);
+int						build_exit(t_mini *mini,t_cmd cmds);
 void					build_echo(t_mini *mini);
-int						build_pwd(t_mini *mini);
+int						build_pwd(t_mini *mini,t_cmd cmds);
 int						build_cd(t_mini *mini,t_cmd cmds);
-int						build_env(t_mini *mini);
+int						build_env(t_mini *mini,t_cmd cmds);
 int						build_unset(t_mini *mini,t_cmd cmds);
 int						build_export(t_mini *mini,t_cmd cmds);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
+//----------------------------EXECUTION ! ! ! -----------------------------
+
+void master_close();
+void exit_childprocess(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

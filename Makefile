@@ -31,6 +31,8 @@ SOURCES = minishell.c \
           built-ins/mini_cd.c \
           built-ins/mini_env.c \
           built-ins/mini_export.c \
+		  built-ins/mini_unset.c \
+		  built-ins/mini_exit.c \
           mini_aux.c
 
 SRCS_DIR = srcs

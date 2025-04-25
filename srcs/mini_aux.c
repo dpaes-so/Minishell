@@ -21,10 +21,30 @@ void	freetrix(char **matrix)
 		return ;
 	while (matrix[i])
 	{
-		printf("i = %d\n",i);
+		// printf("i = %d\n",i);
 		free(matrix[i]);
 		i++;
 	}
 	if (matrix)
 		free(matrix);
+}
+void master_close()
+{
+    int i;
+
+    i = 2;
+    while(++i < 1024)
+        close(i);
+}
+
+void exit_childprocess(t_mini *mini)
+{
+	free(mini->pwd);
+	free(mini->env->home);
+	freetrix(mini->env->my_env);
+	free(mini->env);
+	free_tree(mini->ast);
+	clear_history();
+	master_close();
+	exit(0);
 }

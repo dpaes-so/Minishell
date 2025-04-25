@@ -36,26 +36,24 @@ void	pwd_update(t_mini *mini)
 	free(mini->env->my_env[i]);
 	mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 }
-
 int	build_cd(t_mini *mini,t_cmd cmds)
 {
-	char	*cd;
 	char	*cd2;
 	char 	*pwd;
 
+	if(cmds.amount > 1)
+		return(ft_printf("Minishell: cd: too many arguments\n"),1);
 	if (!cmds.args[0])
 		return (chdir(mini->env->home), get_pwd(mini), (1));
 	pwd = ft_strdup(mini->pwd);
+	do_redirect(cmds);
 	if (cmds.args[0][0] == '/')
 	{
 		cd2 = ft_strdup(cmds.args[0]);
 		free(pwd);
 	}
 	else
-	{
-		cd = ft_strjoin(pwd, "/");
-		cd2 = ft_strjoin(cd,cmds.args[0]);
-	}
+		cd2 = ft_strjoin(ft_strjoin(pwd, "/"),cmds.args[0]);
 	if (chdir(cd2) < 0)
 		ft_printf("Minishell: cd: %s: No such file or directory\n",cmds.args[0]);
 	else

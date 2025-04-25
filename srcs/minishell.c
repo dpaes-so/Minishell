@@ -74,9 +74,9 @@ int	check_built_in(t_mini *mini,t_cmd cmds)
 	// if (ft_strncmp(cmds.cmd, "echo ", 5) == 0)
 	// 	// build_echo(mini);
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
-		return (build_pwd(mini));
+		return (build_pwd(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "env") == 0)
-		return (build_env(mini));
+		return (build_env(mini,cmds));
 	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
 		return (build_cd(mini,cmds));
 	if (ft_strncmp(cmds.cmd, "export", 6) == 0)

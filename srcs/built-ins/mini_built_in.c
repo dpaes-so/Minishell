@@ -12,16 +12,21 @@
 
 #include "../../incs/mini_header.h"
 
-void	build_exit(t_mini *mini,t_cmd cmds)
+int do_redirect(t_cmd cmds)
 {
-	(void)cmds;
-	free(mini->pwd);
-	free(mini->env->home);
-	freetrix(mini->env->my_env);
-	free(mini->env);
-	free_tree(mini->ast);
-	clear_history();
-	exit(0);
+	int i;
+	int fd;
+
+	fd = 1;
+	i = 0;
+	while (cmds.redirections[i].value != NULL)
+	{
+		fd = open(cmds.redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if(fd < 0)
+			ft_putstr_fd("Minishell: Redirect error\n",2);
+		i++;
+	}
+	return(fd);
 }
 
 void	build_echo(t_mini *mini)
@@ -32,37 +37,29 @@ void	build_echo(t_mini *mini)
 		ft_printf("%s\n", mini->input + 5);
 }
 
-int	build_unset(t_mini *mini,t_cmd cmds)
+int	build_pwd(t_mini *mini,t_cmd cmds)
 {
-	int	i;
-	int cmd_n;
+	int fd;
+	int pid;
 
-	cmd_n = -1;
-	if (!cmds.args[0])
-		return (0);
-	while(cmds.args[++cmd_n])
-	{
-		i = -1;
-		printf("IMA TRY TO UNSET THIS  \n%s\n", cmds.args[cmd_n]);
-		while (mini->env->my_env[++i])
-			if (ft_strncmp(mini->env->my_env[i], cmds.args[cmd_n],
-					ft_strlen(cmds.args[cmd_n])) == 0
-				&& mini->env->my_env[i][ft_strlen(cmds.args[cmd_n])] == '=')
-				break ;
-		printf("UNSETTING SOMETHING BITCH\n%s\n", mini->env->my_env[i]);
-		while (mini->env->my_env[i] != NULL)
-		{
-			free(mini->env->my_env[i]);
-			mini->env->my_env[i] = ft_strdup(mini->env->my_env[i + 1]);
-			i++;
-		}
-	}
-	return (1);
-}
-
-int	build_pwd(t_mini *mini)
-{
+	fd = do_redirect(cmds);
 	get_pwd(mini);
-	ft_printf("%s\n", mini->pwd);
+	pid = fork();
+	if(pid == 0)
+	{	
+		if(fd != 1)
+			dup2(fd,STDOUT_FILENO);
+		ft_printf("%s\n", mini->pwd);
+		free(mini->pwd);
+		free(mini->env->home);
+		freetrix(mini->env->my_env);
+		free(mini->env);
+		free_tree(mini->ast);
+		clear_history();
+		master_close();
+		exit(0);
+	}
+	else
+		wait(NULL);
 	return (1);
 }
