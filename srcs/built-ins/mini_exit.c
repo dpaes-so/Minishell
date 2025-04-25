@@ -26,7 +26,8 @@ int	build_exit(t_mini *mini,t_cmd cmds)
 	if(cmds.args[0])
 		check_exit_code(mini,cmds);
 	free(mini->pwd);
-	free(mini->env->home);
+	if(mini->env->home != NULL)
+		free(mini->env->home);
 	freetrix(mini->env->my_env);
 	free(mini->env);
 	free_tree(mini->ast);

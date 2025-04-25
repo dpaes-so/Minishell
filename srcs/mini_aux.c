@@ -40,7 +40,8 @@ void master_close()
 void exit_childprocess(t_mini *mini)
 {
 	free(mini->pwd);
-	free(mini->env->home);
+	if(mini->env->home != NULL)
+		free(mini->env->home);
 	freetrix(mini->env->my_env);
 	free(mini->env);
 	free_tree(mini->ast);

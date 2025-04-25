@@ -93,6 +93,7 @@ int						build_cd(t_mini *mini,t_cmd cmds);
 int						build_env(t_mini *mini,t_cmd cmds);
 int						build_unset(t_mini *mini,t_cmd cmds);
 int						build_export(t_mini *mini,t_cmd cmds);
+int						print_env_ex(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 //----------------------------EXECUTION ! ! ! -----------------------------

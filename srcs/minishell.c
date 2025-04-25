@@ -48,6 +48,7 @@ void	my_env_start(t_mini *mini, char **ev)
 		return ;
 	while (ev[k])
 		k++;
+	printf("K = %d",k);
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_env == NULL)
 		return ;
@@ -61,7 +62,9 @@ void	my_env_start(t_mini *mini, char **ev)
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
-	mini->env->home = ft_strdup(ev[i] + 5);
+	mini->env->home = NULL;
+	if(ev[i])
+		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
 		return ;
 }

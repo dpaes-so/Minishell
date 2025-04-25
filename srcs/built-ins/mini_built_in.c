@@ -50,14 +50,7 @@ int	build_pwd(t_mini *mini,t_cmd cmds)
 		if(fd != 1)
 			dup2(fd,STDOUT_FILENO);
 		ft_printf("%s\n", mini->pwd);
-		free(mini->pwd);
-		free(mini->env->home);
-		freetrix(mini->env->my_env);
-		free(mini->env);
-		free_tree(mini->ast);
-		clear_history();
-		master_close();
-		exit(0);
+		exit_childprocess(mini);
 	}
 	else
 		wait(NULL);

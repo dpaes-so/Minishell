@@ -22,7 +22,7 @@ void	get_pwd(t_mini *mini)
 	mini->pwd = ft_strjoin(cdw, "");
 }
 
-void	pwd_update(t_mini *mini)
+static void	pwd_update(t_mini *mini)
 {
 	int	i;
 	char *prefix;
@@ -33,8 +33,25 @@ void	pwd_update(t_mini *mini)
 	while (mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
-	free(mini->env->my_env[i]);
-	mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
+	if(mini->env->my_env[i])
+	{
+		free(mini->env->my_env[i]);
+		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
+	}
+	else
+		free(prefix);
+}
+
+static int cd_home(t_mini *mini)
+{
+	if(mini->env->home != NULL)
+	{
+		chdir(mini->env->home);
+		get_pwd(mini);
+	}
+	else
+		ft_putstr_fd("Minishell: cd: HOME not set\n",2);
+	return(1);
 }
 int	build_cd(t_mini *mini,t_cmd cmds)
 {
@@ -44,7 +61,7 @@ int	build_cd(t_mini *mini,t_cmd cmds)
 	if(cmds.amount > 1)
 		return(ft_printf("Minishell: cd: too many arguments\n"),1);
 	if (!cmds.args[0])
-		return (chdir(mini->env->home), get_pwd(mini), (1));
+		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
 	do_redirect(cmds);
 	if (cmds.args[0][0] == '/')
