@@ -67,6 +67,7 @@ typedef struct s_env
 typedef struct s_pipe
 {
 	int		pid1;
+	int 	cmd;
 	int		infile_fd;
 	int		outfile_fd;
 	int 	status;
@@ -87,7 +88,7 @@ typedef struct s_mini
 int 					do_redirect(t_cmd cmds);
 void					my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini,t_cmd cmds);
-void					build_echo(t_mini *mini);
+int						build_echo(t_mini *mini,t_cmd cmds);
 int						build_pwd(t_mini *mini,t_cmd cmds);
 int						build_cd(t_mini *mini,t_cmd cmds);
 int						build_env(t_mini *mini,t_cmd cmds);

@@ -48,7 +48,6 @@ void	my_env_start(t_mini *mini, char **ev)
 		return ;
 	while (ev[k])
 		k++;
-	printf("K = %d",k);
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_env == NULL)
 		return ;
@@ -74,8 +73,8 @@ int	check_built_in(t_mini *mini,t_cmd cmds)
 	// if (!cmds.cmd)
 	// 	return (0);
 	printf("!%s!\n",cmds.cmd);
-	// if (ft_strncmp(cmds.cmd, "echo ", 5) == 0)
-	// 	// build_echo(mini);
+	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
+		return(build_echo(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
 		return (build_pwd(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "env") == 0)
@@ -91,15 +90,38 @@ int	check_built_in(t_mini *mini,t_cmd cmds)
 	return (0);
 }
 
-void which_child(t_mini *mini,t_tree *ast)
+void which_child(t_mini *mini,t_cmd cmds)
 {
-	check_built_in(mini,ast->node);
+	// mini->pipex.pid1 = fork();
+    // if(mini->pipex.pid1 < 0)
+    //     exit(1);
+    // if(mini->pipex.pid1 == 0)
+    // {
+    //     close(mini->pipex.pipefd[0]);
+	// 	if (mini->pipex.cmd == !(ft_strncmp("here_doc", cmds.cmd, -1)) + 2)
+	// 		first_child(mini->pipex,mini->env->my_env);
+	// 	else if (mini->pipex.cmd == mini->pipex->ac - 2)
+	// 		last_child(mini->pipex,mini->env->my_env);
+	// 	else
+	// 		middle_child(mini->pipex,mini->env->my_env);
+    // }
+    // else
+    // {
+    //     if (mini->pipex.cmd == !(ft_strncmp("here_doc", mini->pipex.av[1], -1)) + 2)
+    //         close(mini->pipex.infile_fd);
+    //     else if (mini->pipex.cmd == mini->pipex.ac -2)
+    //         close(mini->pipex.outfile_fd);
+    //     close(mini->pipex.pipefd[1]);
+    //     dup2(mini->pipex.pipefd[0],STDIN_FILENO);
+    //     close(mini->pipex.pipefd[0]);
+    // }
+	check_built_in(mini,cmds);
 }
 
 void execute(t_mini *mini,t_tree *ast)
 {
 	if(pipe(mini->pipex.pipefd) == 0)
-    	which_child(mini,ast);
+    	which_child(mini,ast->node);
     else
     {
         ft_putstr_fd("Error, Pipe faield",2);
@@ -136,7 +158,6 @@ int	main(int ac, char **av,char **ev)
 
 		input = readline("minishell > ");
 		add_history(input);
-		// printf("str = %s\n", input);
 		mini.ast = parser(input,mini);
 		ast = mini.ast;
 		if (mini.ast == NULL)

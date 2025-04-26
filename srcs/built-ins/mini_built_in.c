@@ -29,14 +29,6 @@ int do_redirect(t_cmd cmds)
 	return(fd);
 }
 
-void	build_echo(t_mini *mini)
-{
-	if (ft_strncmp(mini->input + 5, "-n ", 3) == 0)
-		ft_printf("%s", mini->input + 8);
-	else
-		ft_printf("%s\n", mini->input + 5);
-}
-
 int	build_pwd(t_mini *mini,t_cmd cmds)
 {
 	int fd;
