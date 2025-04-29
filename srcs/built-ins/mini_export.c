@@ -3,26 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/23 19:02:33 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:23:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	print_env_ex(t_mini *mini)
-{
-	int	i;
 
-	i = -1;
-	while (mini->env->my_env[++i])
-		ft_printf("declare -x %s\n", mini->env->my_env[i]);
-	return (1);
-}
-
-int	check_valid_variable_name(char *s)
+static int	check_valid_variable_name(char *s)
 {
 	int	i;
 
@@ -42,23 +33,7 @@ int	check_valid_variable_name(char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *str, int c)
-{
-	int		i;
-	char	*s;
-
-	i = 0;
-	s = (char *)str;
-	while (s[i])
-	{
-		if (str[i] == (char)c)
-			return (s + i);
-		i++;
-	}
-	return (NULL);
-}
-
-void	*make_export(t_mini *mini, char *arg)
+static void	*make_export(t_mini *mini, char *arg)
 {
 	char	**new_env;
 	int		size;
@@ -86,21 +61,17 @@ void	*make_export(t_mini *mini, char *arg)
 	mini->env->my_env = new_env;
 	return (NULL);
 }
-
-int	build_export(t_mini *mini,t_cmd cmds)
+static void prep_export(t_mini *mini,t_cmd cmds)
 {
-	char	*arg;
-	int		i;
-	int		j;
+	int j;
+	int i;
+	char *arg;
 
-	if(!cmds.args[0])
-		return (print_env_ex(mini));
 	j = 0;
 	while (cmds.args[j])
 	{
 		arg = cmds.args[j];
 		i = check_valid_variable_name(arg);
-		ft_printf("!%s!\n", arg);
 		if (!i)
 		{
 			ft_printf("Minishell: '%s' not a valid identifier\n", arg);
@@ -109,6 +80,41 @@ int	build_export(t_mini *mini,t_cmd cmds)
 		}
 		make_export(mini, arg);
 		j++;
+	}
+}
+static int export_redirs(t_mini *mini,t_cmd cmds)
+{
+	int fd;
+	int pid;
+	int t;
+	
+	fd = do_redirect(cmds,&t);
+	pid = fork();
+	if (pid < 0)
+		return (perror("fork"), 1);
+	if(pid == 0)
+	{	
+		if(fd != 1)
+			dup2(fd,STDOUT_FILENO);
+		if(!cmds.args[0])
+			print_env_ex(mini);
+		else
+			prep_export(mini,cmds);
+		exit_childprocess(mini);
+	}
+	else
+		wait(NULL);
+	return(1);
+}
+int	build_export(t_mini *mini,t_cmd cmds)
+{
+	if(cmds.redirections[0].type != T_NULL)
+		export_redirs(mini,cmds);
+	else
+	{
+		if(!cmds.args[0])
+				print_env_ex(mini);
+		prep_export(mini,cmds);
 	}
 	return (1);
 }
