@@ -1,7 +1,7 @@
 # Minishell
 The goal of this project is to create a minimalist shell.
 
--> Executte project with this flags: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+->valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 
 for readline leaks supp
 
