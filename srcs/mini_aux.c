@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:45:21 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/24 18:46:57 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:14:52 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	freetrix(char **matrix)
 		return ;
 	while (matrix[i])
 	{
-		printf("i = %d\n",i);
 		free(matrix[i]);
 		i++;
 	}
