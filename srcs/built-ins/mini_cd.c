@@ -20,10 +20,10 @@ void	get_pwd(t_mini *mini)
 	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	free(cdw);
+	// free(cdw);
 }
 
-static void	pwd_update(t_mini *mini)
+void	pwd_update(t_mini *mini)
 {
 	int	i;
 	char *prefix;
@@ -39,7 +39,7 @@ static void	pwd_update(t_mini *mini)
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 	}
-	free(prefix);
+	// free(prefix);
 }
 
 static int cd_home(t_mini *mini)
@@ -66,7 +66,7 @@ static char *get_dir(t_cmd cmds,char *buffer,char *cd2,char *pwd)
 		buffer = ft_strjoin(pwd, "/");
 		cd2 = ft_strjoin(buffer,cmds.args[0]);
 	}
-	free(buffer);
+	// free(buffer);
 	return (cd2);
 }
 int	build_cd(t_mini *mini,t_cmd cmds)
@@ -90,6 +90,6 @@ int	build_cd(t_mini *mini,t_cmd cmds)
 	else
 		get_pwd(mini);
 	free(cd2);
-	free(pwd);
+	// free(pwd);
 	return (pwd_update(mini), 1);
 }
