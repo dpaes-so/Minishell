@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/24 16:42:28 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:19:56 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,41 +66,40 @@ typedef struct s_env
 
 typedef struct s_pipe
 {
-	int		pid1;
-	int 	cmd;
-	int		infile_fd;
-	int		outfile_fd;
-	int 	status;
-	int		pipefd[2];
-}			t_pipe;
+	int					pid1;
+	int					cmd;
+	int					infile_fd;
+	int					outfile_fd;
+	int					status;
+	int					pipefd[2];
+}						t_pipe;
 typedef struct s_mini
 {
-
 	char				*pwd;
 	char				*input;
 	t_tree				*ast;
 	t_env				*env;
-	t_pipe 				pipex;
+	t_pipe				pipex;
 }						t_mini;
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
-int 					do_redirect(t_cmd cmds);
+int						do_redirect(t_cmd cmds, int *type);
 void					my_env_start(t_mini *mini, char **ev);
-int						build_exit(t_mini *mini,t_cmd cmds);
-int						build_echo(t_mini *mini,t_cmd cmds);
-int						build_pwd(t_mini *mini,t_cmd cmds);
-int						build_cd(t_mini *mini,t_cmd cmds);
-int						build_env(t_mini *mini,t_cmd cmds);
-int						build_unset(t_mini *mini,t_cmd cmds);
-int						build_export(t_mini *mini,t_cmd cmds);
+int						build_exit(t_mini *mini, t_cmd cmds);
+int						build_echo(t_mini *mini, t_cmd cmds);
+int						build_pwd(t_mini *mini, t_cmd cmds);
+int						build_cd(t_mini *mini, t_cmd cmds);
+int						build_env(t_mini *mini, t_cmd cmds);
+int						build_unset(t_mini *mini, t_cmd cmds);
+int						build_export(t_mini *mini, t_cmd cmds);
 int						print_env_ex(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					freetrix(char **matrix);
 //----------------------------EXECUTION ! ! ! -----------------------------
 
-void master_close();
-void exit_childprocess(t_mini *mini);
+void					master_close(void);
+void					exit_childprocess(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

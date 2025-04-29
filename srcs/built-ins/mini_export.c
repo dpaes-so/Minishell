@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/23 19:02:33 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:23:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ static int export_redirs(t_mini *mini,t_cmd cmds)
 {
 	int fd;
 	int pid;
-	fd = do_redirect(cmds);
+	int t;
+	
+	fd = do_redirect(cmds,&t);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);

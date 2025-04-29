@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/23 01:25:59 by root             ###   ########.fr        #
+#    Updated: 2025/04/29 18:29:20 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/parser
 
 val: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 clean:
 	make clean -C ./incs/libft -s
 	@rm -rf $(OBJS_DIR)
