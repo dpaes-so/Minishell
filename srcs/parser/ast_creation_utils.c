@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/04/24 16:43:36 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:01:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 
 	amount = 0;
 	j = 0;
-	i = index;
+	i = 0;
 	while (tokens[i].type != T_NULL)
 	{
 		if (tokens[i].type == T_WORD)
@@ -105,5 +105,5 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 			return ;
 		i++;
 	}
-	make_args(tree_node, tokens, i);
+	make_args(tree_node, tokens, 0);
 }
