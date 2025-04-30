@@ -93,6 +93,8 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 
 void which_child(t_mini *mini,t_cmd cmds)
 {
+	(void)mini;
+	(void)cmds;
 	// mini->pipex.pid1 = fork();
     // if(mini->pipex.pid1 < 0)
     //     exit(1);
@@ -116,12 +118,14 @@ void which_child(t_mini *mini,t_cmd cmds)
     //     dup2(mini->pipex.pipefd[0],STDIN_FILENO);
     //     close(mini->pipex.pipefd[0]);
     // }
-	check_built_in(mini,cmds);
+	// check_built_in(mini,cmds);
 }
 
-void	execute(t_mini *mini, t_tree *ast)
+void	execute(t_mini *mini, t_tree *ast,int f)
 {
-	if(pipe(mini->pipex.pipefd) == 0)
+	if(f == 0)
+		check_built_in(mini,ast->node);
+	else if(pipe(mini->pipex.pipefd) == 0)
     	which_child(mini,ast->node);
     else
     {
@@ -130,16 +134,16 @@ void	execute(t_mini *mini, t_tree *ast)
     }
 }
 
-void	run_tree(t_mini *mini, t_tree *ast)
+void	run_tree(t_mini *mini, t_tree *ast,int f)
 {
 	if (ast->node.pipe == true)
 	{
-		run_tree(mini, ast->left);
-		run_tree(mini, ast->right);
+		run_tree(mini, ast->left,1);
+		run_tree(mini, ast->right,1);
 	}
 	else
 	{
-		execute(mini, ast);
+		execute(mini, ast,f);
 		// printf("commad = %s\n",ast->node.cmd);
 	}
 }
@@ -165,7 +169,7 @@ int	main(int ac, char **av, char **ev)
 		if (mini.ast == NULL)
 			continue ;
 		tree_apply_infix(mini.ast, 0, "root");
-		run_tree(&mini, ast);
+		run_tree(&mini, ast,0);
 		free_tree(mini.ast);
 		free(input);
 	}
