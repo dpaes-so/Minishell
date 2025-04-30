@@ -23,6 +23,8 @@ stuff exec needs to do:
 
 4.stil dont know how ima do the redirections, problem for my future self
 
+5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
+
 
 
 stuff parser needs to do:
