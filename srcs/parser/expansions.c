@@ -11,7 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../incs/mini_header.h"
+#include "../../incs/mini_header.h"
 
 char	*find_env(t_token *token, t_mini shell, int *i)
 {
