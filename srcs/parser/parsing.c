@@ -38,12 +38,13 @@ t_tree	*parser(char *input, t_mini shell)
 	t_token	**array;
 	t_tree	*tree;
 
+	(void)shell;
 	tokens = split_tokens(input);
 	if (tokens == NULL)
 		return (NULL);
 	if (error_syntax(tokens) == false)
 		return (free_tokens(tokens), NULL);
-	expand_strs(tokens, shell);
+	// expand_strs(tokens, shell);
 	array = create_array(tokens);
 	free_tokens(tokens);
 	tree = tree_maker(array);
