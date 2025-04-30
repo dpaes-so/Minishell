@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/29 19:23:17 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:44:48 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	get_pwd(t_mini *mini)
 	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	free(cdw);
+	// free(cdw);
 }
 
 static void	pwd_update(t_mini *mini)
