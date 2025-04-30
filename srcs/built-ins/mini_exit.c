@@ -33,6 +33,7 @@ int	build_exit(t_mini *mini,t_cmd cmds)
 	freetrix(mini->env->my_env);
 	free(mini->env);
 	free_tree(mini->ast);
+	// freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
 	exit(mini->pipex.status);

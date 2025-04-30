@@ -22,11 +22,13 @@ void	freetrix(char **matrix)
 		return ;
 	while (matrix[i])
 	{
+		// ft_printf("i = %d\n",i);
 		free(matrix[i]);
 		i++;
 	}
 	if (matrix)
 		free(matrix);
+	// ft_printf("ACABOU\n");
 }
 void master_close()
 {
@@ -48,4 +50,32 @@ void exit_childprocess(t_mini *mini)
 	clear_history();
 	master_close();
 	exit(0);
+}
+
+char	**path_finder(char **envp, t_pipe pipe)
+{
+	int		i;
+	char	*temp;
+	char	**split;
+	char *temp_ev;
+
+	i = -1;
+	while (envp[++i])
+		if (ft_strnstr(envp[i], "PATH", 4))
+			break ;
+	if (!envp[i])
+	{
+		close(pipe.outfile_fd);
+		exit(0);
+	}
+	temp_ev = envp[i] + 5;
+	split = ft_split(temp_ev, ':');
+	i = -1;
+	while (split[++i])
+	{
+		temp = split[i];
+		split[i] = ft_strjoin(temp, "/");
+		// free(temp);
+	}
+	return (split);
 }

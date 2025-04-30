@@ -71,6 +71,7 @@ typedef struct s_pipe
 	int					infile_fd;
 	int					outfile_fd;
 	int					status;
+	char				**path;
 	int					pipefd[2];
 }						t_pipe;
 typedef struct s_mini
@@ -101,7 +102,7 @@ void					freetrix(char **matrix);
 
 void					master_close(void);
 void					exit_childprocess(t_mini *mini);
-
+char					**path_finder(char **envp, t_pipe pipe);
 //----------------------------PARSING ! ! ! -------------------------------
 
 t_tree					*parser(char *input, t_mini shell);

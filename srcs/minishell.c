@@ -70,8 +70,6 @@ void	my_env_start(t_mini *mini, char **ev)
 
 int	check_built_in(t_mini *mini, t_cmd cmds)
 {
-	// if (!cmds.cmd)
-	// 	return (0);
 	printf("!%s!\n",cmds.cmd);
 	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
 		return(build_echo(mini,cmds));
@@ -90,33 +88,107 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	return (0);
 }
 
+void	cmd_exit(char *exec, char **argument_list,t_mini *mini,char **abc,char **path)
+{
+	// (void)mini;
+	if (access(exec, F_OK) < 0)
+	{
+		ft_putstr_fd("Pipex: Command not found\n", 2);
+		// dprintf(2,"exec = %s\n",exec);
+		freetrix(argument_list);
+		freetrix(mini->env->my_env);
+		free(mini->pwd);
+		if(mini->env->home != NULL)
+			free(mini->env->home);
+		freetrix(path);
+		free_tree(mini->ast);
+		freetrix(abc);
+		if (exec)
+			free(exec);
+		exit(127);
+	}
+	if (access(exec, X_OK) < 0)
+	{
+		ft_putstr_fd("Permission denied\n", 2);
+		freetrix(argument_list);
+		freetrix(mini->env->my_env);
+		free(mini->pwd);
+		if(mini->env->home != NULL)
+			free(mini->env->home);
+		// free_tree(mini->ast);
+		// freetrix(mini->pipex.path);
+		freetrix(abc);
+		if (exec)
+			free(exec);
+		exit(126);
+	}
+}
 
+void	cmdexec(t_pipe *pipe, char *envp[],t_cmd cmds,t_mini *mini)
+{
+	int		i;
+	char	*exec;
+	int		flag;
+	char **abc;
+	char  **path;
+
+	flag = 0;
+	i = 0;
+	pipe->pid1 = fork();
+	if(pipe->pid1 == 0)
+	{
+		path = path_finder(mini->env->my_env,mini->pipex);
+		abc = ft_split(cmds.cmd,' ');
+		while (flag == 0 && cmds.cmd)
+		{
+			if (i > 0)
+				free(exec);
+			if (pipe->path != NULL && pipe->path[i] && (access(cmds.cmd, F_OK) < 0 ))
+				exec = ft_strjoin(pipe->path[i], cmds.cmd);
+			else
+			{
+				exec = ft_strdup(cmds.cmd);
+				flag = 1;
+			}
+			master_close();
+			if(cmds.amount == 0)
+				execve(exec,abc,envp);
+			else
+				execve(exec,cmds.args,envp);
+			i++;
+		}
+		cmd_exit(exec,cmds.args,mini,abc,path);
+	}
+	(void)path;
+}
+
+// void	cmdexec(t_pipe *pipe, char *envp[],t_cmd cmds)
+// {
+// 	(void)pipe;
+// 	// (void)cmds;
+// 	// (void)
+// 	char **abc = ft_split(cmds.cmd,' ');
+// 	master_close();
+// 	if(cmds.amount == 0)
+// 		execve("/usr/bin/ls",abc,envp);
+// 	else
+// 		execve("/usr/bin/ls",cmds.args,envp);
+// }
 void which_child(t_mini *mini,t_cmd cmds)
 {
-	// mini->pipex.pid1 = fork();
-    // if(mini->pipex.pid1 < 0)
-    //     exit(1);
-    // if(mini->pipex.pid1 == 0)
-    // {
-    //     close(mini->pipex.pipefd[0]);
-	// 	if (mini->pipex.cmd == !(ft_strncmp("here_doc", cmds.cmd, -1)) + 2)
-	// 		first_child(mini->pipex,mini->env->my_env);
-	// 	else if (mini->pipex.cmd == mini->pipex->ac - 2)
-	// 		last_child(mini->pipex,mini->env->my_env);
-	// 	else
-	// 		middle_child(mini->pipex,mini->env->my_env);
-    // }
-    // else
-    // {
-    //     if (mini->pipex.cmd == !(ft_strncmp("here_doc", mini->pipex.av[1], -1)) + 2)
-    //         close(mini->pipex.infile_fd);
-    //     else if (mini->pipex.cmd == mini->pipex.ac -2)
-    //         close(mini->pipex.outfile_fd);
-    //     close(mini->pipex.pipefd[1]);
-    //     dup2(mini->pipex.pipefd[0],STDIN_FILENO);
-    //     close(mini->pipex.pipefd[0]);
-    // }
-	check_built_in(mini,cmds);
+	// int i;
+
+	// // i =0;
+	// check_built_in(mini,cmds);
+	if(check_built_in(mini,cmds))
+		return;
+	else
+		cmdexec(&mini->pipex,mini->env->my_env,cmds,mini);
+	// while(mini->pipex.path[i])
+	// {
+	// 	ft_printf("path = %s\n",mini->pipex.path[i]);
+	// 	i++;
+	// }
 }
 
 void	execute(t_mini *mini, t_tree *ast)
@@ -152,7 +224,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
-	sig_init();
+	// sig_init();
 	ft_bzero(&mini, sizeof(t_mini));
 	my_env_start(&mini, ev);
 	get_pwd(&mini);
@@ -166,6 +238,7 @@ int	main(int ac, char **av, char **ev)
 			continue ;
 		tree_apply_infix(mini.ast, 0, "root");
 		run_tree(&mini, ast);
+		wait(NULL);
 		free_tree(mini.ast);
 		free(input);
 	}
