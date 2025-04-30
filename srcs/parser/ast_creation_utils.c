@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
 /*   Updated: 2025/04/30 18:45:39 by dgarcez-         ###   ########.fr       */
