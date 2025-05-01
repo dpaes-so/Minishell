@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/29 19:19:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:51:21 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,13 @@ void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
 void					expand_strs(t_token *tokens, t_mini shell);
+bool					dollar_expand(t_token *token, t_mini shell);
+char					*status_expand(t_mini shell);
+void					small_cpy(t_token *token, char *expand, int *j, int *amount);
+char					*found_dollar(t_token *token, t_mini shell, int *flag);
+void					handle_s_quote(t_token *token, char *expand, int *j);
+void					handle_d_quote(t_token *token, t_mini shell, char *expand, int *j);
+char					*find_env(t_token *token, t_mini shell);
+void					handle_dollar(t_token *token, t_mini shell, char *expand, int *j);
 
 #endif
