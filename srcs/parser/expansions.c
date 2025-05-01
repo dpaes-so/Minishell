@@ -7,7 +7,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/29 22:33:02 by root             ###   ########.fr       */
+/*   Updated: 2025/04/30 17:42:32 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ char	*find_env(t_token *token, t_mini shell, int *i)
 
 	j = 0;
 	count = 0;
-	while ((*token).value[*i] && (*token).value[*i] != '$'
-		&& (*token).value[*i] != '?' && (*token).value[*i] != '\'' && (*token).value[*i] != '\"')
+	while ((*token).value[*i] && ft_isalnum((*token).value[*i]))
 	{
 		(*i)++;
 		count++;
@@ -70,12 +69,14 @@ char	*found_dollar(t_token *token, t_mini shell, int *i)
 				return (NULL);
 			(*i)++;
 		}
-		else
+		else if (ft_isalnum((*token).value[*i]))
 		{
 			expand = find_env(token, shell, i);
 			if (expand == NULL)
 				return (NULL);
 		}
+		else
+			return ("$");
 	}
 	return (expand);
 }
@@ -128,6 +129,7 @@ void	put_expansion(t_token *token, t_mini shell, char *expand, int amount)
 								j++;
 								k++;
 							}
+							// ft_strlcpy(expand + j, src, ft_strlen(temp) + 1);
 						}
 					}
 					else
@@ -315,7 +317,7 @@ void	expand_strs(t_token *tokens, t_mini shell)
 	i = 0;
 	while (tokens[i].type != T_NULL)
 	{
-		if (tokens[i].type != T_PIPE)
+		if (tokens[i].type != T_PIPE || tokens[i].type != T_HERE_DOC)
 		{
 			dollar_expand(&tokens[i], shell);
 			// remove_quotes(&tokens[i], shell);
