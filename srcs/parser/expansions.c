@@ -98,10 +98,15 @@ void	handle_s_quote(t_token *token, char *expand, int *j)
 	(*token).value++;
 }
 
-void	small_cpy(t_token *token, char *expand, int *j)
+void	small_cpy(t_token *token, char *expand, int *j, int *amount)
 {
-	expand[*j] = *(*token).value;
-	(*j)++;
+	if (expand != NULL)
+	{
+		expand[*j] = *(*token).value;
+		(*j)++;
+	}
+	if (expand == NULL)
+		(*amount)++;
 	(*token).value++;
 }
 
@@ -114,7 +119,8 @@ void	handle_dollar(t_token *token, t_mini shell, char *expand, int *j)
 	temp = found_dollar(token, shell, &flag);
 	if (temp != NULL)
 	{
-		ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
+		if (expand != NULL)
+			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
 	if (flag == 1)
@@ -123,15 +129,30 @@ void	handle_dollar(t_token *token, t_mini shell, char *expand, int *j)
 
 void	handle_d_quote(t_token *token, t_mini shell, char *expand, int *j)
 {
-	small_cpy(token, expand, j);
-	while (*(*token).value && *(*token).value != '\"')
+	if (expand != NULL)
 	{
-		if (*(*token).value && *(*token).value == '$')
-			handle_dollar(token, shell, expand, j);
-		else
-			small_cpy(token, expand, j);
+		small_cpy(token, expand, j, 0);
+		while (*(*token).value && *(*token).value != '\"')
+		{
+			if (*(*token).value && *(*token).value == '$')
+				handle_dollar(token, shell, expand, j);
+			else
+				small_cpy(token, expand, j, 0);
+		}
+		small_cpy(token, expand, j, 0);
 	}
-	small_cpy(token, expand, j);
+	else
+	{
+		small_cpy(token, NULL, 0, j);
+		while (*(*token).value && *(*token).value != '\"')
+		{
+			if (*(*token).value && *(*token).value == '$')
+				handle_dollar(token, shell, NULL, j);
+			else
+				small_cpy(token, NULL, 0, j);
+		}
+		small_cpy(token, NULL, 0, j);
+	}
 }
 
 void	put_expansion(t_token *token, t_mini shell, char *expand, int amount)
@@ -150,127 +171,33 @@ void	put_expansion(t_token *token, t_mini shell, char *expand, int amount)
 			else if (*(*token).value == '$')
 				handle_dollar(token, shell, expand, &j);
 			else
-				small_cpy(token, expand, &j);
+				small_cpy(token, expand, &j, 0);
 		}
 	}
 }
 
-
-char	*find_env_amount(t_token *token, t_mini shell, int *i)
-{
-	char	*expand;
-	int		count;
-	int		j;
-	
-	j = 0;
-	count = 0;
-	while ((*token).value[*i] && ft_isalnum((*token).value[*i]))
-	{
-		(*i)++;
-		count++;
-	}
-	expand = ft_calloc(count + 2, sizeof(char));
-	if (expand == NULL)
-	return (NULL);
-	ft_strlcpy(expand, (*token).value + *i - count, count + 1);
-	expand = ft_strjoin(expand, "=");
-	while (shell.env->my_env[j])
-	{
-		if (ft_strnstr(shell.env->my_env[j], expand, count + 1))
-		{
-			free(expand);
-			return (shell.env->my_env[j] + count + 1);
-		}
-		j++;
-	}
-	free(expand);
-	return (NULL);
-}
-
-char	*found_dollar_amount(t_token *token, t_mini shell, int *i)
-{
-	char	*expand;
-
-	expand = NULL;
-	if ((*token).value[*i] == '$')
-	{
-		(*i)++;
-		if ((*token).value[*i] == '?')
-		{
-			expand = status_expand(shell);
-			if (expand == NULL)
-				return (NULL);
-			(*i)++;
-		}
-		else if (ft_isalnum((*token).value[*i]))
-		{
-			expand = find_env_amount(token, shell, i);
-			if (expand == NULL)
-				return (NULL);
-		}
-		else
-			return ("$");
-	}
-	return (expand);
-}
 int	get_amount(t_token *token, t_mini shell)
 {
-	char	*expand;
 	int		amount;
-	int		i;
 
 	amount = 0;
-	i = 0;
-	while ((*token).value[i])
+	while (*(*token).value)
 	{
-		expand = NULL;
-		if ((*token).value[i] == '\'')
+		if (*(*token).value == '\'')
 		{
-			i++;
-			amount++;
-			while ((*token).value[i] && (*token).value[i] != '\'')
-			{
-				i++;
-				amount++;
-			}
-			i++;
-			amount++;
+			small_cpy(token, NULL, 0, &amount);
+			while (*(*token).value && *(*token).value != '\'')
+				small_cpy(token, NULL, 0, &amount);
+			small_cpy(token, NULL, 0, &amount);
 		}
 		else
 		{
-			if ((*token).value[i] == '\"')
-			{
-				i++;
-				amount++;
-				while ((*token).value[i] && (*token).value[i] != '\"')
-				{
-					if ((*token).value[i] && (*token).value[i] == '$')
-					{
-						expand = found_dollar_amount(token, shell, &i);
-						if (expand != NULL)
-							amount += ft_strlen(expand);
-					}
-					else
-					{
-						i++;
-						amount++;
-					}
-				}
-				i++;
-				amount++;
-			}
-			else if ((*token).value[i] == '$')
-			{
-				expand = found_dollar_amount(token, shell, &i);
-				if (expand == NULL)
-					continue;
-				amount += ft_strlen(expand);
-			}
+			if (*(*token).value == '\"')
+				handle_d_quote(token, shell, NULL, &amount);
+			else if (*(*token).value == '$')
+				handle_dollar(token, shell, NULL, &amount);
 			else
-			{
-				i++;
-				amount++;
-			}
+				small_cpy(token, NULL, 0, &amount);
 		}
 	}
 	return (amount);
@@ -283,14 +210,13 @@ bool	dollar_expand(t_token *token, t_mini shell)
 	int		len;
 
 	len = ft_strlen((*token).value);
-	printf("token = %s len = %d\n", (*token).value, len);
 	amount = get_amount(token, shell);
 	expand = ft_calloc(amount + 1, sizeof(char));
 	if ((*token).value == NULL)
 		return (false);
 	expand[amount] = '\0';
+	token->value = token->value - len;
 	put_expansion(token, shell, expand, amount);
-	printf("token = %s\n", (*token).value - len);
 	free((*token).value - len);
 	(*token).value = ft_strdup(expand);
 	free(expand);
