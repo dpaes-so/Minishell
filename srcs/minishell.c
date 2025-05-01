@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/29 20:48:02 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/01 20:11:04 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 {
 	// if (!cmds.cmd)
 	// 	return (0);
-	printf("!%s!\n",cmds.cmd);
+	// printf("!%s!\n",cmds.cmd);
 	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
 		return(build_echo(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)

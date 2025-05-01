@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/01 20:02:27 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/01 20:10:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,10 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 
 	amount = 0;
 	j = 0;
-	i = 0;
-	while (tokens[i].type != T_NULL)
-	{
+	i = -1;
+	while (tokens[++i].type != T_NULL)
 		if (tokens[i].type == T_WORD)
 			amount++;
-		i++;
-	}
 	tree_node->node.args = ft_calloc(amount + 1, sizeof(char *));
 	if (tree_node->node.args == NULL)
 		return ;
