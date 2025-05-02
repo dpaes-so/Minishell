@@ -36,6 +36,8 @@ SOURCES = minishell.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \
+		  exec/mini_exec.c \
+		  exec/mini_humans.c \
           mini_aux.c
 
 SRCS_DIR = srcs
@@ -61,6 +63,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/built-ins
 	@mkdir -p $(OBJS_DIR)/parser
+	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
 	valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell

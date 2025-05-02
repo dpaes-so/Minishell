@@ -88,7 +88,7 @@ static int export_redirs(t_mini *mini,t_cmd cmds)
 	int pid;
 	int t;
 	
-	fd = do_redirect(cmds,&t);
+	fd = do_redirect(&cmds,&t);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);

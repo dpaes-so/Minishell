@@ -12,36 +12,39 @@
 
 #include "../../incs/mini_header.h"
 
-int	do_redirect(t_cmd cmds, int *type)
+int	do_redirect(t_cmd *cmds, int *type)
 {
 	int	i;
 	int	fd;
 
 	fd = 1;
 	i = 0;
-	while (cmds.redirections[i].value != NULL)
+	while (cmds->redirections[i].value != NULL)
 	{
-		if (cmds.redirections[i].type == T_OUT_REDIR)
+		if (cmds->redirections[i].type == T_OUT_REDIR)
 		{
-			fd = open(cmds.redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
+			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
 			*type = 1;
+			cmds->fdout = fd;
 		}
-		else if (cmds.redirections[i].type == T_IN_REDIR)
+		else if (cmds->redirections[i].type == T_IN_REDIR)
 		{
-			fd = open(cmds.redirections[i].value, O_RDONLY, 0644);
+			fd = open(cmds->redirections[i].value, O_RDONLY, 0644);
 			*type = 0;
+			cmds->fdin = fd;
 			if (fd < 0)
 			{
-				ft_printf("Minishell: %s: No such file or directory\n",cmds.redirections[i].value);
+				ft_printf("Minishell: %s: No such file or directory\n",cmds->redirections[i].value);
 				return (fd);
 			}
 		}
-		else if (cmds.redirections[i].type == T_APPEND_REDIR)
+		else if (cmds->redirections[i].type == T_APPEND_REDIR)
 		{
-			fd = open(cmds.redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
+			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
 					0644);
 			*type = 2;
+			cmds->fdout = fd;
 		}
 		if (fd < 0)
 			ft_putstr_fd("Minishell: Redirect error\n", 2);
@@ -56,7 +59,7 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 	int	pid;
 	int t;
 
-	fd = do_redirect(cmds,&t);
+	fd = do_redirect(&cmds,&t);
 	get_pwd(mini);
 	if(fd == 1)
 		ft_printf("%s\n", mini->pwd);
