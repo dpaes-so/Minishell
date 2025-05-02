@@ -51,7 +51,7 @@ int	build_env(t_mini *mini,t_cmd cmds)
 	int res;
 	int t;
 	
-	fd = do_redirect(cmds,&t);
+	fd = do_redirect(&cmds,&t);
 	get_pwd(mini);
 	pwd_update(mini);
 	if(cmds.amount > 1)

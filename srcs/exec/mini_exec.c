@@ -52,34 +52,27 @@ void	cmd_exit(char *exec,t_mini *mini)
 	}
 }
 
-void	cmdexec(t_pipe *pipe, char *envp[],t_cmd cmds,t_mini *mini)
+void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 {
 	int		i;
 	char	*exec;
 	int		flag;
-	int 	t;
-	int fd;
 
 	flag = 0;
 	i = 0;
-	fd = do_redirect(cmds,&t);
-	// dup2(mini->pipex.pipefd[1],STDOUT_FILENO);
-	if(fd != 1 && t != 0)
-		dup2(fd,STDOUT_FILENO);
-	else if(fd != 1)
-		dup2(fd,STDIN_FILENO);
 	while (flag == 0 && cmds.cmd)
 	{
 		if (i > 0)
 			free(exec);
-		if (pipe->path != NULL && pipe->path[i] && (access(cmds.cmd, F_OK) < 0 ))
-			exec = ft_strjoin(pipe->path[i], cmds.cmd);
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd, F_OK) < 0 ))
+			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
 			flag = 1;
 		}
 		master_close();
+		ft_printf("exec = %s\n",exec);
 		execve(exec, cmds.args, envp);
 		i++;
 	}
@@ -88,9 +81,21 @@ void	cmdexec(t_pipe *pipe, char *envp[],t_cmd cmds,t_mini *mini)
 
 void which_child(t_mini *mini,t_cmd cmds)
 {
+	static int cmd_n;
+
 	mini->pipex.pid1 = fork();
 	if(mini->pipex.pid1 == 0)
-		cmdexec(&mini->pipex,mini->env->my_env,cmds,mini);
+	{
+		if (cmd_n == 0)
+			first_child(mini,cmds);
+		else if (cmd_n == mini->cmd_amount - 1)
+			last_child(mini,cmds);
+		else
+			middle_child(mini,cmds);
+	}
+	cmd_n++;
+	// if(mini->pipex.pid1 == 0)
+	// 	cmdexec(&mini->pipex,mini->env->my_env,cmds,mini);
 }
 
 void	execute(t_mini *mini, t_tree *ast,int f)
@@ -101,7 +106,7 @@ void	execute(t_mini *mini, t_tree *ast,int f)
 		if(check_built_in(mini,ast->node))
 			return ;
 		else
-			which_child(mini,ast->node);
+			solo_child(mini,ast->node);
 	}
 	else if(pipe(mini->pipex.pipefd) == 0)
     	which_child(mini,ast->node);

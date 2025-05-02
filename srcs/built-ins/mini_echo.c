@@ -89,7 +89,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 			flag = echo_flag(cmds);
 	if (cmds.redirections[0].type != T_NULL)
 	{
-		fd = do_redirect(cmds, &t);
+		fd = do_redirect(&cmds, &t);
 		pid = fork();
 		if (pid == 0)
 		{

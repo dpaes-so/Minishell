@@ -43,6 +43,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int					amount;
+	int fdin;
+	int fdout;
 	bool				pipe;
 	char				*cmd;
 	char				**args;
@@ -71,6 +73,7 @@ typedef struct s_pipe
 	int					infile_fd;
 	int					outfile_fd;
 	int					status;
+	char				**path;
 	int					pipefd[2];
 }						t_pipe;
 typedef struct s_mini
@@ -85,7 +88,7 @@ typedef struct s_mini
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
-int						do_redirect(t_cmd cmds, int *type);
+int						do_redirect(t_cmd *cmds, int *type);
 void					my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini, t_cmd cmds);
 int						build_echo(t_mini *mini, t_cmd cmds);
@@ -103,6 +106,13 @@ void					freetrix(char **matrix);
 
 void					master_close(void);
 void					exit_childprocess(t_mini *mini);
+char					**path_finder(char **envp);
+void					execute(t_mini *mini, t_tree *ast,int f);
+void					cmdexec(char *envp[],t_cmd cmds,t_mini *mini);
+void 					first_child(t_mini *mini,t_cmd cmds);
+void 					last_child(t_mini *mini,t_cmd cmds);
+void 					middle_child(t_mini *mini,t_cmd cmds);
+void 					solo_child(t_mini *mini,t_cmd cmds);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

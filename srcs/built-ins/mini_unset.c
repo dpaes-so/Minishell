@@ -7,7 +7,7 @@ int	build_unset(t_mini *mini,t_cmd cmds)
 	int t;
 
 	cmd_n = 0;
-	do_redirect(cmds,&t);
+	do_redirect(&cmds,&t);
 	if (!cmds.args[1])
 		return (0);
 	while(cmds.args[++cmd_n])
