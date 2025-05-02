@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/01 20:05:37 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:24:56 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ void	removed(t_token *token, char *temp)
 
 bool	remove_quotes(t_token *token)
 {
-	int		i;
-	int		j;
 	int		count;
 	char	*temp;
 
@@ -77,8 +75,6 @@ bool	remove_quotes(t_token *token)
 	if (temp == NULL)
 		return (false);
 	count = amount_quotes(token);
-	i = 0;
-	j = 0;
 	free((*token).value);
 	(*token).value = ft_calloc((ft_strlen(temp) - count) + 1, sizeof(char));
 	if ((*token).value == NULL)
@@ -91,7 +87,7 @@ bool	remove_quotes(t_token *token)
 	return (true);
 }
 
-void	expand_strs(t_token *tokens, t_mini shell)
+void	expand_strs(t_token *tokens, t_mini *shell)
 {
 	int	i;
 

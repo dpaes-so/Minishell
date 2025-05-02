@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/01 20:10:10 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:23:15 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,14 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 		i++;
 	}
 	make_args(tree_node, tokens, 0);
+}
+
+void	count_cmds(t_tree *tree, t_mini *shell)
+{
+	if (tree == NULL)
+		return;
+	if (tree->node.pipe == false)
+		shell->cmd_amount++;
+	count_cmds(tree->left, shell);
+	count_cmds(tree->right, shell);
 }

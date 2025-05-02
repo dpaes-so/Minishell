@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/01 20:11:04 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:24:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	sig_init(void)
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (perror("Failed sigaction"));
 }
+
 void	my_env_start(t_mini *mini, char **ev)
 {
 	int	i;
@@ -143,6 +144,7 @@ void	run_tree(t_mini *mini, t_tree *ast)
 		// printf("commad = %s\n",ast->node.cmd);
 	}
 }
+
 int	main(int ac, char **av, char **ev)
 {
 
@@ -158,12 +160,14 @@ int	main(int ac, char **av, char **ev)
 	get_pwd(&mini);
 	while (1)
 	{
+		mini.cmd_amount = 0;
 		input = readline("minishell > ");
 		add_history(input);
-		mini.ast = parser(input,mini);
+		mini.ast = parser(input, &mini);
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
+		printf("amount of cmds = %d", mini.cmd_amount);
 		tree_apply_infix(mini.ast, 0, "root");
 		run_tree(&mini, ast);
 		free_tree(mini.ast);

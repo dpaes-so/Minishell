@@ -6,13 +6,13 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:58:35 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:27:11 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-char	*find_env(t_token *token, t_mini shell)
+char	*find_env(t_token *token, t_mini *shell)
 {
 	char	*expand;
 	int		count;
@@ -30,17 +30,17 @@ char	*find_env(t_token *token, t_mini shell)
 		return (NULL);
 	ft_strlcpy(expand, (*token).value - count, count + 1);
 	expand = ft_strjoin(expand, "=");
-	while (shell.env->my_env[j])
+	while (shell->env->my_env[j])
 	{
-		if (ft_strnstr(shell.env->my_env[j], expand, count + 1))
-			return (free(expand), shell.env->my_env[j] + count + 1);
+		if (ft_strnstr(shell->env->my_env[j], expand, count + 1))
+			return (free(expand), shell->env->my_env[j] + count + 1);
 		j++;
 	}
 	free(expand);
 	return (NULL);
 }
 
-void	handle_dollar(t_token *token, t_mini shell, char *expand, int *j)
+void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 {
 	int		flag;
 	char	*temp;
@@ -57,7 +57,7 @@ void	handle_dollar(t_token *token, t_mini shell, char *expand, int *j)
 		free(temp);
 }
 
-void	put_expansion(t_token *token, t_mini shell, char *expand, int amount)
+void	put_expansion(t_token *token, t_mini *shell, char *expand, int amount)
 {
 	int	j;
 
@@ -78,7 +78,7 @@ void	put_expansion(t_token *token, t_mini shell, char *expand, int amount)
 	}
 }
 
-int	get_amount(t_token *token, t_mini shell)
+int	get_amount(t_token *token, t_mini *shell)
 {
 	int	amount;
 
@@ -105,7 +105,7 @@ int	get_amount(t_token *token, t_mini shell)
 	return (amount);
 }
 
-bool	dollar_expand(t_token *token, t_mini shell)
+bool	dollar_expand(t_token *token, t_mini *shell)
 {
 	char	*expand;
 	int		amount;
