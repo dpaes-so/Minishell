@@ -6,9 +6,9 @@ int	build_unset(t_mini *mini,t_cmd cmds)
 	int cmd_n;
 	int t;
 
-	cmd_n = -1;
+	cmd_n = 0;
 	do_redirect(cmds,&t);
-	if (!cmds.args[0])
+	if (!cmds.args[1])
 		return (0);
 	while(cmds.args[++cmd_n])
 	{

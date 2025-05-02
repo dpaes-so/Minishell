@@ -4,7 +4,7 @@ static void	redir_echo(t_cmd cmds, int flag, int fd, int t)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (t == 0)
 		return ;
 	else
@@ -31,7 +31,7 @@ static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	(void)mini;
 	if (flag != 0)
 		i = flag;
@@ -58,12 +58,13 @@ static int	echo_flag(t_cmd cmds)
 	int	j;
 
 	i = 1;
-	j = 0;
+	j = 1;
+	ft_printf("Found a flag\n");
 	while (cmds.args[j][i] == 'n')
 		i++;
 	if (cmds.args[j][i] != '\0')
 		return (j);
-	j = 1;
+	j = 2;
 	while (cmds.args[j] && cmds.args[j][0] == '-')
 	{
 		i = 1;
@@ -84,7 +85,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 
 	flag = 0;
 	if (cmds.amount != 0)
-		if (cmds.args && cmds.args[0][0] == '-')
+		if (cmds.args && cmds.args[1][0] == '-')
 			flag = echo_flag(cmds);
 	if (cmds.redirections[0].type != T_NULL)
 	{

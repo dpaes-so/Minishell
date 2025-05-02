@@ -30,10 +30,10 @@ int	do_redirect(t_cmd cmds, int *type)
 		else if (cmds.redirections[i].type == T_IN_REDIR)
 		{
 			fd = open(cmds.redirections[i].value, O_RDONLY, 0644);
+			*type = 0;
 			if (fd < 0)
 			{
 				ft_printf("Minishell: %s: No such file or directory\n",cmds.redirections[i].value);
-				*type = 0;
 				return (fd);
 			}
 		}

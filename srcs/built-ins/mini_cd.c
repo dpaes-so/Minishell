@@ -56,7 +56,7 @@ static int cd_home(t_mini *mini)
 
 static char *get_dir(t_cmd cmds,char *buffer,char *cd2,char *pwd)
 {
-	if (cmds.args[0][0] == '/')
+	if (cmds.args[1][0] == '/')
 	{
 		cd2 = ft_strdup(cmds.args[0]);
 		free(pwd);
@@ -64,7 +64,7 @@ static char *get_dir(t_cmd cmds,char *buffer,char *cd2,char *pwd)
 	else
 	{
 		buffer = ft_strjoin(pwd, "/");
-		cd2 = ft_strjoin(buffer,cmds.args[0]);
+		cd2 = ft_strjoin(buffer,cmds.args[1]);
 	}
 	// free(buffer);
 	return (cd2);
@@ -78,9 +78,9 @@ int	build_cd(t_mini *mini,t_cmd cmds)
 
 	buffer = NULL;
 	cd2 = NULL;
-	if(cmds.amount > 1)
+	if(cmds.amount > 2)
 		return(ft_printf("Minishell: cd: too many arguments\n"),1);
-	if (!cmds.args[0])
+	if (!cmds.args[1])
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
 	do_redirect(cmds,&t);

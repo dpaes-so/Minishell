@@ -45,7 +45,34 @@ void exit_childprocess(t_mini *mini)
 	freetrix(mini->env->my_env);
 	free(mini->env);
 	free_tree(mini->ast);
+	free(mini->pipex.path);
 	clear_history();
 	master_close();
 	exit(0);
+}
+
+char	**path_finder(char **envp)
+{
+	int		i;
+	char	*temp;
+	char	**split;
+
+	i = -1;
+	while (envp[++i])
+		if (ft_strnstr(envp[i], "PATH", 4))
+			break ;
+	if (!envp[i])
+	{
+		exit(0);
+	}
+	envp[i] = envp[i] + 5;
+	split = ft_split(envp[i], ':');
+	i = -1;
+	while (split[++i])
+	{
+		temp = split[i];
+		split[i] = ft_strjoin(temp, "/");
+		// free(temp);
+	}
+	return (split);
 }
