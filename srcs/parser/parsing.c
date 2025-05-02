@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/30 18:14:40 by root             ###   ########.fr       */
+/*   Updated: 2025/05/02 17:24:45 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	**create_array(t_token *tokens)
 }
 // print_array(array);
 
-t_tree	*parser(char *input, t_mini shell)
+t_tree	*parser(char *input, t_mini *shell)
 {
 	t_token	*tokens;
 	t_token	**array;
@@ -48,6 +48,7 @@ t_tree	*parser(char *input, t_mini shell)
 	array = create_array(tokens);
 	free_tokens(tokens);
 	tree = tree_maker(array);
+	count_cmds(tree, shell);
 	free_array(array);
 	return (tree);
 }

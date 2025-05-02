@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/04/30 18:12:39 by root             ###   ########.fr        #
+#    Updated: 2025/05/01 19:35:13 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SOURCES = minishell.c \
 		  parser/parsing.c \
           parser/check_tokens.c \
           parser/expansions.c \
+		  parser/dollar_exp.c \
+		  parser/expansions_utils.c \
           parser/tokenization_utils.c \
           parser/tokenization.c \
 		  parser/create_array.c \

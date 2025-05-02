@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/29 19:19:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:27:27 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
+	int					cmd_amount;
 	char				*pwd;
 	char				*input;
 	t_tree				*ast;
@@ -97,6 +98,7 @@ int						print_env_ex(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
+
 //----------------------------EXECUTION ! ! ! -----------------------------
 
 void					master_close(void);
@@ -104,7 +106,7 @@ void					exit_childprocess(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
-t_tree					*parser(char *input, t_mini shell);
+t_tree					*parser(char *input, t_mini *shell);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
@@ -125,10 +127,22 @@ void					create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
 void					init_tree_node(t_tree *tree_node, t_token *tokens);
 void					tree_apply_infix(t_tree *root, int level, char *side);
+void					count_cmds(t_tree *tree, t_mini *shell);
 void					free_tree(t_tree *root);
 void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
-void					expand_strs(t_token *tokens, t_mini shell);
+bool					dollar_expand(t_token *token, t_mini *shell);
+void					expand_strs(t_token *tokens, t_mini *shell);
+void					small_cpy(t_token *token, char *expand, int *j,
+							int *amount);
+void					handle_s_quote(t_token *token, char *expand, int *j);
+void					handle_d_quote(t_token *token, t_mini *shell,
+							char *expand, int *j);
+void					handle_dollar(t_token *token, t_mini *shell,
+							char *expand, int *j);
+char					*status_expand(t_mini *shell);
+char					*found_dollar(t_token *token, t_mini *shell, int *flag);
+char					*find_env(t_token *token, t_mini *shell);
 
 #endif

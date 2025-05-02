@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/04/30 18:45:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:23:15 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,10 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 
 	amount = 0;
 	j = 0;
-	i = 0;
-	while (tokens[i].type != T_NULL)
-	{
+	i = -1;
+	while (tokens[++i].type != T_NULL)
 		if (tokens[i].type == T_WORD)
 			amount++;
-		i++;
-	}
 	tree_node->node.args = ft_calloc(amount + 1, sizeof(char *));
 	if (tree_node->node.args == NULL)
 		return ;
@@ -106,4 +103,14 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 		i++;
 	}
 	make_args(tree_node, tokens, 0);
+}
+
+void	count_cmds(t_tree *tree, t_mini *shell)
+{
+	if (tree == NULL)
+		return;
+	if (tree->node.pipe == false)
+		shell->cmd_amount++;
+	count_cmds(tree->left, shell);
+	count_cmds(tree->right, shell);
 }
