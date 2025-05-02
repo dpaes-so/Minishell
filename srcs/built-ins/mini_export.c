@@ -67,7 +67,7 @@ static void prep_export(t_mini *mini,t_cmd cmds)
 	int i;
 	char *arg;
 
-	j = 0;
+	j = 1;
 	while (cmds.args[j])
 	{
 		arg = cmds.args[j];
@@ -96,7 +96,7 @@ static int export_redirs(t_mini *mini,t_cmd cmds)
 	{	
 		if(fd != 1)
 			dup2(fd,STDOUT_FILENO);
-		if(!cmds.args[0])
+		if(!cmds.args[1])
 			print_env_ex(mini);
 		else
 			prep_export(mini,cmds);
@@ -112,7 +112,7 @@ int	build_export(t_mini *mini,t_cmd cmds)
 		export_redirs(mini,cmds);
 	else
 	{
-		if(!cmds.args[0])
+		if(!cmds.args[1])
 				print_env_ex(mini);
 		prep_export(mini,cmds);
 	}
