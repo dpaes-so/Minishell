@@ -105,7 +105,7 @@ void	execute(t_mini *mini, t_tree *ast,int f)
 {
 	if(f == 0)
 	{
-		ft_printf("AYOOO\n");
+		// ft_printf("AYOOO\n");
 		if(check_built_in(mini,ast->node))
 			return ;
 		else

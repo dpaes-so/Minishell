@@ -74,16 +74,16 @@ int	build_cd(t_mini *mini,t_cmd cmds)
 	char	*cd2;
 	char 	*pwd;
 	char *buffer;
-	int t;
 
 	buffer = NULL;
 	cd2 = NULL;
 	if(cmds.amount > 2)
 		return(ft_printf("Minishell: cd: too many arguments\n"),1);
+	do_redirect(&cmds,mini);
 	if (!cmds.args[1])
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
-	do_redirect(&cmds,&t);
+	ft_printf("YELLOW\n");
 	cd2 = get_dir(cmds,buffer,cd2,pwd);
 	if (chdir(cd2) < 0 && cd2)
 		ft_printf("Minishell: cd: %s: No such file or directory\n",cmds.args[0]);

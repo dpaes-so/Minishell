@@ -12,26 +12,25 @@
 
 #include "../../incs/mini_header.h"
 
-int	do_redirect(t_cmd *cmds, int *type)
+int	do_redirect(t_cmd *cmds,t_mini *mini)
 {
 	int	i;
 	int	fd;
 
 	fd = 1;
 	i = 0;
+	(void)mini;
 	while (cmds->redirections[i].value != NULL)
 	{
 		if (cmds->redirections[i].type == T_OUT_REDIR)
 		{
 			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
-			*type = 1;
 			cmds->fdout = fd;
 		}
 		else if (cmds->redirections[i].type == T_IN_REDIR)
 		{
 			fd = open(cmds->redirections[i].value, O_RDONLY, 0644);
-			*type = 0;
 			cmds->fdin = fd;
 			if (fd < 0)
 			{
@@ -43,9 +42,13 @@ int	do_redirect(t_cmd *cmds, int *type)
 		{
 			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
 					0644);
-			*type = 2;
 			cmds->fdout = fd;
 		}
+		// else if (cmds->redirections[i].type == T_HERE_DOC)
+		// {
+
+		// 	cmds->fdin = here_doc(mini->pipex);
+		// }
 		if (fd < 0)
 			ft_putstr_fd("Minishell: Redirect error\n", 2);
 		i++;
@@ -55,23 +58,21 @@ int	do_redirect(t_cmd *cmds, int *type)
 
 int	build_pwd(t_mini *mini, t_cmd cmds)
 {
-	int	fd;
 	int	pid;
-	int t;
 
-	fd = do_redirect(&cmds,&t);
+	do_redirect(&cmds,mini);
 	get_pwd(mini);
-	if(fd == 1)
+	if(cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			if (t == 0)
+			if (cmds.fdout == -1)
 				return(1);
 			else
-				dup2(fd, STDOUT_FILENO);
+				dup2(cmds.fdout, STDOUT_FILENO);
 			ft_printf("%s\n", mini->pwd);
 			exit_childprocess(mini);
 		}

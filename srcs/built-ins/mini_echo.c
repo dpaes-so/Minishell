@@ -1,11 +1,11 @@
 #include "../../incs/mini_header.h"
 
-static void	redir_echo(t_cmd cmds, int flag, int fd, int t)
+static void	redir_echo(t_cmd cmds, int flag, int fd)
 {
 	int	i;
 
 	i = 1;
-	if (t == 0)
+	if (cmds.fdout == -1)
 		return ;
 	else
 		dup2(fd, STDOUT_FILENO);
@@ -79,9 +79,7 @@ static int	echo_flag(t_cmd cmds)
 int	build_echo(t_mini *mini, t_cmd cmds)
 {
 	int flag;
-	int fd;
 	int pid;
-	int t;
 
 	flag = 0;
 	if (cmds.amount != 0)
@@ -89,11 +87,11 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 			flag = echo_flag(cmds);
 	if (cmds.redirections[0].type != T_NULL)
 	{
-		fd = do_redirect(&cmds, &t);
+		do_redirect(&cmds,mini);
 		pid = fork();
 		if (pid == 0)
 		{
-			redir_echo(cmds, flag, fd, t);
+			redir_echo(cmds, flag, cmds.fdout);
 			exit_childprocess(mini);
 		}
 		wait(NULL);

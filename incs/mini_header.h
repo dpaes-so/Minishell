@@ -89,7 +89,7 @@ typedef struct s_mini
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
-int						do_redirect(t_cmd *cmds, int *type);
+int						do_redirect(t_cmd *cmds,t_mini *mini);
 void					my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini, t_cmd cmds);
 int						build_echo(t_mini *mini, t_cmd cmds);
@@ -114,6 +114,7 @@ void 					first_child(t_mini *mini,t_cmd cmds);
 void 					last_child(t_mini *mini,t_cmd cmds);
 void 					middle_child(t_mini *mini,t_cmd cmds);
 void 					solo_child(t_mini *mini,t_cmd cmds);
+int						here_doc(t_pipe *pipex);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

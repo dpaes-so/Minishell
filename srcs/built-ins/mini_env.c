@@ -18,12 +18,13 @@ static int redir_env(int fd,t_mini *mini,int t)
 	int i;
 	
 	i = -1;
+	// ft_printf("yellow %d\n",cmds.fdout);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
 	if(pid == 0)
 	{	
-		if (t == 0)
+		if (t == -1)
 			return(1);
 		else
 			dup2(fd, STDOUT_FILENO);
@@ -47,17 +48,15 @@ int normal_env(t_mini *mini)
 }
 int	build_env(t_mini *mini,t_cmd cmds)
 {
-	int fd;
 	int res;
-	int t;
 	
-	fd = do_redirect(&cmds,&t);
+	do_redirect(&cmds,mini);
 	get_pwd(mini);
 	pwd_update(mini);
 	if(cmds.amount > 1)
-		return(1);
-	if(fd != 1)
-		res = redir_env(fd,mini,t);
+		return(ft_putstr_fd("too many arguments",2),1);
+	if(cmds.fdout != -1)
+		res = redir_env(cmds.fdout,mini,cmds.fdout);
 	else
 		res = normal_env(mini);
 	return(res);

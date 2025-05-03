@@ -84,18 +84,16 @@ static void prep_export(t_mini *mini,t_cmd cmds)
 }
 static int export_redirs(t_mini *mini,t_cmd cmds)
 {
-	int fd;
 	int pid;
-	int t;
 	
-	fd = do_redirect(&cmds,&t);
+	do_redirect(&cmds,mini);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
 	if(pid == 0)
 	{	
-		if(fd != 1)
-			dup2(fd,STDOUT_FILENO);
+		if(cmds.fdout != -1)
+			dup2(cmds.fdout,STDOUT_FILENO);
 		if(!cmds.args[1])
 			print_env_ex(mini);
 		else
