@@ -58,13 +58,14 @@ static char *get_dir(t_cmd cmds,char *buffer,char *cd2,char *pwd)
 {
 	if (cmds.args[1][0] == '/')
 	{
-		cd2 = ft_strdup(cmds.args[0]);
+		cd2 = ft_strdup(cmds.args[1]);
 		free(pwd);
 	}
 	else
 	{
 		buffer = ft_strjoin(pwd, "/");
 		cd2 = ft_strjoin(buffer,cmds.args[1]);
+		ft_printf("after join !%s!\n",cd2);
 	}
 	// free(buffer);
 	return (cd2);
@@ -83,8 +84,8 @@ int	build_cd(t_mini *mini,t_cmd cmds)
 	if (!cmds.args[1])
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
-	ft_printf("YELLOW\n");
 	cd2 = get_dir(cmds,buffer,cd2,pwd);
+	ft_printf("tryng to go to !%s!\n",cd2);
 	if (chdir(cd2) < 0 && cd2)
 		ft_printf("Minishell: cd: %s: No such file or directory\n",cmds.args[0]);
 	else
