@@ -45,7 +45,7 @@ void exit_childprocess(t_mini *mini)
 	freetrix(mini->env->my_env);
 	free(mini->env);
 	free_tree(mini->ast);
-	free(mini->pipex.path);
+	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
 	exit(0);

@@ -15,6 +15,7 @@ static void check_exit_code(t_mini *mini,t_cmd cmds)
 		}
 	}
 }
+
 int	build_exit(t_mini *mini,t_cmd cmds)
 {
 	int t;

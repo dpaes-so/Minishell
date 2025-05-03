@@ -4,7 +4,7 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 {
 	// if (!cmds.cmd)
 	// 	return (0);
-	printf("!%s!\n",cmds.cmd);
+	// printf("!%s!\n",cmds.cmd);
 	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
 		return(build_echo(mini,cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
@@ -60,6 +60,8 @@ void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 
 	flag = 0;
 	i = 0;
+	if(check_built_in(mini,cmds))
+		exit_childprocess(mini);
 	while (flag == 0 && cmds.cmd)
 	{
 		if (i > 0)
@@ -72,7 +74,6 @@ void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 			flag = 1;
 		}
 		master_close();
-		ft_printf("exec = %s\n",exec);
 		execve(exec, cmds.args, envp);
 		i++;
 	}
@@ -81,21 +82,23 @@ void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 
 void which_child(t_mini *mini,t_cmd cmds)
 {
-	static int cmd_n;
-
 	mini->pipex.pid1 = fork();
 	if(mini->pipex.pid1 == 0)
 	{
-		if (cmd_n == 0)
+		if (mini->pipex.cmd == 0)
 			first_child(mini,cmds);
-		else if (cmd_n == mini->cmd_amount - 1)
+		else if (mini->pipex.cmd  == mini->cmd_amount - 1)
 			last_child(mini,cmds);
 		else
 			middle_child(mini,cmds);
 	}
-	cmd_n++;
-	// if(mini->pipex.pid1 == 0)
-	// 	cmdexec(&mini->pipex,mini->env->my_env,cmds,mini);
+	else
+	{
+		close(mini->pipex.pipefd[1]);
+		mini->save_fd = dup(mini->pipex.pipefd[0]);
+		close(mini->pipex.pipefd[0]);
+	}
+	mini->pipex.cmd++;
 }
 
 void	execute(t_mini *mini, t_tree *ast,int f)

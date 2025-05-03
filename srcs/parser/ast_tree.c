@@ -24,8 +24,8 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	tree_node->node.amount = 0;
 	tree_node->node.args = NULL;
 	tree_node->node.cmd = NULL;
-	tree_node->node.fdin = 0;
-	tree_node->node.fdout = 0;
+	tree_node->node.fdin = -1;
+	tree_node->node.fdout = -1;
 	tree_node->node.redirections = NULL;
 	if (pipe == 1)
 		tree_node->node.pipe = true;

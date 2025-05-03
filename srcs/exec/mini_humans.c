@@ -3,56 +3,89 @@
 
 void first_child(t_mini *mini,t_cmd cmds)
 {
-    int fd;
     int t;
 
     ft_printf("First child\n");
-    fd = do_redirect(&cmds,&t);
-	if(fd != 1 && cmds.fdout != 0)
-		dup2(cmds.fdout,STDOUT_FILENO);
-	if(fd != 1 && cmds.fdin!= 0)
-		dup2(cmds.fdin,STDIN_FILENO);
-    
-	ft_printf("fdin = %d\n",cmds.fdin);
-    ft_printf("fdout = %d\n",cmds.fdout);
+    do_redirect(&cmds,&t);
+	if(cmds.fdout != -1)
+    {
+        dup2(cmds.fdout,STDOUT_FILENO);
+        close(cmds.fdout);
+    }
+    else
+    {
+        // ft_printf("IM PIPING\n");
+        dup2(mini->pipex.pipefd[1], STDOUT_FILENO);
+        close(mini->pipex.pipefd[1]);
+    }
+	if(cmds.fdin != -1)
+    {
+        dup2(cmds.fdin,STDIN_FILENO);
+        close(cmds.fdin);
+    }
+    close(mini->pipex.pipefd[0]);
     cmdexec(mini->env->my_env,cmds,mini);
 }
 
 void last_child(t_mini *mini,t_cmd cmds)
 {
-    int fd;
     int t;
     
-    ft_printf("last child\n");
-    fd = do_redirect(&cmds,&t);
-	if(fd != 1 && cmds.fdout != 0)
+    dprintf(2,"last child\n");
+    do_redirect(&cmds,&t);
+	if(cmds.fdout != -1)
+    {
 		dup2(cmds.fdout,STDOUT_FILENO);
-	if(fd != 1 && cmds.fdin != 0)
+        close(cmds.fdout);
+    }
+	if(cmds.fdin != -1)
+    {
 		dup2(cmds.fdin,STDIN_FILENO);
-	ft_printf("fdin = %d\n",cmds.fdin);
-    ft_printf("fdout = %d\n",cmds.fdout);
+        close(cmds.fdin);
+    }
+    else
+    {
+        // ft_printf("IM PIPING\n");
+        dup2(mini->save_fd, STDIN_FILENO);
+        close(mini->pipex.pipefd[0]);
+    }
+    close(mini->pipex.pipefd[1]);
+    // ft_printf("BEFORE REDIRECT fdin = %d, fdout = %d\n", cmds.fdin, cmds.fdout);
+	// ft_printf("fdin = %d\n",cmds.fdin);
+    // ft_printf("fdout = %d\n",cmds.fdout);
     cmdexec(mini->env->my_env,cmds,mini);
 }
 
 void middle_child(t_mini *mini,t_cmd cmds)
 {
-     int fd;
     int t;
 
-    ft_printf("middle child\n");
-    fd = do_redirect(&cmds,&t);
-	if(fd != 1 && cmds.fdout!= 0)
-		dup2(cmds.fdout,STDOUT_FILENO);
-	if(fd != 1 && cmds.fdin != 0)
+    do_redirect(&cmds,&t);
+    if(cmds.fdout != -1)
+    {
+        dup2(cmds.fdout,STDOUT_FILENO);
+        close(cmds.fdout);
+    }
+    else
+    {
+        dup2(mini->pipex.pipefd[1], STDOUT_FILENO);
+        close(mini->pipex.pipefd[1]);
+    }
+	if(cmds.fdin != -1)
+    {
 		dup2(cmds.fdin,STDIN_FILENO);
-	ft_printf("fdin = %d\n",cmds.fdin);
-    ft_printf("fdout = %d\n",cmds.fdout);
+        close(cmds.fdin);
+    }
+    else
+    {
+        dup2(mini->save_fd, STDIN_FILENO);
+        close(mini->pipex.pipefd[0]);
+    }
     cmdexec(mini->env->my_env,cmds,mini);
 }
 
 void solo_child(t_mini *mini,t_cmd cmds)
 {
-    int fd;
     int t;
     int pid;
 
@@ -60,11 +93,11 @@ void solo_child(t_mini *mini,t_cmd cmds)
     if(pid == 0)
     {
         ft_printf("solo child\n");
-        fd = do_redirect(&cmds,&t);
-        if(fd != 1 && cmds.fdout!= 0)
-            dup2(cmds.fdout,STDOUT_FILENO);
-        if(fd != 1 && cmds.fdin != 0)
-            dup2(cmds.fdin,STDIN_FILENO);
+        do_redirect(&cmds,&t);
+        if (cmds.fdout != -1)
+            dup2(cmds.fdout, STDOUT_FILENO);
+        if (cmds.fdin != -1)
+            dup2(cmds.fdin, STDIN_FILENO);
         ft_printf("fdin = %d\n",cmds.fdin);
         ft_printf("fdout = %d\n",cmds.fdout);
         cmdexec(mini->env->my_env,cmds,mini);

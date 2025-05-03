@@ -81,6 +81,7 @@ typedef struct s_mini
 	int					cmd_amount;
 	char				*pwd;
 	char				*input;
+	int 				save_fd;
 	t_tree				*ast;
 	t_env				*env;
 	t_pipe				pipex;

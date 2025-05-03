@@ -83,6 +83,21 @@ void	run_tree(t_mini *mini, t_tree *ast,int f)
 	}
 }
 
+void wait_child(t_mini *mini)
+{
+	int	i;
+	int	status;
+
+	status = 0;
+	i = 0;
+	while (i < mini->cmd_amount)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			mini->pipex.status = WEXITSTATUS(status);
+		i++;
+	}
+}
 int	main(int ac, char **av, char **ev)
 {
 
@@ -99,6 +114,7 @@ int	main(int ac, char **av, char **ev)
 	mini.pipex.path = path_finder(ev);
 	while (1)
 	{
+		mini.save_fd = -1;
 		mini.cmd_amount = 0;
 		input = readline("minishell > ");
 		add_history(input);
@@ -106,11 +122,12 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		printf("amount of cmds = %d", mini.cmd_amount);
+		// printf("amount of cmds = %d", mini.cmd_amount);
 		tree_apply_infix(mini.ast, 0, "root");
+		mini.pipex.cmd = 0;
 		run_tree(&mini, ast,0);
-		wait(NULL);
-		wait(NULL);
+		master_close();
+		wait_child(&mini);
 		if(mini.ast)
 			free_tree(mini.ast);
 		free(input);
