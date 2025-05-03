@@ -2,8 +2,8 @@
 
 int	check_built_in(t_mini *mini, t_cmd cmds)
 {
-	// if (!cmds.cmd)
-	// 	return (0);
+	if (!cmds.cmd)
+		return (0);
 	// printf("!%s!\n",cmds.cmd);
 	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
 		return(build_echo(mini,cmds));

@@ -1,34 +1,39 @@
 #include "../../incs/mini_header.h"
 
-// int	here_doc(t_pipe *pipex)
-// {
-// 	char	*str;
-// 	int		fd[2];
-// 	int		i;
+int	here_doc(t_pipe pipex,t_cmd *cmds)
+{
+	char	*str;
+	int		fd[2];
+	int		i;
 
-// 	pipe(fd);
-// 	while (1)
-// 	{
-// 		i = 0;
-// 		str = get_next_line(0);
-// 		if (!str || !ft_strncmp(str, pipex->av[2], ft_strlen(pipex->av[2])))
-// 		{
-// 			free(str);
-// 			break ;
-// 		}
-// 		while (str[i])
-// 			write(fd[1], &str[i++], 1);
-// 		free(str);
-// 	}
-// 	close(fd[1]);
-// 	return (fd[0]);
-// }
+    (void)pipex;
+	pipe(fd);
+    // printf("> \n");
+	while (1)
+	{
+		i = 0;
+		str = readline("> ");
+		if (!str || !ft_strncmp(str, cmds->redirections[0].value,ft_strlen(cmds->redirections[0].value)))
+		{
+			free(str);
+			break ;
+		}
+		while (str[i])
+			write(fd[1], &str[i++], 1);
+        write(fd[1], "\n", 1);
+		free(str);
+	}
+	close(fd[1]);
+	return (fd[0]);
+}
 
 void first_child(t_mini *mini,t_cmd cmds)
 {
 
     // ft_printf("First child\n");
     do_redirect(&cmds,mini);
+    if(!cmds.cmd)
+            exit_childprocess(mini);
 	if(cmds.fdout != -1)
     {
         dup2(cmds.fdout,STDOUT_FILENO);
@@ -54,6 +59,8 @@ void last_child(t_mini *mini,t_cmd cmds)
     
     // dprintf(2,"last child\n");
     do_redirect(&cmds,mini);
+    if(!cmds.cmd)
+            exit_childprocess(mini);
 	if(cmds.fdout != -1)
     {
 		dup2(cmds.fdout,STDOUT_FILENO);
@@ -81,6 +88,8 @@ void middle_child(t_mini *mini,t_cmd cmds)
 {
 
     do_redirect(&cmds,mini);
+    if(!cmds.cmd)
+            exit_childprocess(mini);
     if(cmds.fdout != -1)
     {
         dup2(cmds.fdout,STDOUT_FILENO);
@@ -113,6 +122,8 @@ void solo_child(t_mini *mini,t_cmd cmds)
     {
         // ft_printf("solo child\n");
         do_redirect(&cmds,mini);
+        if(!cmds.cmd)
+            exit_childprocess(mini);
         if (cmds.fdout != -1)
             dup2(cmds.fdout, STDOUT_FILENO);
         if (cmds.fdin != -1)

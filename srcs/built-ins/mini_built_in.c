@@ -12,46 +12,46 @@
 
 #include "../../incs/mini_header.h"
 
+int		redirections_check(t_cmd *cmds,t_mini *mini,int i)
+{
+	int fd;
+
+	if (cmds->redirections[i].type == T_OUT_REDIR)
+	{
+		fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
+				0644);
+		cmds->fdout = fd;
+	}
+	else if (cmds->redirections[i].type == T_IN_REDIR)
+	{
+		fd = open(cmds->redirections[i].value, O_RDONLY, 0644);
+		cmds->fdin = fd;
+		if (fd < 0)
+			return (ft_printf("Minishell: %s: No such file or directory\n",
+					cmds->redirections[i].value),fd);
+	}
+	else if (cmds->redirections[i].type == T_APPEND_REDIR)
+	{
+		fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
+				0644);
+		cmds->fdout = fd;
+	}
+	else if (cmds->redirections[i].type == T_HERE_DOC)
+		cmds->fdin = here_doc(mini->pipex,cmds);
+	return(fd);
+}
 int	do_redirect(t_cmd *cmds,t_mini *mini)
 {
 	int	i;
 	int	fd;
 
 	fd = 1;
-	i = 0;
-	(void)mini;
-	while (cmds->redirections[i].value != NULL)
+	i = -1;
+	while (cmds->redirections[++i].value != NULL)
 	{
-		if (cmds->redirections[i].type == T_OUT_REDIR)
-		{
-			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
-					0644);
-			cmds->fdout = fd;
-		}
-		else if (cmds->redirections[i].type == T_IN_REDIR)
-		{
-			fd = open(cmds->redirections[i].value, O_RDONLY, 0644);
-			cmds->fdin = fd;
-			if (fd < 0)
-			{
-				ft_printf("Minishell: %s: No such file or directory\n",cmds->redirections[i].value);
-				return (fd);
-			}
-		}
-		else if (cmds->redirections[i].type == T_APPEND_REDIR)
-		{
-			fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
-					0644);
-			cmds->fdout = fd;
-		}
-		// else if (cmds->redirections[i].type == T_HERE_DOC)
-		// {
-
-		// 	cmds->fdin = here_doc(mini->pipex);
-		// }
-		if (fd < 0)
+		fd = redirections_check(cmds,mini,i);
+		if (cmds->redirections[i].type != T_HERE_DOC && fd < 0)
 			ft_putstr_fd("Minishell: Redirect error\n", 2);
-		i++;
 	}
 	return (fd);
 }

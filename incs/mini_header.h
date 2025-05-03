@@ -114,7 +114,7 @@ void 					first_child(t_mini *mini,t_cmd cmds);
 void 					last_child(t_mini *mini,t_cmd cmds);
 void 					middle_child(t_mini *mini,t_cmd cmds);
 void 					solo_child(t_mini *mini,t_cmd cmds);
-int						here_doc(t_pipe *pipex);
+int						here_doc(t_pipe pipex,t_cmd *cmds);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
