@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/01 19:35:13 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/05/05 15:51:59 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SOURCES = minishell.c \
 		  built-ins/mini_echo.c \
 		  exec/mini_exec.c \
 		  exec/mini_humans.c \
+		  exec/mini_aux_exec.c \
           mini_aux.c
 
 SRCS_DIR = srcs

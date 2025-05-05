@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:04:57 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:03:40 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,6 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
 		build_exit(mini, cmds);
 	return (0);
-}
-
-void	cmd_exit(char *exec, t_mini *mini)
-{
-	if (access(exec, F_OK) < 0)
-	{
-		ft_putstr_fd("Pipex: Command not found\n", 2);
-		exit_childprocess_exec(mini);
-		if (exec)
-			free(exec);
-		exit(127);
-	}
-	if (access(exec, X_OK) < 0)
-	{
-		ft_putstr_fd("Permission  2 denied\n", 2);
-		exit_childprocess_exec(mini);
-		if (exec)
-			free(exec);
-		exit(126);
-	}
 }
 
 void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
@@ -118,5 +98,19 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 	{
 		ft_putstr_fd("Error, Pipe faield", 2);
 		exit(1);
+	}
+}
+
+void	run_tree(t_mini *mini, t_tree *ast, int f)
+{
+	if (ast->node.pipe == true)
+	{
+		run_tree(mini, ast->left, 1);
+		run_tree(mini, ast->right, 1);
+	}
+	else
+	{
+		execute(mini, ast, f);
+		// printf("commad = %s\n",ast->node.cmd);
 	}
 }
