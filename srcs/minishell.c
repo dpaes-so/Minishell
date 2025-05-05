@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:24:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:40:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,56 @@ void	sig_init(void)
 		return (perror("Failed sigaction"));
 }
 
+// void	my_env_start(t_mini *mini, char **ev)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	mini->env = malloc(sizeof(t_env));
+// 	if (mini->env == NULL)
+// 		return ;
+// 	while (ev[i])
+// 		i++;
+// 	mini->env->my_env = (char **)ft_calloc(i + 1, sizeof(char *));
+// 	if (mini->env->my_env == NULL)
+// 		return ;
+// 	i = -1;
+// 	while (ev[++i])
+// 	{
+// 		mini->env->my_env[i] = ft_strdup(ev[i]);
+// 		if (mini->env->my_env[i] == NULL)
+// 			return ;
+// 	}
+// 	i =-1;
+// 	while (ev[++i])
+// 		if (ft_strnstr(ev[i], "HOME=", 5))
+// 			break ;
+// 	mini->env->home = NULL;
+// 	if(ev[i])
+// 		mini->env->home = ft_strdup(ev[i] + 5);
+// 	if (mini->env->home == NULL)
+// 		return ;
+// }
+
+char	**matrix_dup(t_mini *mini, char **ev)
+{
+	int	j;
+
+	j = -1;
+	while (ev[++j])
+	{
+		mini->env->my_env[j] = ft_strdup(ev[j]);
+		if (mini->env->my_env[j] == NULL)
+			return (NULL);
+	}
+	return (mini->env->my_env);
+}
 void	my_env_start(t_mini *mini, char **ev)
 {
 	int	i;
-	int	j;
 	int	k;
 
 	i = -1;
-	j = 0;
 	k = 0;
 	mini->env = malloc(sizeof(t_env));
 	if (mini->env == NULL)
@@ -52,38 +94,34 @@ void	my_env_start(t_mini *mini, char **ev)
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_env == NULL)
 		return ;
-	while (ev[j])
-	{
-		mini->env->my_env[j] = ft_strdup(ev[j]);
-		if (mini->env->my_env[j] == NULL)
-			return ;
-		j++;
-	}
+	mini->env->my_env = matrix_dup(mini, ev);
+	if (mini->env->my_env== NULL)
+		return ;
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
 	mini->env->home = NULL;
-	if(ev[i])
+	if (ev[i])
 		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
 		return ;
 }
 
-void	run_tree(t_mini *mini, t_tree *ast,int f)
+void	run_tree(t_mini *mini, t_tree *ast, int f)
 {
 	if (ast->node.pipe == true)
 	{
-		run_tree(mini, ast->left,1);
-		run_tree(mini, ast->right,1);
+		run_tree(mini, ast->left, 1);
+		run_tree(mini, ast->right, 1);
 	}
 	else
 	{
-		execute(mini, ast,f);
+		execute(mini, ast, f);
 		// printf("commad = %s\n",ast->node.cmd);
 	}
 }
 
-void wait_child(t_mini *mini)
+void	wait_child(t_mini *mini)
 {
 	int	i;
 	int	status;
@@ -100,10 +138,9 @@ void wait_child(t_mini *mini)
 }
 int	main(int ac, char **av, char **ev)
 {
-
-	t_mini mini;
-	t_tree *ast;
-	char*input;
+	t_mini	mini;
+	t_tree	*ast;
+	char	*input;
 
 	(void)ac;
 	(void)av;
@@ -125,10 +162,10 @@ int	main(int ac, char **av, char **ev)
 		// printf("amount of cmds = %d", mini.cmd_amount);
 		tree_apply_infix(mini.ast, 0, "root");
 		mini.pipex.cmd = 0;
-		run_tree(&mini, ast,0);
+		run_tree(&mini, ast, 0);
 		master_close();
 		wait_child(&mini);
-		if(mini.ast)
+		if (mini.ast)
 			free_tree(mini.ast);
 		free(input);
 	}
