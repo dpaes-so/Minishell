@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/24 16:43:01 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	tree_node->node.cmd = NULL;
 	tree_node->node.fdin = -1;
 	tree_node->node.fdout = -1;
-	tree_node->node.redirections = NULL;
+	tree_node->node.redir = NULL;
 	if (pipe == 1)
 		tree_node->node.pipe = true;
 	else

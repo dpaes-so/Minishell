@@ -6,41 +6,40 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/05 12:26:26 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:49:21 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	redirections_check(t_cmd *cmds, t_mini *mini, int i)
+int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 {
 	int	fd;
 
 	fd = 0;
-	if (cmds->redirections[i].type == T_OUT_REDIR)
+	if (cmds->redir[i].type == T_OUT_REDIR)
 	{
-		fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_TRUNC,
-				0644);
+		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		cmds->fdout = fd;
 	}
-	else if (cmds->redirections[i].type == T_IN_REDIR)
+	else if (cmds->redir[i].type == T_IN_REDIR)
 	{
-		fd = open(cmds->redirections[i].value, O_RDONLY, 0644);
+		fd = open(cmds->redir[i].value, O_RDONLY, 0644);
 		cmds->fdin = fd;
 		if (fd < 0)
 			return (ft_printf("Minishell: %s: No such file or directory\n",
-					cmds->redirections[i].value), fd);
+					cmds->redir[i].value), fd);
 	}
-	else if (cmds->redirections[i].type == T_APPEND_REDIR)
+	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
-		fd = open(cmds->redirections[i].value, O_CREAT | O_WRONLY | O_APPEND,
-				0644);
+		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		cmds->fdout = fd;
 	}
-	else if (cmds->redirections[i].type == T_HERE_DOC)
+	else if (cmds->redir[i].type == T_HERE_DOC)
 		cmds->fdin = here_doc(mini->pipex, cmds);
 	return (fd);
 }
+
 int	do_redirect(t_cmd *cmds, t_mini *mini)
 {
 	int	i;
@@ -48,10 +47,10 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 
 	fd = 1;
 	i = -1;
-	while (cmds->redirections[++i].value != NULL)
+	while (cmds->redir[++i].value != NULL)
 	{
-		fd = redirections_check(cmds, mini, i);
-		if (cmds->redirections[i].type != T_HERE_DOC && fd < 0)
+		fd = redir_check(cmds, mini, i);
+		if (cmds->redir[i].type != T_HERE_DOC && fd < 0)
 			ft_putstr_fd("Minishell: Redirect error\n", 2);
 	}
 	return (fd);

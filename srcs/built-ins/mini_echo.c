@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 	if (cmds.amount != 1)
 		if (cmds.args && cmds.args[1][0] == '-')
 			flag = echo_flag(cmds);
-	if (cmds.redirections[0].type != T_NULL)
+	if (cmds.redir[0].type != T_NULL)
 	{
 		do_redirect(&cmds, mini);
 		pid = fork();

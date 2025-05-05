@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 }
 int	build_export(t_mini *mini, t_cmd cmds)
 {
-	if (cmds.redirections[0].type != T_NULL)
+	if (cmds.redir[0].type != T_NULL)
 		export_redirs(mini, cmds);
 	else
 	{
