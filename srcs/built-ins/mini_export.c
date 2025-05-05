@@ -6,12 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/29 19:23:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:27:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
 
 static int	check_valid_variable_name(char *s)
 {
@@ -61,11 +60,11 @@ static void	*make_export(t_mini *mini, char *arg)
 	mini->env->my_env = new_env;
 	return (NULL);
 }
-static void prep_export(t_mini *mini,t_cmd cmds)
+static void	prep_export(t_mini *mini, t_cmd cmds)
 {
-	int j;
-	int i;
-	char *arg;
+	int		j;
+	int		i;
+	char	*arg;
 
 	j = 1;
 	while (cmds.args[j])
@@ -82,37 +81,37 @@ static void prep_export(t_mini *mini,t_cmd cmds)
 		j++;
 	}
 }
-static int export_redirs(t_mini *mini,t_cmd cmds)
+static int	export_redirs(t_mini *mini, t_cmd cmds)
 {
-	int pid;
-	
-	do_redirect(&cmds,mini);
+	int	pid;
+
+	do_redirect(&cmds, mini);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
-	if(pid == 0)
-	{	
-		if(cmds.fdout != -1)
-			dup2(cmds.fdout,STDOUT_FILENO);
-		if(!cmds.args[1])
+	if (pid == 0)
+	{
+		if (cmds.fdout != -1)
+			dup2(cmds.fdout, STDOUT_FILENO);
+		if (!cmds.args[1])
 			print_env_ex(mini);
 		else
-			prep_export(mini,cmds);
+			prep_export(mini, cmds);
 		exit_childprocess(mini);
 	}
 	else
 		wait(NULL);
-	return(1);
+	return (1);
 }
-int	build_export(t_mini *mini,t_cmd cmds)
+int	build_export(t_mini *mini, t_cmd cmds)
 {
-	if(cmds.redirections[0].type != T_NULL)
-		export_redirs(mini,cmds);
+	if (cmds.redirections[0].type != T_NULL)
+		export_redirs(mini, cmds);
 	else
 	{
-		if(!cmds.args[1])
-				print_env_ex(mini);
-		prep_export(mini,cmds);
+		if (!cmds.args[1])
+			print_env_ex(mini);
+		prep_export(mini, cmds);
 	}
 	return (1);
 }

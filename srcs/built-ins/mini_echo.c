@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/05 12:27:04 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/mini_header.h"
 
 static void	redir_echo(t_cmd cmds, int flag, int fd)
@@ -82,12 +94,12 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 	int pid;
 
 	flag = 0;
-	if (cmds.amount != 0)
+	if (cmds.amount != 1)
 		if (cmds.args && cmds.args[1][0] == '-')
 			flag = echo_flag(cmds);
 	if (cmds.redirections[0].type != T_NULL)
 	{
-		do_redirect(&cmds,mini);
+		do_redirect(&cmds, mini);
 		pid = fork();
 		if (pid == 0)
 		{

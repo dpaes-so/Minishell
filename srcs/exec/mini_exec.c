@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_exec.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/05 12:27:28 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/mini_header.h"
 
 int	check_built_in(t_mini *mini, t_cmd cmds)
@@ -5,12 +17,12 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	if (!cmds.cmd)
 		return (0);
 	// printf("!%s!\n",cmds.cmd);
-	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
-		return(build_echo(mini,cmds));
+	if (ft_strncmp(cmds.cmd, "echo", 4) == 0)
+		return (build_echo(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
-		return (build_pwd(mini,cmds));
+		return (build_pwd(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "env") == 0)
-		return (build_env(mini,cmds));
+		return (build_env(mini, cmds));
 	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
 		return (build_cd(mini, cmds));
 	if (ft_strncmp(cmds.cmd, "export", 6) == 0)
@@ -22,7 +34,7 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	return (0);
 }
 
-void	cmd_exit(char *exec,t_mini *mini)
+void	cmd_exit(char *exec, t_mini *mini)
 {
 	if (access(exec, F_OK) < 0)
 	{
@@ -52,7 +64,7 @@ void	cmd_exit(char *exec,t_mini *mini)
 	}
 }
 
-void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
+void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 {
 	int		i;
 	char	*exec;
@@ -60,13 +72,14 @@ void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 
 	flag = 0;
 	i = 0;
-	if(check_built_in(mini,cmds))
+	if (check_built_in(mini, cmds))
 		exit_childprocess(mini);
 	while (flag == 0 && cmds.cmd)
 	{
 		if (i > 0)
 			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd, F_OK) < 0 ))
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
+					F_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
@@ -77,20 +90,20 @@ void	cmdexec(char *envp[],t_cmd cmds,t_mini *mini)
 		execve(exec, cmds.args, envp);
 		i++;
 	}
-	cmd_exit(exec,mini);
+	cmd_exit(exec, mini);
 }
 
-void which_child(t_mini *mini,t_cmd cmds)
+void	which_child(t_mini *mini, t_cmd cmds)
 {
 	mini->pipex.pid1 = fork();
-	if(mini->pipex.pid1 == 0)
+	if (mini->pipex.pid1 == 0)
 	{
 		if (mini->pipex.cmd == 0)
-			first_child(mini,cmds);
-		else if (mini->pipex.cmd  == mini->cmd_amount - 1)
-			last_child(mini,cmds);
+			first_child(mini, cmds);
+		else if (mini->pipex.cmd == mini->cmd_amount - 1)
+			last_child(mini, cmds);
 		else
-			middle_child(mini,cmds);
+			middle_child(mini, cmds);
 	}
 	else
 	{
@@ -101,21 +114,21 @@ void which_child(t_mini *mini,t_cmd cmds)
 	mini->pipex.cmd++;
 }
 
-void	execute(t_mini *mini, t_tree *ast,int f)
+void	execute(t_mini *mini, t_tree *ast, int f)
 {
-	if(f == 0)
+	if (f == 0)
 	{
 		// ft_printf("AYOOO\n");
-		if(check_built_in(mini,ast->node))
+		if (check_built_in(mini, ast->node))
 			return ;
 		else
-			solo_child(mini,ast->node);
+			solo_child(mini, ast->node);
 	}
-	else if(pipe(mini->pipex.pipefd) == 0)
-    	which_child(mini,ast->node);
-    else
-    {
-        ft_putstr_fd("Error, Pipe faield",2);
-        exit(1);
-    }
+	else if (pipe(mini->pipex.pipefd) == 0)
+		which_child(mini, ast->node);
+	else
+	{
+		ft_putstr_fd("Error, Pipe faield", 2);
+		exit(1);
+	}
 }
