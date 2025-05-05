@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:24:56 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:20:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ bool	remove_quotes(t_token *token)
 	if (temp == NULL)
 		return (false);
 	count = amount_quotes(token);
-	free((*token).value);
 	(*token).value = ft_calloc((ft_strlen(temp) - count) + 1, sizeof(char));
 	if ((*token).value == NULL)
 		return (false);
@@ -87,9 +86,80 @@ bool	remove_quotes(t_token *token)
 	return (true);
 }
 
-void	expand_strs(t_token *tokens, t_mini *shell)
+static int	countwords(const char *s)
 {
 	int	i;
+	int	count;
+	char	quote;
+
+	quote = 0;
+	i = 0;
+	count = 0;
+	while (s && s[i])
+	{
+		while (s[i] == ' ' && s[i])
+			i++;
+		if (s[i] == '\'' || s[i] == '\"')
+		{
+			quote = s[i];
+			i++;
+			count++;
+			while (s[i] && s[i] != quote)
+				i++;
+			if (s[i] == quote)
+				i++;
+		}
+		else if (s[i])
+			count++;
+		while (s[i] != ' ' && s[i])
+			i++;
+	}
+	return (count);
+}
+
+void	count_exp(t_token *tokens)
+{
+	int	i;
+	// int	count;
+
+	i = 0;
+	while(tokens[i].type != T_NULL)
+	{
+		printf("count words= %d\n", countwords(tokens[i].value));
+		i++;
+	}
+}
+
+bool	check_exp(t_token tokens)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("gyasddasasyga = %s\n",tokens.value);
+	while(tokens.value[i])
+	{
+		while (tokens.value[i] == ' ' && tokens.value[i])
+			i++;
+		if (tokens.value[i] == '\'')
+		{
+			i++;
+			while (tokens.value[i] && tokens.value[i] != '\"')
+				i++;
+			if (tokens.value[i] == '\'')
+				i++;
+		}
+		else
+			i++;
+		if(tokens.value[i] && tokens.value[i] == '$')
+			return(true);
+	}
+	return (false);
+}
+
+t_token	*expand_strs(t_token *tokens, t_mini *shell)
+{
+	int	i;
+	// t_token *new_tokens;
 
 	i = 0;
 	while (tokens[i].type != T_NULL)
@@ -97,9 +167,18 @@ void	expand_strs(t_token *tokens, t_mini *shell)
 		if (tokens[i].type != T_PIPE)
 		{
 			if (tokens[i].type != T_HERE_DOC)
-				dollar_expand(&tokens[i], shell);
+			{
+				if(check_exp(tokens[i])== true)
+				{
+					dollar_expand(&tokens[i], shell);
+					i++;
+					continue;
+				}
+			}
 			remove_quotes(&tokens[i]);
 		}
 		i++;
 	}
+	count_exp(tokens);
+	return (tokens);
 }

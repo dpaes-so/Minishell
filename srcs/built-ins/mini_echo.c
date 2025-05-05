@@ -31,7 +31,7 @@ static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	(void)mini;
 	if (flag != 0)
 		i = flag;
@@ -83,7 +83,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 	int t;
 
 	flag = 0;
-	if (cmds.amount != 0)
+	if (cmds.amount != 1)
 		if (cmds.args && cmds.args[0][0] == '-')
 			flag = echo_flag(cmds);
 	if (cmds.redirections[0].type != T_NULL)

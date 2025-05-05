@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/02 17:27:27 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:16:25 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_mini
 {
 	int					cmd_amount;
 	char				*pwd;
-	char				*input;
 	t_tree				*ast;
 	t_env				*env;
 	t_pipe				pipex;
@@ -105,7 +104,7 @@ void					exit_childprocess(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
-t_tree					*parser(char *input, t_mini *shell);
+t_tree					*parser(char *input, t_mini *shell, int flag);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
@@ -118,6 +117,7 @@ bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
 bool					error_syntax(t_token *tokens);
+int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
 t_token					**array_creation(t_token *tokens);
 void					init_array(t_token **array, t_token *tokens);
@@ -132,7 +132,7 @@ void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
 bool					dollar_expand(t_token *token, t_mini *shell);
-void					expand_strs(t_token *tokens, t_mini *shell);
+t_token					*expand_strs(t_token *tokens, t_mini *shell);
 void					small_cpy(t_token *token, char *expand, int *j,
 							int *amount);
 void					handle_s_quote(t_token *token, char *expand, int *j);

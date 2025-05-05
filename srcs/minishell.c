@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:24:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:53:05 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	my_env_start(t_mini *mini, char **ev)
 		if (ft_strnstr(ev[i], "HOME=", 5))
 			break ;
 	mini->env->home = NULL;
-	if(ev[i])
+	if (ev[i])
 		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
 		return ;
@@ -71,15 +71,14 @@ void	my_env_start(t_mini *mini, char **ev)
 
 int	check_built_in(t_mini *mini, t_cmd cmds)
 {
-	// if (!cmds.cmd)
-	// 	return (0);
-	// printf("!%s!\n",cmds.cmd);
-	if (ft_strncmp(cmds.cmd, "echo",4) == 0)
-		return(build_echo(mini,cmds));
+	if (!cmds.cmd)
+		return (0);
+	if (ft_strncmp(cmds.cmd, "echo", 4) == 0)
+		return (build_echo(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
-		return (build_pwd(mini,cmds));
+		return (build_pwd(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "env") == 0)
-		return (build_env(mini,cmds));
+		return (build_env(mini, cmds));
 	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
 		return (build_cd(mini, cmds));
 	if (ft_strncmp(cmds.cmd, "export", 6) == 0)
@@ -88,47 +87,48 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 		return (build_unset(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
 		build_exit(mini, cmds);
+	printf("!%s!\n",cmds.cmd);
 	return (0);
 }
 
-
-void which_child(t_mini *mini,t_cmd cmds)
+void	which_child(t_mini *mini, t_cmd cmds)
 {
 	// mini->pipex.pid1 = fork();
-    // if(mini->pipex.pid1 < 0)
-    //     exit(1);
-    // if(mini->pipex.pid1 == 0)
-    // {
-    //     close(mini->pipex.pipefd[0]);
+	// if(mini->pipex.pid1 < 0)
+	//     exit(1);
+	// if(mini->pipex.pid1 == 0)
+	// {
+	//     close(mini->pipex.pipefd[0]);
 	// 	if (mini->pipex.cmd == !(ft_strncmp("here_doc", cmds.cmd, -1)) + 2)
 	// 		first_child(mini->pipex,mini->env->my_env);
 	// 	else if (mini->pipex.cmd == mini->pipex->ac - 2)
 	// 		last_child(mini->pipex,mini->env->my_env);
 	// 	else
 	// 		middle_child(mini->pipex,mini->env->my_env);
-    // }
-    // else
-    // {
-    //     if (mini->pipex.cmd == !(ft_strncmp("here_doc", mini->pipex.av[1], -1)) + 2)
-    //         close(mini->pipex.infile_fd);
-    //     else if (mini->pipex.cmd == mini->pipex.ac -2)
-    //         close(mini->pipex.outfile_fd);
-    //     close(mini->pipex.pipefd[1]);
-    //     dup2(mini->pipex.pipefd[0],STDIN_FILENO);
-    //     close(mini->pipex.pipefd[0]);
-    // }
-	check_built_in(mini,cmds);
+	// }
+	// else
+	// {
+	//     if (mini->pipex.cmd == !(ft_strncmp("here_doc", mini->pipex.av[1],
+					// -1)) + 2)
+	//         close(mini->pipex.infile_fd);
+	//     else if (mini->pipex.cmd == mini->pipex.ac -2)
+	//         close(mini->pipex.outfile_fd);
+	//     close(mini->pipex.pipefd[1]);
+	//     dup2(mini->pipex.pipefd[0],STDIN_FILENO);
+	//     close(mini->pipex.pipefd[0]);
+	// }
+	check_built_in(mini, cmds);
 }
 
 void	execute(t_mini *mini, t_tree *ast)
 {
-	if(pipe(mini->pipex.pipefd) == 0)
-    	which_child(mini,ast->node);
-    else
-    {
-        ft_putstr_fd("Error, Pipe faield",2);
-        exit(1);
-    }
+	if (pipe(mini->pipex.pipefd) == 0)
+		which_child(mini, ast->node);
+	else
+	{
+		ft_putstr_fd("Error, Pipe faield", 2);
+		exit(1);
+	}
 }
 
 void	run_tree(t_mini *mini, t_tree *ast)
@@ -147,10 +147,9 @@ void	run_tree(t_mini *mini, t_tree *ast)
 
 int	main(int ac, char **av, char **ev)
 {
-
-	t_mini mini;
-	t_tree *ast;
-	char*input;
+	char	*input;
+	t_mini	mini;
+	t_tree	*ast;
 
 	(void)ac;
 	(void)av;
@@ -163,11 +162,11 @@ int	main(int ac, char **av, char **ev)
 		mini.cmd_amount = 0;
 		input = readline("minishell > ");
 		add_history(input);
-		mini.ast = parser(input, &mini);
+		mini.ast = parser(input, &mini, 0);
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		printf("amount of cmds = %d", mini.cmd_amount);
+		printf("amount of cmds = %d\n", mini.cmd_amount);
 		tree_apply_infix(mini.ast, 0, "root");
 		run_tree(&mini, ast);
 		free_tree(mini.ast);

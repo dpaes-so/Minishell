@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:31:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/04/29 20:01:47 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:36:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int normal_env(t_mini *mini)
 	
 	i = -1;
 	while (mini->env->my_env[++i])
-			ft_printf("%s\n", mini->env->my_env[i]);
+		ft_printf("%s\n", mini->env->my_env[i]);
 	return (1);
 }
 int	build_env(t_mini *mini,t_cmd cmds)
@@ -50,10 +50,9 @@ int	build_env(t_mini *mini,t_cmd cmds)
 	int fd;
 	int res;
 	int t;
-	
 	fd = do_redirect(cmds,&t);
 	get_pwd(mini);
-	if(cmds.amount > 0)
+	if(cmds.amount > 1)
 		return(1);
 	if(fd != 1)
 		res = redir_env(fd,mini,t);
