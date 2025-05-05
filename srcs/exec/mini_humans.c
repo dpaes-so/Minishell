@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:05:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 
 	(void)pipex;
 	pipe(fd);
-	// printf("> \n");
 	while (1)
 	{
 		i = 0;
@@ -42,7 +41,6 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
-	// ft_printf("First child\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
 		exit_childprocess(mini);
@@ -53,7 +51,6 @@ void	first_child(t_mini *mini, t_cmd cmds)
 	}
 	else
 	{
-		// ft_printf("IM PIPING\n");
 		dup2(mini->pipex.pipefd[1], STDOUT_FILENO);
 		close(mini->pipex.pipefd[1]);
 	}
@@ -68,7 +65,6 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
-	// dprintf(2,"last child\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
 		exit_childprocess(mini);
@@ -84,13 +80,10 @@ void	last_child(t_mini *mini, t_cmd cmds)
 	}
 	else
 	{
-		// ft_printf("IM PIPING\n");
 		dup2(mini->save_fd, STDIN_FILENO);
 		close(mini->pipex.pipefd[0]);
 	}
 	close(mini->pipex.pipefd[1]);
-	// ft_printf("fdin = %d\n",cmds.fdin);
-	// ft_printf("fdout = %d\n",cmds.fdout);
 	cmdexec(mini->env->my_env, cmds, mini);
 }
 
@@ -129,7 +122,6 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	pid = fork();
 	if (pid == 0)
 	{
-		// ft_printf("solo child\n");
 		do_redirect(&cmds, mini);
 		if (!cmds.cmd)
 			exit_childprocess(mini);
@@ -137,8 +129,6 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)
 			dup2(cmds.fdin, STDIN_FILENO);
-		// ft_printf("fdin = %d\n",cmds.fdin);
-		// ft_printf("fdout = %d\n",cmds.fdout);
 		cmdexec(mini->env->my_env, cmds, mini);
 	}
 }

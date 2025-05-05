@@ -51,6 +51,18 @@ void exit_childprocess(t_mini *mini)
 	exit(0);
 }
 
+void exit_childprocess_exec(t_mini *mini)
+{
+	free(mini->pwd);
+	if(mini->env->home != NULL)
+		free(mini->env->home);
+	freetrix(mini->env->my_env);
+	free(mini->env);
+	free_tree(mini->ast);
+	free(mini->pipex.path);
+	clear_history();
+	master_close();
+}
 char	**path_finder(char **envp)
 {
 	int		i;

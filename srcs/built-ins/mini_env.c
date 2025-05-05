@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:31:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:26:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:04:00 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	redir_env(int fd, t_mini *mini, int t)
 	int	i;
 
 	i = -1;
-	// ft_printf("yellow %d\n",cmds.fdout);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
@@ -46,6 +45,7 @@ int	normal_env(t_mini *mini)
 		ft_printf("%s\n", mini->env->my_env[i]);
 	return (1);
 }
+
 int	build_env(t_mini *mini, t_cmd cmds)
 {
 	int	res;
@@ -65,7 +65,7 @@ int	build_env(t_mini *mini, t_cmd cmds)
 // export function but no space, leave me alone >:(
 int	print_env_ex(t_mini *mini)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (mini->env->my_env[++i])

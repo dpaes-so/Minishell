@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:26:32 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:02:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	get_pwd(t_mini *mini)
 	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	// free(cdw);
 }
 
 void	pwd_update(t_mini *mini)
@@ -38,7 +37,6 @@ void	pwd_update(t_mini *mini)
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 	}
-	// free(prefix);
 }
 
 static int	cd_home(t_mini *mini)
@@ -66,9 +64,9 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, char *pwd)
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
 		ft_printf("after join !%s!\n", cd2);
 	}
-	// free(buffer);
 	return (cd2);
 }
+
 int	build_cd(t_mini *mini, t_cmd cmds)
 {
 	char	*cd2;
@@ -91,6 +89,5 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 	else
 		get_pwd(mini);
 	free(cd2);
-	// free(pwd);
 	return (pwd_update(mini), 1);
 }

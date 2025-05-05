@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:28 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:04:57 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 {
 	if (!cmds.cmd)
 		return (0);
-	// printf("!%s!\n",cmds.cmd);
 	if (ft_strncmp(cmds.cmd, "echo", 4) == 0)
 		return (build_echo(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
@@ -39,12 +38,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, F_OK) < 0)
 	{
 		ft_putstr_fd("Pipex: Command not found\n", 2);
-		free(mini->pwd);
-		free(mini->env->home);
-		free(mini->pipex.path);
-		freetrix(mini->env->my_env);
-		free(mini->env);
-		free_tree(mini->ast);
+		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(127);
@@ -52,12 +46,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, X_OK) < 0)
 	{
 		ft_putstr_fd("Permission  2 denied\n", 2);
-		free(mini->pwd);
-		free(mini->env->home);
-		freetrix(mini->pipex.path);
-		freetrix(mini->env->my_env);
-		free(mini->env);
-		free_tree(mini->ast);
+		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(126);
@@ -118,7 +107,6 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 {
 	if (f == 0)
 	{
-		// ft_printf("AYOOO\n");
 		if (check_built_in(mini, ast->node))
 			return ;
 		else

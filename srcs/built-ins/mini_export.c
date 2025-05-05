@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:04:11 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	*make_export(t_mini *mini, char *arg)
 	mini->env->my_env = new_env;
 	return (NULL);
 }
+
 static void	prep_export(t_mini *mini, t_cmd cmds)
 {
 	int		j;
@@ -81,6 +82,7 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 		j++;
 	}
 }
+
 static int	export_redirs(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
@@ -103,6 +105,7 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 		wait(NULL);
 	return (1);
 }
+
 int	build_export(t_mini *mini, t_cmd cmds)
 {
 	if (cmds.redir[0].type != T_NULL)

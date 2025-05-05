@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:44:19 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:01:28 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int					amount;
-	int fdin;
-	int fdout;
+	int					fdin;
+	int					fdout;
 	bool				pipe;
 	char				*cmd;
 	char				**args;
@@ -81,7 +81,7 @@ typedef struct s_mini
 	int					cmd_amount;
 	char				*pwd;
 	char				*input;
-	int 				save_fd;
+	int					save_fd;
 	t_tree				*ast;
 	t_env				*env;
 	t_pipe				pipex;
@@ -89,7 +89,7 @@ typedef struct s_mini
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
-int						do_redirect(t_cmd *cmds,t_mini *mini);
+int						do_redirect(t_cmd *cmds, t_mini *mini);
 void					my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini, t_cmd cmds);
 int						build_echo(t_mini *mini, t_cmd cmds);
@@ -108,13 +108,14 @@ void					freetrix(char **matrix);
 void					master_close(void);
 void					exit_childprocess(t_mini *mini);
 char					**path_finder(char **envp);
-void					execute(t_mini *mini, t_tree *ast,int f);
-void					cmdexec(char *envp[],t_cmd cmds,t_mini *mini);
-void 					first_child(t_mini *mini,t_cmd cmds);
-void 					last_child(t_mini *mini,t_cmd cmds);
-void 					middle_child(t_mini *mini,t_cmd cmds);
-void 					solo_child(t_mini *mini,t_cmd cmds);
-int						here_doc(t_pipe pipex,t_cmd *cmds);
+void					execute(t_mini *mini, t_tree *ast, int f);
+void					cmdexec(char *envp[], t_cmd cmds, t_mini *mini);
+void					first_child(t_mini *mini, t_cmd cmds);
+void					last_child(t_mini *mini, t_cmd cmds);
+void					middle_child(t_mini *mini, t_cmd cmds);
+void					solo_child(t_mini *mini, t_cmd cmds);
+int						here_doc(t_pipe pipex, t_cmd *cmds);
+void					exit_childprocess_exec(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

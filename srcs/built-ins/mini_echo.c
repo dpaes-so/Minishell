@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:03:28 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	redir_echo(t_cmd cmds, int flag, int fd)
 			ft_printf("\n");
 	}
 }
+
 static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 {
 	int	i;
@@ -88,10 +89,11 @@ static int	echo_flag(t_cmd cmds)
 	}
 	return (j);
 }
+
 int	build_echo(t_mini *mini, t_cmd cmds)
 {
-	int flag;
-	int pid;
+	int	flag;
+	int	pid;
 
 	flag = 0;
 	if (cmds.amount != 1)

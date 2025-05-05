@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/05 12:40:45 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:53:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,28 @@ char	**matrix_dup(t_mini *mini, char **ev)
 	}
 	return (mini->env->my_env);
 }
+
+void set_shlvl(t_mini *mini)
+{
+	int sh_lvl;
+	char *temp;
+	char *shlvl;
+	int i;
+	
+	i = -1;
+	while(mini->env->my_env[++i])
+		if (ft_strnstr(mini->env->my_env[i], "SHLVL=", 6))
+			break ;
+	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
+	sh_lvl++;
+	ft_printf("shlvl = %d\n",sh_lvl);
+	shlvl = ft_itoa(sh_lvl);
+	temp=ft_strjoin(ft_strdup("SHLVL="),shlvl);
+	free(mini->env->my_env[i]);
+	mini->env->my_env[i] = ft_strdup(temp);
+	free(temp);
+	free(shlvl);
+}
 void	my_env_start(t_mini *mini, char **ev)
 {
 	int	i;
@@ -105,6 +127,7 @@ void	my_env_start(t_mini *mini, char **ev)
 		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
 		return ;
+	set_shlvl(mini);
 }
 
 void	run_tree(t_mini *mini, t_tree *ast, int f)
@@ -159,7 +182,6 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		// printf("amount of cmds = %d", mini.cmd_amount);
 		tree_apply_infix(mini.ast, 0, "root");
 		mini.pipex.cmd = 0;
 		run_tree(&mini, ast, 0);
