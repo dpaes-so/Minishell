@@ -21,7 +21,7 @@ stuff exec needs to do:
 
 3.make a function that makes pipes, in a loop it only recevies a string with the commands and flags together(need to make pipex work with true path add a strtrim or someshit to make it work problem for later(not hard just an access before the path if not acccescible executael dup coamnds)) and also correct exit cods also with acces easy
 
-4.stil dont know how ima do the redirections, problem for my future self
+4.stil dont know how ima do the redir, problem for my future self
 
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
@@ -32,7 +32,7 @@ echo ola > txt ola > outro | echo banana > banana
 1.make lexer
    • tokenize the input to then check syntax errors and such
 2.make parser
-   • every tree node has struct cmd, cmd will only be used if node isnt pipe, in char *cmd just holds first string, **redirections will hold all redirections in a array
+   • every tree node has struct cmd, cmd will only be used if node isnt pipe, in char *cmd just holds first string, **redir will hold all redir in a array
 3.help exec with redirect logic
 
 4.eat a snickers
