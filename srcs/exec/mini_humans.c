@@ -20,6 +20,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 
 	(void)pipex;
 	pipe(fd);
+	g_sig = 3;
 	while (1)
 	{
 		i = 0;
@@ -119,9 +120,12 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
 
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
+		choose_signal(2);
 		do_redirect(&cmds, mini);
 		if (!cmds.cmd)
 			exit_childprocess(mini);

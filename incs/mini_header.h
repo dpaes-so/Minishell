@@ -23,6 +23,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+extern int g_sig;
+
 typedef enum TokenType
 {
 	T_WORD,
@@ -119,7 +121,8 @@ void					exit_childprocess_exec(t_mini *mini);
 void					run_tree(t_mini *mini, t_tree *ast, int f);
 void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini);
-
+void	root_handler(int signal);
+void	choose_signal(int s);
 //----------------------------PARSING ! ! ! -------------------------------
 
 t_tree					*parser(char *input, t_mini *shell);

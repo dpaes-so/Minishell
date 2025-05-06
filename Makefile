@@ -39,6 +39,7 @@ SOURCES = minishell.c \
 		  exec/mini_exec.c \
 		  exec/mini_humans.c \
 		  exec/mini_aux_exec.c \
+		  exec/signal.c \
           mini_aux.c
 
 SRCS_DIR = srcs

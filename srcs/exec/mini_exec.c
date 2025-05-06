@@ -64,9 +64,12 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 
 void	which_child(t_mini *mini, t_cmd cmds)
 {
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 	mini->pipex.pid1 = fork();
 	if (mini->pipex.pid1 == 0)
 	{
+		choose_signal(2);
 		if (mini->pipex.cmd == 0)
 			first_child(mini, cmds);
 		else if (mini->pipex.cmd == mini->cmd_amount - 1)
