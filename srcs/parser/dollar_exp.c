@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:27:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:14:33 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,14 @@ bool	dollar_expand(t_token *token, t_mini *shell)
 
 	len = ft_strlen((*token).value);
 	amount = get_amount(token, shell);
+	if (amount == 0)
+	{
+		free((*token).value - len);
+		(*token).value = NULL;
+		return (true);
+	}
 	expand = ft_calloc(amount + 1, sizeof(char));
-	if ((*token).value == NULL)
+	if (expand == NULL)
 		return (false);
 	expand[amount] = '\0';
 	token->value = token->value - len;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:39:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 	j = 0;
 	i = -1;
 	while (tokens[++i].type != T_NULL)
-		if (tokens[i].type == T_WORD)
+		if (tokens[i].value != NULL && tokens[i].type == T_WORD)
 			amount++;
 	tree_node->node.args = ft_calloc(amount + 1, sizeof(char *));
 	if (tree_node->node.args == NULL)
@@ -75,7 +75,7 @@ void	make_args(t_tree *tree_node, t_token *tokens, int index)
 	tree_node->node.args[amount] = NULL;
 	while (j < amount)
 	{
-		if (tokens[index].type == T_WORD)
+		if (tokens[index].value != NULL && tokens[index].type == T_WORD)
 		{
 			tree_node->node.args[j++] = ft_strdup(tokens[index].value);
 			if (tree_node->node.args[j - 1] == NULL)
@@ -95,11 +95,15 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 	while (tokens[i].type != T_NULL && tokens[i].type >= T_HERE_DOC
 		&& tokens[i].type <= T_APPEND_REDIR)
 		i++;
-	if (tokens[i].type != T_NULL && tokens[i].type == T_WORD)
+	while(tokens[i].type != T_NULL)
 	{
-		tree_node->node.cmd = ft_strdup(tokens[i].value);
-		if (tree_node->node.cmd == NULL)
-			return ;
+		if(tokens[i].value != NULL && tokens[i].type != T_NULL && tokens[i].type == T_WORD)
+		{
+			tree_node->node.cmd = ft_strdup(tokens[i].value);
+			if (tree_node->node.cmd == NULL)
+				return ;
+			break;	
+		}
 		i++;
 	}
 	make_args(tree_node, tokens, 0);

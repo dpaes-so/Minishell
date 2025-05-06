@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:25:28 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:08:48 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	small_cpy(t_token *token, char *expand, int *j, int *amount)
 	(*token).value++;
 }
 
+char	*no_dollar(t_token token)
+{
+	int	count;
+
+	count = unclosed_quotes(token);
+	if (count % 2 != 0 || count == 0)
+		return ("$");
+	return (NULL);
+}
+
 char	*found_dollar(t_token *token, t_mini *shell, int *flag)
 {
 	char	*expand;
@@ -56,8 +66,8 @@ char	*found_dollar(t_token *token, t_mini *shell, int *flag)
 			if (expand == NULL)
 				return (NULL);
 		}
-		else if (*(*token).value != '\'' && *(*token).value != '\"')
-			return ("$");
+		else
+			return (no_dollar(*(token)));
 	}
 	return (expand);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 15:51:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:09:56 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
 bool					error_syntax(t_token *tokens);
+int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
 t_token					**array_creation(t_token *tokens);
 void					init_array(t_token **array, t_token *tokens);
