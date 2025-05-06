@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 18:16:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:09:56 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int					amount;
+	int					fdin;
+	int					fdout;
 	bool				pipe;
 	char				*cmd;
 	char				**args;
-	t_token				*redirections;
+	t_token				*redir;
 }						t_cmd;
 
 /// @brief tree lil bro
@@ -71,12 +73,15 @@ typedef struct s_pipe
 	int					infile_fd;
 	int					outfile_fd;
 	int					status;
+	char				**path;
 	int					pipefd[2];
 }						t_pipe;
 typedef struct s_mini
 {
 	int					cmd_amount;
 	char				*pwd;
+	char				*input;
+	int					save_fd;
 	t_tree				*ast;
 	t_env				*env;
 	t_pipe				pipex;
@@ -84,7 +89,7 @@ typedef struct s_mini
 
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
-int						do_redirect(t_cmd cmds, int *type);
+int						do_redirect(t_cmd *cmds, t_mini *mini);
 void					my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini, t_cmd cmds);
 int						build_echo(t_mini *mini, t_cmd cmds);
@@ -95,16 +100,29 @@ int						build_unset(t_mini *mini, t_cmd cmds);
 int						build_export(t_mini *mini, t_cmd cmds);
 int						print_env_ex(t_mini *mini);
 void					get_pwd(t_mini *mini);
+void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 
 void					master_close(void);
 void					exit_childprocess(t_mini *mini);
+char					**path_finder(char **envp);
+void					execute(t_mini *mini, t_tree *ast, int f);
+void					cmdexec(char *envp[], t_cmd cmds, t_mini *mini);
+void					first_child(t_mini *mini, t_cmd cmds);
+void					last_child(t_mini *mini, t_cmd cmds);
+void					middle_child(t_mini *mini, t_cmd cmds);
+void					solo_child(t_mini *mini, t_cmd cmds);
+int						here_doc(t_pipe pipex, t_cmd *cmds);
+void					exit_childprocess_exec(t_mini *mini);
+void					run_tree(t_mini *mini, t_tree *ast, int f);
+void					wait_child(t_mini *mini);
+void					cmd_exit(char *exec, t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
-t_tree					*parser(char *input, t_mini *shell, int flag);
+t_tree					*parser(char *input, t_mini *shell);
 t_token					*split_tokens(char *input);
 void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
@@ -132,7 +150,7 @@ void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
 bool					dollar_expand(t_token *token, t_mini *shell);
-t_token					*expand_strs(t_token *tokens, t_mini *shell);
+void					expand_strs(t_token *tokens, t_mini *shell);
 void					small_cpy(t_token *token, char *expand, int *j,
 							int *amount);
 void					handle_s_quote(t_token *token, char *expand, int *j);

@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/01 19:35:13 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/05/06 20:00:55 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,9 @@ SOURCES = minishell.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \
+		  exec/mini_exec.c \
+		  exec/mini_humans.c \
+		  exec/mini_aux_exec.c \
           mini_aux.c
 
 SRCS_DIR = srcs
@@ -61,6 +64,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/built-ins
 	@mkdir -p $(OBJS_DIR)/parser
+	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
 	valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell

@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/05 17:25:01 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:08:48 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*found_dollar(t_token *token, t_mini *shell, int *flag)
 	}
 	return (expand);
 }
-
 
 void	handle_s_quote(t_token *token, char *expand, int *j)
 {

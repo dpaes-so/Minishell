@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/05 16:30:51 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:39:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 			count = 0;
 			while (ft_strchr(" ><", tokens[i].value[count]) != NULL)
 				count++;
-			tree_node->node.redirections[j].value = ft_strdup(tokens[i].value
+			tree_node->node.redir[j].value = ft_strdup(tokens[i].value
 					+ count);
-			tree_node->node.redirections[j].type = tokens[i].type;
+			tree_node->node.redir[j].type = tokens[i].type;
 			j++;
 		}
 		i++;
@@ -49,11 +49,11 @@ void	make_redirs(t_tree *tree_node, t_token *tokens)
 			count++;
 		i++;
 	}
-	tree_node->node.redirections = ft_calloc(count + 1, sizeof(t_token));
-	if (tree_node->node.redirections == NULL)
+	tree_node->node.redir = ft_calloc(count + 1, sizeof(t_token));
+	if (tree_node->node.redir == NULL)
 		return ;
-	tree_node->node.redirections[count].value = NULL;
-	tree_node->node.redirections[count].type = T_NULL;
+	tree_node->node.redir[count].value = NULL;
+	tree_node->node.redir[count].type = T_NULL;
 	init_redirs(tree_node, tokens);
 }
 

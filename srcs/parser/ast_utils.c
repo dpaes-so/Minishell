@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:10:39 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:48:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	print_tree(t_tree *root, int level, char *side)
 		}
 		i = 0;
 	}
-	while (root->node.redirections != NULL
-		&& root->node.redirections[i].type != T_NULL)
+	while (root->node.redir != NULL
+		&& root->node.redir[i].type != T_NULL)
 	{
 		print_tabs(level);
-		printf("redir = %s type = %u\n", root->node.redirections[i].value,
-			root->node.redirections[i].type);
+		printf("redir = %s type = %u\n", root->node.redir[i].value,
+			root->node.redir[i].type);
 		i++;
 	}
 }
@@ -87,13 +87,13 @@ void	free_tree(t_tree *root)
 	if (root->node.cmd)
 		free(root->node.cmd);
 	i = 0;
-	while (root->node.redirections != NULL && root->node.redirections[i].value)
+	while (root->node.redir != NULL && root->node.redir[i].value)
 	{
-		free(root->node.redirections[i].value);
+		free(root->node.redir[i].value);
 		i++;
 	}
-	if (root->node.redirections)
-		free(root->node.redirections);
+	if (root->node.redir)
+		free(root->node.redir);
 	free_tree(root->left);
 	free_tree(root->right);
 	free(root);

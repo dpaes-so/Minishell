@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/05 13:03:28 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/mini_header.h"
 
-static void	redir_echo(t_cmd cmds, int flag, int fd, int t)
+static void	redir_echo(t_cmd cmds, int flag, int fd)
 {
 	int	i;
 
-	i = 0;
-	if (t == 0)
+	i = 1;
+	if (cmds.fdout == -1)
 		return ;
 	else
 		dup2(fd, STDOUT_FILENO);
@@ -27,6 +39,7 @@ static void	redir_echo(t_cmd cmds, int flag, int fd, int t)
 			ft_printf("\n");
 	}
 }
+
 static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 {
 	int	i;
@@ -58,12 +71,13 @@ static int	echo_flag(t_cmd cmds)
 	int	j;
 
 	i = 1;
-	j = 0;
+	j = 1;
+	ft_printf("Found a flag\n");
 	while (cmds.args[j][i] == 'n')
 		i++;
 	if (cmds.args[j][i] != '\0')
 		return (j);
-	j = 1;
+	j = 2;
 	while (cmds.args[j] && cmds.args[j][0] == '-')
 	{
 		i = 1;
@@ -75,24 +89,23 @@ static int	echo_flag(t_cmd cmds)
 	}
 	return (j);
 }
+
 int	build_echo(t_mini *mini, t_cmd cmds)
 {
-	int flag;
-	int fd;
-	int pid;
-	int t;
+	int	flag;
+	int	pid;
 
 	flag = 0;
 	if (cmds.amount != 1)
-		if (cmds.args && cmds.args[0][0] == '-')
+		if (cmds.args && cmds.args[1][0] == '-')
 			flag = echo_flag(cmds);
-	if (cmds.redirections[0].type != T_NULL)
+	if (cmds.redir[0].type != T_NULL)
 	{
-		fd = do_redirect(cmds, &t);
+		do_redirect(&cmds, mini);
 		pid = fork();
 		if (pid == 0)
 		{
-			redir_echo(cmds, flag, fd, t);
+			redir_echo(cmds, flag, cmds.fdout);
 			exit_childprocess(mini);
 		}
 		wait(NULL);

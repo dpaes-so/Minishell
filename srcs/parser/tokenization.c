@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/05 18:57:21 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,6 @@ t_token	*split_tokens(char *input)
 	int		amount;
 
 	amount = count_tokens(input, NULL);
-	printf("fghjklcvbnm,cvbnm ammount = %d\n",amount);
-	if (amount == 0)
-		return (NULL);
 	token = ft_calloc(amount + 1, sizeof(t_token));
 	if (token == NULL)
 		return (NULL);
