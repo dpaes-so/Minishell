@@ -4,6 +4,7 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+        ft_printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -14,7 +15,6 @@ void	choose_signal(int s)
 {
 	static struct sigaction	sa;
 
-    // ft_printf("s = %d",s);
 	if (s == 1)
 	{
 		sa.sa_handler = signal_handler;

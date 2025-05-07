@@ -20,7 +20,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 
 	(void)pipex;
 	pipe(fd);
-	g_sig = 3;
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		i = 0;

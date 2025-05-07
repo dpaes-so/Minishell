@@ -16,17 +16,27 @@ void	wait_child(t_mini *mini)
 {
 	int	i;
 	int	status;
+	int sig;
 
-	status = 0;
 	i = 0;
 	while (i < mini->cmd_amount)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
 			mini->pipex.status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				ft_printf("Quit (core dumped)\n");
+			else if (sig == SIGINT)
+				ft_printf("\n");
+			mini->pipex.status = 128 + sig;
+		}
 		i++;
 	}
 }
+
 
 char	**matrix_dup(t_mini *mini, char **ev)
 {
@@ -55,7 +65,6 @@ void	set_shlvl(t_mini *mini)
 			break ;
 	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
 	sh_lvl++;
-	ft_printf("shlvl = %d\n", sh_lvl);
 	shlvl = ft_itoa(sh_lvl);
 	temp = ft_strjoin(ft_strdup("SHLVL="), shlvl);
 	free(mini->env->my_env[i]);

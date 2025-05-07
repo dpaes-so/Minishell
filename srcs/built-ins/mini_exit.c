@@ -31,7 +31,6 @@ static void	check_exit_code(t_mini *mini, t_cmd cmds)
 int	build_exit(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
-	mini->pipex.status = 0;
 	if (cmds.amount > 2)
 		return (ft_putstr_fd("Minishell: exit: too many argumetns\n", 2), 1);
 	if (cmds.amount != 0)

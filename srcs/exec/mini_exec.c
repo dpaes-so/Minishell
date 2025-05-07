@@ -112,8 +112,5 @@ void	run_tree(t_mini *mini, t_tree *ast, int f)
 		run_tree(mini, ast->right, 1);
 	}
 	else
-	{
 		execute(mini, ast, f);
-		// printf("commad = %s\n",ast->node.cmd);
-	}
 }
