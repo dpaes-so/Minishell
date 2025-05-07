@@ -18,6 +18,7 @@ void	wait_child(t_mini *mini)
 	int	status;
 	int sig;
 
+	status = 0;
 	i = 0;
 	while (i < mini->cmd_amount)
 	{
