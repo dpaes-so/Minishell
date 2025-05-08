@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:02:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:39:43 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	pwd_update(t_mini *mini)
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 	}
+	if(prefix)
+		free(prefix);
 }
 
 static int	cd_home(t_mini *mini)
