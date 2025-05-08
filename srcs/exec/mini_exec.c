@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/08 15:25:21 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:32:14 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 		if (i > 0)
 			free(exec);
 		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
-					F_OK) < 0))
+					F_OK | X_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
