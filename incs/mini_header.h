@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 15:51:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:11:28 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void					freetrix(char **matrix);
 //----------------------------EXECUTION ! ! ! -----------------------------
 
 void					master_close(void);
-void					exit_childprocess(t_mini *mini);
+void					exit_childprocess(t_mini *mini, int ecode);
 char					**path_finder(char **envp);
 void					execute(t_mini *mini, t_tree *ast, int f);
 void					cmdexec(char *envp[], t_cmd cmds, t_mini *mini);
@@ -116,7 +116,7 @@ void					last_child(t_mini *mini, t_cmd cmds);
 void					middle_child(t_mini *mini, t_cmd cmds);
 void					solo_child(t_mini *mini, t_cmd cmds);
 int						here_doc(t_pipe pipex, t_cmd *cmds);
-void					exit_childprocess(t_mini *mini,int ecode);
+void					exit_childprocess_exec(t_mini *mini);
 void					run_tree(t_mini *mini, t_tree *ast, int f);
 void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini);

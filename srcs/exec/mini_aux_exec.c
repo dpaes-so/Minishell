@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 15:52:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:27:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, F_OK) < 0)
 	{
 		ft_putstr_fd("Pipex: Command not found\n", 2);
-		exit_childprocess_exec(mini,0);
+		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(127);
@@ -115,7 +115,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, X_OK) < 0)
 	{
 		ft_putstr_fd("Permission  2 denied\n", 2);
-		exit_childprocess_exec(mini,0);
+		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(126);
