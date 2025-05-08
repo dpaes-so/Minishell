@@ -37,7 +37,7 @@ void	master_close(void)
 		close(i);
 }
 
-void	exit_childprocess(t_mini *mini)
+void	exit_childprocess(t_mini *mini,int ecode)
 {
 	free(mini->pwd);
 	if (mini->env->home != NULL)
@@ -48,7 +48,7 @@ void	exit_childprocess(t_mini *mini)
 	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
-	exit(0);
+	exit(ecode);
 }
 
 void	exit_childprocess_exec(t_mini *mini)

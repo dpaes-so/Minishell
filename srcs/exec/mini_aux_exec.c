@@ -107,7 +107,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, F_OK) < 0)
 	{
 		ft_putstr_fd("Pipex: Command not found\n", 2);
-		exit_childprocess_exec(mini);
+		exit_childprocess_exec(mini,0);
 		if (exec)
 			free(exec);
 		exit(127);
@@ -115,9 +115,18 @@ void	cmd_exit(char *exec, t_mini *mini)
 	if (access(exec, X_OK) < 0)
 	{
 		ft_putstr_fd("Permission  2 denied\n", 2);
-		exit_childprocess_exec(mini);
+		exit_childprocess_exec(mini,0);
 		if (exec)
 			free(exec);
 		exit(126);
 	}
+}
+
+t_mini	*mem_save(t_mini *to_save)
+{
+	static t_mini	*save;
+
+	if (to_save)
+		save=to_save;
+	return (save);
 }

@@ -29,7 +29,7 @@ static int	redir_env(int fd, t_mini *mini, int t)
 			dup2(fd, STDOUT_FILENO);
 		while (mini->env->my_env[++i])
 			ft_printf("%s\n", mini->env->my_env[i]);
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	}
 	else
 		wait(NULL);

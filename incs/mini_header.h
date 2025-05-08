@@ -116,12 +116,13 @@ void					last_child(t_mini *mini, t_cmd cmds);
 void					middle_child(t_mini *mini, t_cmd cmds);
 void					solo_child(t_mini *mini, t_cmd cmds);
 int						here_doc(t_pipe pipex, t_cmd *cmds);
-void					exit_childprocess_exec(t_mini *mini);
+void					exit_childprocess(t_mini *mini,int ecode);
 void					run_tree(t_mini *mini, t_tree *ast, int f);
 void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini);
 void					root_handler(int signal);
 void					choose_signal(int s);
+t_mini					*mem_save(t_mini *to_save);
 //----------------------------PARSING ! ! ! -------------------------------
 
 t_tree					*parser(char *input, t_mini *shell);

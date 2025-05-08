@@ -1,5 +1,16 @@
 #include "../../incs/mini_header.h"
 
+
+void here_doc_signals(int signal)
+{
+	t_mini *mini_exit;
+	if (signal == SIGINT)
+	{
+		ft_printf("\n");
+		mini_exit = mem_save(NULL);
+		exit_childprocess(mini_exit,130);
+	}
+}
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
@@ -32,6 +43,15 @@ void	choose_signal(int s)
 			return ;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
+	}
+	else if (s == 3)
+	{
+		sa.sa_handler = here_doc_signals;
+		sa.sa_flags = 0;
+		if (sigemptyset(&sa.sa_mask) != 0)
+			return ;
+		sigaction(SIGINT, &sa, NULL);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 

@@ -42,7 +42,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	flag = 0;
 	i = 0;
 	if (check_built_in(mini, cmds))
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	while (flag == 0 && cmds.cmd)
 	{
 		if (i > 0)
@@ -69,6 +69,7 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	mini->pipex.pid1 = fork();
 	if (mini->pipex.pid1 == 0)
 	{
+		mem_save(mini);
 		choose_signal(2);
 		if (mini->pipex.cmd == 0)
 			first_child(mini, cmds);

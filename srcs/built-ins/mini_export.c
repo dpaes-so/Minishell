@@ -99,7 +99,7 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 			print_env_ex(mini);
 		else
 			prep_export(mini, cmds);
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	}
 	else
 		wait(NULL);

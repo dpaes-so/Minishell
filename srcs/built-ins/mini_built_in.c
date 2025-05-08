@@ -74,7 +74,7 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 			else
 				dup2(cmds.fdout, STDOUT_FILENO);
 			ft_printf("%s\n", mini->pwd);
-			exit_childprocess(mini);
+			exit_childprocess(mini,0);
 		}
 		else
 			wait(NULL);
