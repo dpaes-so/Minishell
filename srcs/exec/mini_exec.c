@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 15:03:40 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:32:14 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	flag = 0;
 	i = 0;
 	if (check_built_in(mini, cmds))
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	while (flag == 0 && cmds.cmd)
 	{
 		if (i > 0)
 			free(exec);
 		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
-					F_OK) < 0))
+					F_OK | X_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
@@ -64,9 +64,13 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 
 void	which_child(t_mini *mini, t_cmd cmds)
 {
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 	mini->pipex.pid1 = fork();
 	if (mini->pipex.pid1 == 0)
 	{
+		mem_save(mini);
+		choose_signal(2);
 		if (mini->pipex.cmd == 0)
 			first_child(mini, cmds);
 		else if (mini->pipex.cmd == mini->cmd_amount - 1)
@@ -109,8 +113,5 @@ void	run_tree(t_mini *mini, t_tree *ast, int f)
 		run_tree(mini, ast->right, 1);
 	}
 	else
-	{
 		execute(mini, ast, f);
-		// printf("commad = %s\n",ast->node.cmd);
-	}
 }

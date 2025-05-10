@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:31:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:04:00 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:45:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	redir_env(int fd, t_mini *mini, int t)
 			dup2(fd, STDOUT_FILENO);
 		while (mini->env->my_env[++i])
 			ft_printf("%s\n", mini->env->my_env[i]);
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	}
 	else
 		wait(NULL);

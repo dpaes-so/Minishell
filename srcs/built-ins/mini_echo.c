@@ -106,7 +106,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 		if (pid == 0)
 		{
 			redir_echo(cmds, flag, cmds.fdout);
-			exit_childprocess(mini);
+			exit_childprocess(mini,0);
 		}
 		wait(NULL);
 	}

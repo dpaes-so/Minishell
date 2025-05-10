@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 14:58:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:33:55 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	master_close(void)
 		close(i);
 }
 
-void	exit_childprocess(t_mini *mini)
+void	exit_childprocess(t_mini *mini,int ecode)
 {
 	free(mini->pwd);
 	if (mini->env->home != NULL)
@@ -48,7 +48,7 @@ void	exit_childprocess(t_mini *mini)
 	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
-	exit(0);
+	exit(ecode);
 }
 
 void	exit_childprocess_exec(t_mini *mini)
@@ -76,7 +76,7 @@ char	**path_finder(char **envp)
 			break ;
 	if (!envp[i])
 	{
-		exit(0);
+		return(NULL);
 	}
 	envp[i] = envp[i] + 5;
 	split = ft_split(envp[i], ':');

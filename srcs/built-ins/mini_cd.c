@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:02:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:46:31 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	pwd_update(t_mini *mini)
 	char	*prefix;
 
 	i = -1;
-	prefix = ft_strdup("PWD=");
 	while (mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
 	if (mini->env->my_env[i])
 	{
+		prefix = ft_strdup("PWD=");
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 	}

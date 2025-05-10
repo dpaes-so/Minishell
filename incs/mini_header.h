@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/06 18:09:56 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:42:01 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void					freetrix(char **matrix);
 //----------------------------EXECUTION ! ! ! -----------------------------
 
 void					master_close(void);
-void					exit_childprocess(t_mini *mini);
+void					exit_childprocess(t_mini *mini, int ecode);
 char					**path_finder(char **envp);
 void					execute(t_mini *mini, t_tree *ast, int f);
 void					cmdexec(char *envp[], t_cmd cmds, t_mini *mini);
@@ -119,6 +119,9 @@ void					exit_childprocess_exec(t_mini *mini);
 void					run_tree(t_mini *mini, t_tree *ast, int f);
 void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini);
+void					root_handler(int signal);
+void					choose_signal(int s);
+t_mini					*mem_save(t_mini *to_save);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

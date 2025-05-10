@@ -20,6 +20,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 
 	(void)pipex;
 	pipe(fd);
+	choose_signal(3);
 	while (1)
 	{
 		i = 0;
@@ -43,7 +44,7 @@ void	first_child(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -67,7 +68,7 @@ void	last_child(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -91,7 +92,7 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini);
+		exit_childprocess(mini,0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -119,12 +120,16 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
 
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
+		mem_save(mini);
+		choose_signal(2);
 		do_redirect(&cmds, mini);
 		if (!cmds.cmd)
-			exit_childprocess(mini);
+			exit_childprocess(mini,0);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 15:52:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:41:37 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	wait_child(t_mini *mini)
 {
 	int	i;
 	int	status;
+	int	sig;
 
 	status = 0;
 	i = 0;
@@ -24,6 +25,15 @@ void	wait_child(t_mini *mini)
 		wait(&status);
 		if (WIFEXITED(status))
 			mini->pipex.status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				ft_printf("Quit (core dumped)\n");
+			else if (sig == SIGINT)
+				ft_printf("\n");
+			mini->pipex.status = 128 + sig;
+		}
 		i++;
 	}
 }
@@ -55,7 +65,6 @@ void	set_shlvl(t_mini *mini)
 			break ;
 	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
 	sh_lvl++;
-	ft_printf("shlvl = %d\n", sh_lvl);
 	shlvl = ft_itoa(sh_lvl);
 	temp = ft_strjoin(ft_strdup("SHLVL="), shlvl);
 	free(mini->env->my_env[i]);
@@ -110,4 +119,13 @@ void	cmd_exit(char *exec, t_mini *mini)
 			free(exec);
 		exit(126);
 	}
+}
+
+t_mini	*mem_save(t_mini *to_save)
+{
+	static t_mini	*save;
+
+	if (to_save)
+		save = to_save;
+	return (save);
 }
