@@ -31,6 +31,8 @@ export +=
 
 here doc expansion
 
+dividir export and env for variable shit like no equal and nukber also study more export pls
+
 
 stuff parser needs to do:
 echo ola > txt ola > outro | echo banana > banana
