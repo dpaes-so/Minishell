@@ -27,7 +27,6 @@ stuff exec needs to do:
 
 correct stuff :D
 export +=
-control D in home
 here doc expansion
 
 
