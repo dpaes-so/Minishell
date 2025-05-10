@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/08 15:32:14 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:21:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	if (ft_strncmp(cmds.cmd, "unset", 5) == 0)
 		return (build_unset(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
-		build_exit(mini, cmds);
+		return(build_exit(mini, cmds));
 	return (0);
 }
 

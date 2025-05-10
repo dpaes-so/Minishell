@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/05 12:51:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:03:01 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdin = fd;
 		if (fd < 0)
 			return (ft_printf("Minishell: %s: No such file or directory\n",
-					cmds->redir[i].value), fd);
+					cmds->redir[i].value),fd);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
@@ -48,11 +48,7 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	fd = 1;
 	i = -1;
 	while (cmds->redir[++i].value != NULL)
-	{
 		fd = redir_check(cmds, mini, i);
-		if (cmds->redir[i].type != T_HERE_DOC && fd < 0)
-			ft_putstr_fd("Minishell: Redirect error\n", 2);
-	}
 	return (fd);
 }
 

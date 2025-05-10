@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/08 18:33:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:47:44 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,23 @@ void	master_close(void)
 
 void	exit_childprocess(t_mini *mini,int ecode)
 {
-	free(mini->pwd);
+	if(mini->pwd)
+		free(mini->pwd);
 	if (mini->env->home != NULL)
 		free(mini->env->home);
-	freetrix(mini->env->my_env);
-	free(mini->env);
-	free_tree(mini->ast);
-	freetrix(mini->pipex.path);
+	if(mini->env->my_env)
+		freetrix(mini->env->my_env);
+	if(mini->env)
+		free(mini->env);
+	if(ecode != -2)
+	{
+		if(mini->ast)
+			free_tree(mini->ast);
+	}
+	else
+		ecode = 0;
+	if(mini->pipex.path)
+		freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
 	exit(ecode);
@@ -53,13 +63,18 @@ void	exit_childprocess(t_mini *mini,int ecode)
 
 void	exit_childprocess_exec(t_mini *mini)
 {
-	free(mini->pwd);
+	if(mini->pwd)
+		free(mini->pwd);
 	if (mini->env->home != NULL)
 		free(mini->env->home);
-	freetrix(mini->env->my_env);
-	free(mini->env);
-	free_tree(mini->ast);
-	free(mini->pipex.path);
+	if(mini->env->my_env)
+		freetrix(mini->env->my_env);
+	if(mini->env)
+		free(mini->env);
+	if(mini->ast)
+		free_tree(mini->ast);
+	if(mini->pipex.path)
+		free(mini->pipex.path);
 	clear_history();
 	master_close();
 }
