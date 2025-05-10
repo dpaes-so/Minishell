@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:24:56 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/10 10:25:08 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@ int	amount_quotes(t_token *token)
 		if ((*token).value[i] == '\'' || (*token).value[i] == '\"')
 		{
 			quote = (*token).value[i];
+			if ((*token).value[i] != '\0' && (*token).value[i] == quote)
+				count++;
 			i++;
 			while ((*token).value[i] != '\0' && (*token).value[i] != quote)
 				i++;
 			if ((*token).value[i] != '\0' && (*token).value[i] == quote)
-				count += 2;
+			{
+				count++;
+				i++;
+			}		
 		}
-		i++;
+		else
+			i++;
 	}
 	return (count);
 }
@@ -44,13 +50,12 @@ void	removed(t_token *token, char *temp)
 	int		j;
 
 	j = 0;
-	i = -1;
-	while (temp[++i])
+	i = 0;
+	while (temp[i])
 	{
 		if (temp[i] == '\'' || temp[i] == '\"')
 		{
-			quote = temp[i];
-			i++;
+			quote = temp[i++];
 			while (temp[i] != '\0' && temp[i] != quote)
 			{
 				(*token).value[j] = temp[i];
@@ -63,6 +68,8 @@ void	removed(t_token *token, char *temp)
 			(*token).value[j] = temp[i];
 			j++;
 		}
+		if (temp[i] != '\0')
+			i++;
 	}
 }
 
@@ -87,6 +94,107 @@ bool	remove_quotes(t_token *token)
 	return (true);
 }
 
+// static int	count_words(char *s)
+// {
+// 	int	count;
+// 	int	dummy_len;
+
+// 	dummy_len = 0;
+// 	count = 0;
+// 	if (s == NULL)
+// 		return (1);
+// 	while (s && *s)
+// 	{
+// 		skip_wspaces(&s);
+// 		if (s && *s)
+// 			count++;
+// 		while (s && ft_strchr(" \t\n\v\f\r", *s) == NULL && *s)
+// 		{
+// 			if (is_quote(&s, &dummy_len) == false)
+// 				s++;
+// 		}
+// 	}
+// 	return (count);
+// }
+
+int		count_add(char *value)
+{
+	int	dummy_len;
+	int	count;
+
+	dummy_len = 0;
+	count = 0;
+	if (value == NULL)
+		return (1);
+	skip_wspaces(&value);
+	while(value && *value)
+	{
+		if (*value && ft_strchr(" \t\n\v\f\r", *value) == NULL)
+			count++;
+		while (*value && ft_strchr(" \t\n\v\f\r", *value) == NULL)
+		{
+			if (is_quote(&value, &dummy_len) == false)
+				value++;
+		}
+		skip_wspaces(&value);
+	}
+	return (count);
+}
+
+// int		count_exp_tokens(t_token *tokens, int flag)
+// {
+// 	int	i;
+// 	int	count;
+	
+// 	i = 0;
+// 	count = 0;
+// 	if (flag == 1)
+// 	{
+// 		while(tokens[i].type != T_NULL)
+// 		{
+// 			count += count_add(tokens[i].value);
+// 			i++;
+// 		}
+// 	}
+// 	else if (flag == 2)
+// 	{
+// 		while(tokens[i].type != T_NULL)
+// 		{
+// 			count++;
+// 			i++;
+// 		}
+// 	}
+// 	return (count);
+// }
+
+
+// t_token *new_tokens(t_token *tokens)
+// {
+// 	int	i;
+// 	int	j;
+// 	int	amount;
+// 	int	real_amount;
+// 	t_token	*new_token;
+
+// 	j = 0;
+// 	i = 0;
+// 	real_amount = count_exp_tokens(tokens, 2);
+// 	amount = count_exp_tokens(tokens, 1);
+// 	if (real_amount == amount)
+// 		return (NULL);
+// 	new_token = ft_calloc(amount + 1, sizeof(t_token));
+// 	if (new_token == NULL)
+// 		return (NULL);
+// 	while (tokens[j].type != T_NULL)
+// 	{
+// 		new_token[i].value = ft_strdup(tokens[j].value);
+// 		new_token[i].type = tokens[j].type;
+// 		i++;
+// 		j++;
+// 	}
+// 	while
+// }
+
 void	expand_strs(t_token *tokens, t_mini *shell)
 {
 	int	i;
@@ -98,8 +206,15 @@ void	expand_strs(t_token *tokens, t_mini *shell)
 		{
 			if (tokens[i].type != T_HERE_DOC)
 				dollar_expand(&tokens[i], shell);
-			remove_quotes(&tokens[i]);
 		}
+		i++;
+	}
+	// printf("exp_tokens = %d\n", count_exp_tokens(tokens));
+	i = 0;
+	while (tokens[i].type != T_NULL)
+	{
+		if (tokens[i].type != T_PIPE)
+			remove_quotes(&tokens[i]);
 		i++;
 	}
 }
