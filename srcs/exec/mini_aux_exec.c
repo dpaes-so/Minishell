@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/08 15:27:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:41:37 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	wait_child(t_mini *mini)
 {
 	int	i;
 	int	status;
-	int sig;
+	int	sig;
 
 	status = 0;
 	i = 0;
@@ -37,7 +37,6 @@ void	wait_child(t_mini *mini)
 		i++;
 	}
 }
-
 
 char	**matrix_dup(t_mini *mini, char **ev)
 {
@@ -127,6 +126,6 @@ t_mini	*mem_save(t_mini *to_save)
 	static t_mini	*save;
 
 	if (to_save)
-		save=to_save;
+		save = to_save;
 	return (save);
 }

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/08 18:31:14 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:33:56 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	main(int ac, char **av, char **ev)
 	ft_bzero(&mini, sizeof(t_mini));
 	my_env_start(&mini, ev);
 	get_pwd(&mini);
-	ft_printf("sdfghjkl;");
 	mini.pipex.path = path_finder(ev);
-	mini.pipex.status = 2;
+	mini.pipex.status = 0;
 	while (1)
 	{
 		choose_signal(1);
