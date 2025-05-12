@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:40:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:02:05 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (cmds.args[1])
 	{
 		n = ft_atol(cmds.args[1]);
-		printf("n = %lld long max = %ld\n long long max %lld\n",n,LONG_MAX,LLONG_MAX);
-		if (n >= LONG_MAX)
+		if (n > LONG_MAX)
 			check_exit_code(mini, cmds, 1);
 		else
 			check_exit_code(mini, cmds, 0);

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:30:24 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 16:23:35 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:59:59 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ long long	ft_atol(const char *nptr)
 	}
 	while (nptr[i] >= '0' && nptr[i] <= '9' && result < LONG_MAX)
 	{
-		if (result  >= LONG_MAX / 10)
-			break ;
-		printf("result = %lld\n",result);
+		if (minus == 1 && (result > (LONG_MAX - (nptr[i] - '0')) / 10))
+			return LONG_MAX;
+		else if (minus == -1 && (-result < (LONG_MIN + (nptr[i] - '0')) / 10))
+			return LONG_MIN;
 		result = result * 10 + (nptr[i] - '0');
 		i++;
 	}
