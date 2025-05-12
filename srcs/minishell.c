@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 12:33:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:14:03 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int ac, char **av, char **ev)
 		mini.save_fd = -1;
 		mini.cmd_amount = 0;
 		input = readline("minishell > ");
+		if (!input)
+			exit_childprocess(&mini, -2);
 		add_history(input);
 		mini.ast = parser(input, &mini);
 		ast = mini.ast;
@@ -40,6 +42,7 @@ int	main(int ac, char **av, char **ev)
 		mini.pipex.cmd = 0;
 		run_tree(&mini, ast, 0);
 		master_close();
+		mini.pipex.status = 1;
 		wait_child(&mini);
 		if (mini.ast)
 			free_tree(mini.ast);

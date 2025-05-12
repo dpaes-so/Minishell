@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:03:28 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/10 16:25:35 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	echo_flag(t_cmd cmds)
 
 	i = 1;
 	j = 1;
-	ft_printf("Found a flag\n");
 	while (cmds.args[j][i] == 'n')
 		i++;
 	if (cmds.args[j][i] != '\0')
@@ -94,6 +93,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 {
 	int	flag;
 	int	pid;
+	int fd;
 
 	flag = 0;
 	if (cmds.amount != 1)
@@ -101,14 +101,17 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 			flag = echo_flag(cmds);
 	if (cmds.redir[0].type != T_NULL)
 	{
-		do_redirect(&cmds, mini);
+		fd = do_redirect(&cmds, mini);
 		pid = fork();
 		if (pid == 0)
 		{
 			redir_echo(cmds, flag, cmds.fdout);
-			exit_childprocess(mini,0);
+			if(fd > 0)
+				fd=0;
+			else
+				fd = 1;
+			exit_childprocess(mini,fd);
 		}
-		wait(NULL);
 	}
 	else
 		normal_echo(mini, cmds, flag);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 10:25:08 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:00:53 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,29 +94,6 @@ bool	remove_quotes(t_token *token)
 	return (true);
 }
 
-// static int	count_words(char *s)
-// {
-// 	int	count;
-// 	int	dummy_len;
-
-// 	dummy_len = 0;
-// 	count = 0;
-// 	if (s == NULL)
-// 		return (1);
-// 	while (s && *s)
-// 	{
-// 		skip_wspaces(&s);
-// 		if (s && *s)
-// 			count++;
-// 		while (s && ft_strchr(" \t\n\v\f\r", *s) == NULL && *s)
-// 		{
-// 			if (is_quote(&s, &dummy_len) == false)
-// 				s++;
-// 		}
-// 	}
-// 	return (count);
-// }
-
 int		count_add(char *value)
 {
 	int	dummy_len;
@@ -167,6 +144,23 @@ int		count_add(char *value)
 // 	return (count);
 // }
 
+// void	process_token(char	*value, t_token *new_tokens, int *i)
+// {
+// 	int	j;
+// 	int	dummy_len;
+
+// 	dummy_len = 0;
+// 	j = 0;
+// 	while(value && *value)
+// 	{			
+// 		while (value && ft_strchr(" \t\n\v\f\r", *value) == NULL)
+// 		{
+// 			// if (is_quote(&value, &dummy_len) == false)
+// 			// 	value++;
+// 		}
+// 		skip_wspaces(&value);
+// 	}
+// }
 
 // t_token *new_tokens(t_token *tokens)
 // {
@@ -187,7 +181,10 @@ int		count_add(char *value)
 // 		return (NULL);
 // 	while (tokens[j].type != T_NULL)
 // 	{
-// 		new_token[i].value = ft_strdup(tokens[j].value);
+// 		if (count_add(tokens) > 1)
+// 			process_token(tokens[j].value, new_tokens, &i);
+// 		else 
+// 			new_token[i].value = ft_strdup(tokens[j].value);
 // 		new_token[i].type = tokens[j].type;
 // 		i++;
 // 		j++;
@@ -209,7 +206,7 @@ void	expand_strs(t_token *tokens, t_mini *shell)
 		}
 		i++;
 	}
-	// printf("exp_tokens = %d\n", count_exp_tokens(tokens));
+	// printf("exp_tokens = %d\n", count_exp_tokens(tokens, 1));
 	i = 0;
 	while (tokens[i].type != T_NULL)
 	{

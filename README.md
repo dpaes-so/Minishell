@@ -26,7 +26,7 @@ stuff exec needs to do:
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
 
-here doc expans
+here doc expansion
 
 here doc order
 
