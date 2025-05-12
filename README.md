@@ -25,13 +25,10 @@ stuff exec needs to do:
 
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
-export =+
-
-controld d
 
 here doc expans
 
-exit long
+here doc order
 
 
 stuff parser needs to do:

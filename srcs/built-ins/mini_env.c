@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:31:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 12:45:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:51:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,3 @@ int	build_env(t_mini *mini, t_cmd cmds)
 	return (res);
 }
 
-// export function but no space, leave me alone >:(
-int	print_env_ex(t_mini *mini)
-{
-	int	i;
-
-	i = -1;
-	while (mini->env->my_env[++i])
-		ft_printf("declare -x %s\n", mini->env->my_env[i]);
-	return (1);
-}

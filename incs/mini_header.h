@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 12:42:01 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:57:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINI_HEADER_H
 
 # include "libft/libft.h"
+# include "limits.h"
 # include "stdbool.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -22,7 +23,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
 typedef enum TokenType
 {
 	T_WORD,
@@ -72,7 +72,7 @@ typedef struct s_pipe
 	int					cmd;
 	int					infile_fd;
 	int					outfile_fd;
-	int					status;
+	long				status;
 	char				**path;
 	int					pipefd[2];
 }						t_pipe;
@@ -102,6 +102,7 @@ int						print_env_ex(t_mini *mini);
 void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
+void					*add_export(t_mini *mini, char *arg);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 

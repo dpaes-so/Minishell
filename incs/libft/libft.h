@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/03/25 18:53:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:09:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include "get_next_line.h"
+# include "limits.h"
 # include "printf/ft_printf.h"
 # include <stdlib.h>
 # include <unistd.h>
@@ -89,6 +90,10 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 
 void				ft_putnbr_fd(int n, int fd);
+
+long long			ft_atol(const char *nptr);
+
+char				**ft_matrix_dup(char **new_matrix, char **matrixdup);
 
 typedef struct s_list
 {
