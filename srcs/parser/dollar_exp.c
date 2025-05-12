@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/08 19:58:10 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/10 17:08:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*find_env(t_token *token, t_mini *shell)
 	{
 		(*token).value++;
 		count++;
+		if (ft_isdigit(*(*token).value))
+			break;
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)
@@ -46,8 +48,7 @@ char	*find_env(t_token *token, t_mini *shell)
 			return (free(expand), shell->env->my_env[j] + count + 1);
 		j++;
 	}
-	free(expand);
-	return (NULL);
+	return (free(expand), NULL);
 }
 
 void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
