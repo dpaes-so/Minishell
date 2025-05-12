@@ -25,13 +25,15 @@ stuff exec needs to do:
 
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
-export =+
+correct stuff :D
 
-controld d
+export +=
 
-here doc expans
+here doc expansion
 
-exit long
+dividir export and env for variable shit like no equal and nukber also study more export pls
+
+exit atol
 
 
 stuff parser needs to do:
