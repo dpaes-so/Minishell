@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 18:21:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:39:02 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	which_child(t_mini *mini, t_cmd cmds)
 
 void	execute(t_mini *mini, t_tree *ast, int f)
 {
+	mini->pipex.here_number = 0;
 	if (f == 0)
 	{
 		if (check_built_in(mini, ast->node))

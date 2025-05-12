@@ -6,20 +6,40 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 12:46:31 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:50:35 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void	get_pwd(t_mini *mini)
-{
-	char	*cdw;
 
-	cdw = NULL;
-	cdw = getcwd(cdw, 100);
-	free(mini->pwd);
-	mini->pwd = ft_strjoin(cdw, "");
+char	*find_home(char *str, t_mini *shell)
+{
+	char	*expand;
+	int		count;
+	int		j;
+
+	j = -1;
+	count = 0;
+	while (str && ft_isalnum(*str))
+	{
+		if (ft_isdigit(*str))
+		{
+			str++;
+			return (NULL);
+		}
+		str++;
+		count++;
+	}
+	expand = ft_calloc(count + 2, sizeof(char));
+	if (expand == NULL)
+		return (NULL);
+	ft_strlcpy(expand, str - count, count + 1);
+	expand = ft_strjoin(expand, "=");
+	while (shell->env->my_env[++j])
+		if (ft_strnstr(shell->env->my_env[j], expand, count + 1))
+			return (free(expand), shell->env->my_env[j] + count + 1);
+	return (free(expand), NULL);
 }
 
 void	pwd_update(t_mini *mini)
@@ -41,9 +61,12 @@ void	pwd_update(t_mini *mini)
 
 static int	cd_home(t_mini *mini)
 {
-	if (mini->env->home != NULL)
+	char *home;
+	
+	home = find_home("HOME",mini);
+	if (home != NULL)
 	{
-		chdir(mini->env->home);
+		chdir(home);
 		get_pwd(mini);
 	}
 	else

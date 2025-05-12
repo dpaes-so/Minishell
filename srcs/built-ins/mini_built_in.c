@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 16:03:01 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:47:22 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	while (cmds->redir[++i].value != NULL)
 		fd = redir_check(cmds, mini, i);
 	return (fd);
+}
+
+void	get_pwd(t_mini *mini)
+{
+	char	*cdw;
+
+	cdw = NULL;
+	cdw = getcwd(cdw, 100);
+	free(mini->pwd);
+	mini->pwd = ft_strjoin(cdw, "");
 }
 
 int	build_pwd(t_mini *mini, t_cmd cmds)

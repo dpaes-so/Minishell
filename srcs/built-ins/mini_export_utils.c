@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:01:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:08:36 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	*add_export(t_mini *mini, char *arg)
 	while (mini->env->my_env[++break_point])
 		if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '+')
 				- arg))
-			return (mini->env->my_env[break_point] = ft_strjoin(mini->env->my_env[break_point],ft_strchr(arg, '+') + 2), NULL);
+			return (mini->env->my_env[break_point] = ft_strjoin(mini->env->my_env[break_point],
+					ft_strchr(arg, '+') + 2), NULL);
 	new_env = ft_calloc((size + 2), sizeof(char *));
 	if (!new_env)
 		return (NULL);
@@ -46,5 +47,5 @@ void	*add_export(t_mini *mini, char *arg)
 	new_env[i++] = ft_strdup(arg);
 	new_env[i] = NULL;
 	freetrix(mini->env->my_env);
-	return (mini->env->my_env = new_env,NULL);
+	return (mini->env->my_env = new_env, NULL);
 }
