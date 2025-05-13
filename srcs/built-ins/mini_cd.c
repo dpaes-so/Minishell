@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 18:32:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:03:46 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*find_in_env(char *str, t_mini *shell)
 
 	j = -1;
 	count = 0;
-	while (str && ft_isalnum(*str))
+	while (str && (ft_isalnum(*str) || *str == '_'))
 	{
 		if (ft_isdigit(*str))
 		{

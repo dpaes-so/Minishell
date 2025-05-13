@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/06 18:08:48 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:07:58 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*found_dollar(t_token *token, t_mini *shell, int *flag)
 			*flag = 1;
 			(*token).value++;
 		}
-		else if (ft_isalnum(*(*token).value))
+		else if (ft_isalnum(*(*token).value) || *(*token).value == '_')
 		{
 			expand = find_env(token, shell);
 			if (expand == NULL)

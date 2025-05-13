@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 18:38:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:59:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,29 @@
 
 void	here_doc_expand(char *s, t_mini *mini, int fd[2])
 {
-	int i;
-	int j;
-	char *s2;
-	
+	int		i;
+	int		j;
+	char	*s2;
+
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		j = 0;
-		if(s[i] == '$')
+		if (s[i] == '$')
 		{
 			i++;
-			s2= find_in_env(s + i,mini);
+			s2 = find_in_env(s + i, mini);
+			while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+			{
+				if (ft_isdigit(s[i]))
+				{
+					i++;
+					break;
+				}
+				i++;
+			}
 			while (s2[j])
 				write(fd[1], &s2[j++], 1);
-			i +=j;
 		}
 		else
 			write(fd[1], &s[i++], 1);
@@ -48,7 +56,7 @@ void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 			free(str);
 			break ;
 		}
-		here_doc_expand(str,mini,fd);
+		here_doc_expand(str, mini, fd);
 		// while (str[i])
 		// 	write(fd[1], &str[i++], 1);
 		write(fd[1], "\n", 1);
