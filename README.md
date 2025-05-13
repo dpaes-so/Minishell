@@ -28,8 +28,7 @@ stuff exec needs to do:
 
 here doc expansion
 
-here doc order
-
+export sort
 
 stuff parser needs to do:
 echo ola > txt ola > outro | echo banana > banana
