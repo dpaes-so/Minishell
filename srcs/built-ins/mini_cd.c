@@ -6,14 +6,14 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 18:50:35 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:32:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
 
-char	*find_home(char *str, t_mini *shell)
+char	*find_in_env(char *str, t_mini *shell)
 {
 	char	*expand;
 	int		count;
@@ -63,7 +63,7 @@ static int	cd_home(t_mini *mini)
 {
 	char *home;
 	
-	home = find_home("HOME",mini);
+	home = find_in_env("HOME",mini);
 	if (home != NULL)
 	{
 		chdir(home);

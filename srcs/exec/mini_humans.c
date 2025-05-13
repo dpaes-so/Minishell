@@ -6,13 +6,35 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 17:38:57 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:38:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void	here_loop(int j, t_cmd *cmds,int fd[2])
+void	here_doc_expand(char *s, t_mini *mini, int fd[2])
+{
+	int i;
+	int j;
+	char *s2;
+	
+	i = 0;
+	while(s[i])
+	{
+		j = 0;
+		if(s[i] == '$')
+		{
+			i++;
+			s2= find_in_env(s + i,mini);
+			while (s2[j])
+				write(fd[1], &s2[j++], 1);
+			i +=j;
+		}
+		else
+			write(fd[1], &s[i++], 1);
+	}
+}
+void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 {
 	int		i;
 	char	*str;
@@ -26,8 +48,9 @@ void	here_loop(int j, t_cmd *cmds,int fd[2])
 			free(str);
 			break ;
 		}
-		while (str[i])
-			write(fd[1], &str[i++], 1);
+		here_doc_expand(str,mini,fd);
+		// while (str[i])
+		// 	write(fd[1], &str[i++], 1);
 		write(fd[1], "\n", 1);
 		free(str);
 	}
@@ -45,7 +68,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 	if (pid == 0)
 	{
 		choose_signal(3);
-		here_loop(j, cmds,fd);
+		here_loop(j, cmds, fd, mini);
 		exit_childprocess(mini, 0);
 	}
 	else

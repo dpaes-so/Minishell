@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 17:40:36 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:32:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
+char					*find_in_env(char *str, t_mini *shell);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 
