@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/06 18:39:42 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:08:38 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+bool	check_redir_parse(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i] && (ft_strchr(" \t\n\v\f\r<>", value[i]) != NULL))
+		i++;
+	if (value[i])
+		return (true);
+	return (false);
+}
 
 void	init_redirs(t_tree *tree_node, t_token *tokens)
 {
@@ -25,6 +37,11 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
+			if(check_redir_parse(tokens[i].value) == false)
+			{
+				i++;
+				continue;
+			}
 			while (ft_strchr(" ><", tokens[i].value[count]) != NULL)
 				count++;
 			tree_node->node.redir[j].value = ft_strdup(tokens[i].value
