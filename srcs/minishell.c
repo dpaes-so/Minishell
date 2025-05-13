@@ -6,11 +6,29 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/12 14:14:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:58:42 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/mini_header.h"
+
+void	do_here_doc(t_mini *mini, t_tree *ast, int i)
+{
+	if (ast->node.pipe == true)
+	{
+		do_here_doc(mini, ast->left, 0);
+		do_here_doc(mini, ast->right, 0);
+	}
+	else if (ast->node.redir[i].type != T_NULL)
+	{
+		while (ast->node.redir[i].type != T_NULL)
+		{
+			if (ast->node.redir[i].type == T_HERE_DOC)
+				ast->node.fdin = here_doc(mini->pipex, &ast->node, i);
+			i++;
+		}
+	}
+}
 
 int	main(int ac, char **av, char **ev)
 {
@@ -40,6 +58,7 @@ int	main(int ac, char **av, char **ev)
 			continue ;
 		tree_apply_infix(mini.ast, 0, "root");
 		mini.pipex.cmd = 0;
+		do_here_doc(&mini,ast,0);
 		run_tree(&mini, ast, 0);
 		master_close();
 		mini.pipex.status = 1;

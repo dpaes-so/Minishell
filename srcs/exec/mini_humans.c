@@ -6,13 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 15:57:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:59:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	here_doc(t_pipe pipex, t_cmd *cmds)
+int	here_doc(t_pipe pipex, t_cmd *cmds,int j)
 {
 	char	*str;
 	int		fd[2];
@@ -25,8 +25,8 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 	{
 		i = 0;
 		str = readline("> ");
-		if (!str || !ft_strncmp(str, cmds->redir[0].value,
-				ft_strlen(cmds->redir[0].value)))
+		if (!str || !ft_strncmp(str, cmds->redir[j].value,
+				ft_strlen(cmds->redir[j].value)))
 		{
 			free(str);
 			break ;
@@ -39,6 +39,34 @@ int	here_doc(t_pipe pipex, t_cmd *cmds)
 	close(fd[1]);
 	return (fd[0]);
 }
+
+// int	here_doc(t_pipe pipex, t_cmd *cmds)
+// {
+// 	char	*str;
+// 	int		fd[2];
+// 	int		i;
+
+// 	(void)pipex;
+// 	pipe(fd);
+// 	choose_signal(3);
+// 	while (1)
+// 	{
+// 		i = 0;
+// 		str = readline("> ");
+// 		if (!str || !ft_strncmp(str, cmds->redir[0].value,
+// 				ft_strlen(cmds->redir[0].value)))
+// 		{
+// 			free(str);
+// 			break ;
+// 		}
+// 		while (str[i])
+// 			write(fd[1], &str[i++], 1);
+// 		write(fd[1], "\n", 1);
+// 		free(str);
+// 	}
+// 	close(fd[1]);
+// 	return (fd[0]);
+// }
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
