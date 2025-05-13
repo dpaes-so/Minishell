@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 16:27:10 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:35:42 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ void	wait_child(t_mini *mini)
 		}
 		i++;
 	}
-}
-
-char	**matrix_dup(t_mini *mini, char **ev)
-{
-	int	j;
-
-	j = -1;
-	while (ev[++j])
-	{
-		mini->env->my_env[j] = ft_strdup(ev[j]);
-		if (mini->env->my_env[j] == NULL)
-			return (NULL);
-	}
-	return (mini->env->my_env);
 }
 
 void	set_shlvl(t_mini *mini)
@@ -119,13 +105,4 @@ void	cmd_exit(char *exec, t_mini *mini)
 			free(exec);
 		exit(126);
 	}
-}
-
-t_mini	*mem_save(t_mini *to_save)
-{
-	static t_mini	*save;
-
-	if (to_save)
-		save = to_save;
-	return (save);
 }

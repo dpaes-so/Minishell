@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/12 17:25:51 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/05/13 17:39:30 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SOURCES = minishell.c \
 		  exec/mini_humans.c \
 		  exec/mini_aux_exec.c \
 		  exec/signal.c \
+		  exec/mini_more_exec_aux.c \
           mini_aux.c
 
 SRCS_DIR = srcs

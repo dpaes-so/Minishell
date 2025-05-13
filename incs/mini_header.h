@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 15:03:26 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:40:36 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void					choose_signal(int s);
 t_mini					*mem_save(t_mini *to_save);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
+char					**matrix_dup(t_mini *mini, char **ev);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
