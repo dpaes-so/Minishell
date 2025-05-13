@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 13:59:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:02:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ typedef struct s_env
 
 typedef struct s_pipe
 {
-	int					*here_fd;
-	int					here_number;
 	int					pid1;
 	int					cmd;
 	int					infile_fd;
