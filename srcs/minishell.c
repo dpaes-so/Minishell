@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/13 14:05:00 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:25:18 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 	}
 	else if (ast->node.redir[i].type != T_NULL)
 	{
-		while (ast->node.redir[i].type != T_NULL)
+		while(ast->node.redir[i].type != T_NULL)
 		{
+			ft_printf("i = %d\n",i);
 			if (ast->node.redir[i].type == T_HERE_DOC)
-				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i);
+				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i,mini);
 			i++;
 		}
 	}
@@ -58,7 +59,8 @@ int	main(int ac, char **av, char **ev)
 			continue ;
 		tree_apply_infix(mini.ast, 0, "root");
 		mini.pipex.cmd = 0;
-		do_here_doc(&mini,ast,0);
+		mem_save(&mini);
+		do_here_doc(&mini, ast, 0);
 		run_tree(&mini, ast, 0);
 		master_close();
 		mini.pipex.status = 1;

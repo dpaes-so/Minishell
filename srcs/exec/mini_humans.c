@@ -6,36 +6,48 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 13:59:06 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:28:48 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	here_doc(t_pipe pipex, t_cmd *cmds,int j)
+int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 {
 	char	*str;
 	int		fd[2];
 	int		i;
+	int		pid;
 
 	(void)pipex;
 	pipe(fd);
-	choose_signal(3);
-	while (1)
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
 	{
-		i = 0;
-		str = readline("> ");
-		if (!str || !ft_strncmp(str, cmds->redir[j].value,
-				ft_strlen(cmds->redir[j].value)))
+		choose_signal(3);
+		ft_printf("im after\n");
+		while (1)
 		{
+			i = 0;
+			str = readline("> ");
+			if (!str || !ft_strcmp(str, cmds->redir[j].value))
+			{
+				free(str);
+				break ;
+			}
+			while (str[i])
+				write(fd[1], &str[i++], 1);
+			write(fd[1], "\n", 1);
 			free(str);
-			break ;
 		}
-		while (str[i])
-			write(fd[1], &str[i++], 1);
-		write(fd[1], "\n", 1);
-		free(str);
+		ft_printf("BRO MATEIME\n");
+		exit_childprocess(mini,0);
 	}
+	else
+		wait(NULL);
+	ft_printf("olha retornei isto\n");
 	close(fd[1]);
 	return (fd[0]);
 }
@@ -70,9 +82,10 @@ int	here_doc(t_pipe pipex, t_cmd *cmds,int j)
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
+	ft_printf("IM first\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -96,7 +109,7 @@ void	last_child(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -120,7 +133,7 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 {
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -149,15 +162,15 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	int	pid;
 
 	signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-		mem_save(mini);
+		ft_printf("IM HEdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddRE\n");
 		choose_signal(2);
 		do_redirect(&cmds, mini);
 		if (!cmds.cmd)
-			exit_childprocess(mini,0);
+			exit_childprocess(mini, 0);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

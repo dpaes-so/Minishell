@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 14:04:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:03:26 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ void					cmd_exit(char *exec, t_mini *mini);
 void					root_handler(int signal);
 void					choose_signal(int s);
 t_mini					*mem_save(t_mini *to_save);
-int						here_doc(t_pipe pipex, t_cmd *cmds, int j);
+int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
+							t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
