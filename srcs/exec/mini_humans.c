@@ -28,14 +28,10 @@ void	here_doc_expand(char *s, t_mini *mini, int fd[2])
 			s2 = find_in_env(s + i, mini);
 			while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 			{
-				if (ft_isdigit(s[i]))
-				{
-					i++;
+				if (ft_isdigit(s[i++]))
 					break;
-				}
-				i++;
 			}
-			while (s2[j])
+			while (s2 && s2[j])
 				write(fd[1], &s2[j++], 1);
 		}
 		else
@@ -44,12 +40,10 @@ void	here_doc_expand(char *s, t_mini *mini, int fd[2])
 }
 void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 {
-	int		i;
 	char	*str;
 
 	while (1)
 	{
-		i = 0;
 		str = readline("> ");
 		if (!str || !ft_strcmp(str, cmds->redir[j].value))
 		{
@@ -57,8 +51,6 @@ void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 			break ;
 		}
 		here_doc_expand(str, mini, fd);
-		// while (str[i])
-		// 	write(fd[1], &str[i++], 1);
 		write(fd[1], "\n", 1);
 		free(str);
 	}
