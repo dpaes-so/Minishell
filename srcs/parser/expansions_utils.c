@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/13 20:07:58 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:01:01 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	handle_s_quote(t_token *token, char *expand, int *j)
 
 void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
 {
+	(*token).in_quotes = true;
 	if (expand != NULL)
 	{
 		small_cpy(token, expand, j, 0);

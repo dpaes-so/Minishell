@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 20:03:46 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:51:23 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*find_in_env(char *str, t_mini *shell)
 
 	j = -1;
 	count = 0;
+	if (ft_isdigit(*str))
+	{
+		str++;
+		return (NULL);
+	}
 	while (str && (ft_isalnum(*str) || *str == '_'))
 	{
-		if (ft_isdigit(*str))
-		{
-			str++;
-			return (NULL);
-		}
 		str++;
 		count++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 18:32:27 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:57:37 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_token
 {
 	char				*value;
 	t_tokentype			type;
+	bool				in_quotes;
 }						t_token;
 
 typedef struct s_cmd

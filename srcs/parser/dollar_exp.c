@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/13 20:05:43 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:15:04 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ char	*find_env(t_token *token, t_mini *shell)
 
 	j = -1;
 	count = 0;
+	if (ft_isdigit(*(*token).value))
+		return ((*token).value++, NULL);
 	while (*(*token).value && (ft_isalnum(*(*token).value)
 			|| *(*token).value == '_'))
 	{
-		if (ft_isdigit(*(*token).value))
-			return ((*token).value++, NULL);
 		(*token).value++;
 		count++;
 	}
@@ -81,13 +81,15 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	temp = found_dollar(token, shell, &flag);
 	if (temp != NULL && temp[0])
 	{
-		temp = add_quotes(temp, flag);
+		if (!(*token).in_quotes)
+			temp = add_quotes(temp, flag);
 		if (expand != NULL)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
-	if (temp && temp[0])
+	if (temp && temp[0] && !(*token).in_quotes)
 		free(temp);
+	(*token).in_quotes = false;
 }
 
 void	put_expansion(t_token *token, t_mini *shell, char *expand, int amount)
