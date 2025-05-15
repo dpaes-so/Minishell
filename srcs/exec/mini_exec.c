@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 20:04:12 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:41:23 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 {
 	if (!cmds.cmd)
 		return (0);
-	if (ft_strncmp(cmds.cmd, "echo", 4) == 0)
+	if (ft_strcmp(cmds.cmd, "echo") == 0)
 		return (build_echo(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "pwd") == 0)
 		return (build_pwd(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "env") == 0)
 		return (build_env(mini, cmds));
-	if (ft_strncmp(cmds.cmd, "cd", 2) == 0)
+	if (ft_strcmp(cmds.cmd, "cd") == 0)
 		return (build_cd(mini, cmds));
-	if (ft_strncmp(cmds.cmd, "export", 6) == 0)
+	if (ft_strcmp(cmds.cmd, "export") == 0)
 		return (build_export(mini, cmds));
-	if (ft_strncmp(cmds.cmd, "unset", 5) == 0)
+	if (ft_strcmp(cmds.cmd, "unset") == 0)
 		return (build_unset(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
 		return(build_exit(mini, cmds));

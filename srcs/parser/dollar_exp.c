@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/14 18:16:42 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:49:03 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,10 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	temp = found_dollar(token, shell, &flag);
 	if (temp != NULL && temp[0])
 	{
-		if (!(*token).in_quotes)
-			temp = add_quotes(temp, flag);
 		if (expand != NULL)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
-	if (temp && temp[0] && !(*token).in_quotes)
-		free(temp);
 }
 
 void	put_expansion(t_token *token, t_mini *shell, char *expand, int amount)

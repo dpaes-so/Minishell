@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 18:36:57 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:45:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	free_tokens(t_token *tokens)
 /// @brief Identifies each token
 /// @param value String of the token
 /// @return The type of token
-t_tokentype	token_type(char *value)
+t_tokentype	token_type(char *value ,int j)
 {
 	t_tokentype	type;
 	int			i;
@@ -73,7 +73,7 @@ t_tokentype	token_type(char *value)
 	type = T_WORD;
 	while (value[i] && (value[i] == ' ' || (value[i] >= 9 && value[i] <= 13)))
 		i++;
-	if (value[i] && value[i] == '|')
+	if (value[i] && value[i] == '|'  && j == 1)
 		type = T_PIPE;
 	else if (value[i] && (value[i] == '>' || value[i] == '<'))
 	{
@@ -99,7 +99,7 @@ t_tokentype	token_type(char *value)
 bool	word_alloc(char *input, int len, t_token *result, int i)
 {
 	result[i].value = ft_substr(input, 0, len);
-	result[i].type = token_type(result[i].value);
+	result[i].type = token_type(result[i].value, 1);
 	result[i].copy = ft_strdup(result[i].value);
 	result[i].in_quotes = false;
 	if (result[i].value == NULL)

@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/14 18:04:03 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:48:25 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	handle_s_quote(t_token *token, char *expand, int *j)
 	(*token).value++;
 }
 
-void	real_d_quoatage(t_token *token, t_mini *shell, char *expand, int *j)
+void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
 {
 	if (expand != NULL)
 	{
@@ -114,11 +114,4 @@ void	real_d_quoatage(t_token *token, t_mini *shell, char *expand, int *j)
 		}
 		small_cpy(token, NULL, 0, j);
 	}
-}
-
-void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
-{
-	(*token).in_quotes = true;
-	real_d_quoatage(token, shell, expand, j);
-	(*token).in_quotes = false;
 }

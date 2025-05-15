@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 18:06:27 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:54:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 typedef enum TokenType
 {
 	T_WORD,
@@ -138,7 +139,7 @@ void					free_tokens(t_token *tokens);
 int						count_tokens(char *input, t_token *result);
 bool					word_alloc(char *input, int len, t_token *result,
 							int i);
-t_tokentype				token_type(char *value);
+t_tokentype				token_type(char *value, int j);
 bool					is_token(char **input, int *len);
 bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
@@ -160,7 +161,7 @@ void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
 bool					dollar_expand(t_token *token, t_mini *shell);
-void					expand_strs(t_token *tokens, t_mini *shell);
+t_token					*expand_strs(t_token *tokens, t_mini *shell);
 void					small_cpy(t_token *token, char *expand, int *j,
 							int *amount);
 void					handle_s_quote(t_token *token, char *expand, int *j);

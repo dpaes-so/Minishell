@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/15 12:09:31 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:22:04 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,229 +123,122 @@ int	unclosed_split_quotes(char *value)
 	return (quote);
 }
 
-char	*no_split_dollar(char *token, int i)
+void	do_count_words_loop_sigma_best_ever_made(int *i,char *s,char quote,int *count)
 {
-	int	count;
-
-	count = unclosed_split_quotes(token + i);
-	if (count % 2 != 0 || count == 0)
-		return ("$");
-	return (NULL);
-}
-
-char	*found_split_dollar(char *copy, int *i, t_mini *shell)
-{
-	char	*expand;
-
-	expand = NULL;
-	if (copy[*i] == '$')
-	{
+	while (s[*i] && (s[*i] == ' ' || (s[*i] >= 9 && s[*i] <= 13)))
 		(*i)++;
-		if (copy[*i] == '?')
+	if (s[*i])
+		(*count)++;
+	while (s[*i] && (s[*i] != ' ' && (s[*i] < 9 || s[*i] > 13)))
+	{
+		if (s[*i] == '\'' || s[*i] == '\"')
 		{
-			expand = status_expand(shell);
-			if (expand == NULL)
-				return (NULL);
+			quote = s[*i];
 			(*i)++;
-		}
-		else if (ft_isalnum(copy[*i]) || copy[*i] == '_')
-		{
-			expand = find_in_env(copy + *i, shell);
-			while (copy[*i] && (ft_isalnum(copy[*i]) || copy[*i] == '_'))
+			while (s[*i] && s[*i] != quote)
 				(*i)++;
-			if (expand == NULL)
-				return (NULL);
+			if (s[*i] && s[*i] == quote)
+				(*i)++;
 		}
 		else
-			return (no_split_dollar(copy, *i));
+			(*i)++;
 	}
-	return (expand);
 }
-
-static int	countwords(const char *s, int *f)
+static int	countwords(char *s)
 {
-	int	i;
-	int	count;
+	int		i;
+	char	quote;
+	int		count;
 
 	i = 0;
 	count = 0;
-	printf("count string = %s\n", s);
+	quote = 0;
 	while (s[i])
-	{
-		while (s[i] && ft_strchr(" \t\n\v\f\r", s[i]) != NULL)
-		{
-			if (*f == 2)
-				count++;
-			*f = 0;
-			i++;
-		}
-		if (s[i])
-			count++;
-		while (s[i] && ft_strchr(" \t\n\v\f\r", s[i]) == NULL)
-		{
-			*f = 1;
-			i++;
-		}
-	}
+		do_count_words_loop_sigma_best_ever_made(&i,s,quote,&count);
 	return (count);
 }
 
-int	handle_split_dollar(char *copy, int *i, t_mini *shell, bool quotes)
+static void	quote_handle(int *len, char *s, int *i)
 {
-	int		count;
-	char	*temp;
-	int		flag;
+	char	quote;
 
-	count	= 0;
-	if (*i > 0)
-		flag = 2;
-	else
-		flag = 0;
-	temp = found_split_dollar(copy, i, shell);
-	if (temp != NULL && temp[0])
-	{
-		if (!quotes)
-		{
-			count = countwords(temp, &flag);
-			if (flag == 0 && copy[*i])
-				count++;
-			return (count);
-		}
-		else
-			(*i)++;
-	}
-	return (0);
-}
-
-int	identifier(char *copy, int *i, t_mini *shell)
-{
-	if (copy[*i] == '\'')
+	quote = s[*i];
+	(*i)++;
+	(*len)++;
+	while (s[*i] && s[*i] != quote)
 	{
 		(*i)++;
-		while (copy[*i] && copy[*i] != '\'')
-			(*i)++;
+		(*len)++;
+	}
+	if (s[*i] && s[*i] == quote)
 		(*i)++;
-	}
-	else
-	{
-		if (copy[*i] == '\"')
-		{
-			(*i)++;
-			while (copy[*i] && copy[*i] != '\"')
-			{
-				if (copy[*i] && copy[*i] == '$')
-					return (handle_split_dollar(copy, i, shell, true));
-				else
-					(*i)++;
-			}
-			(*i)++;
-		}
-		else if (copy[*i] == '$')
-			return (handle_split_dollar(copy, i, shell, false));
-		else
-			(*i)++;
-	}
-	return (0);
+	(*len)++;
 }
 
-int	count_add(char *copy, t_mini *shell)
+static char	*wordalloc(char *s, char c, int *i)
+{
+	char	*word;
+	char	*str;
+	int		len;
+
+	len = 0;
+	while (s[*i] && (s[*i] == c || (s[*i] >= 9 && s[*i] <= 13)))
+		(*i)++;
+	str = s + (*i);
+	while (s[*i] && (s[*i] != c || (s[*i] < 9 && s[*i] > 13)))
+	{
+		if (s[*i] && (s[*i] == '\'' || s[*i] == '\"'))
+			quote_handle(&len, s, i);
+		else
+		{
+			(*i)++;
+			len++;
+		}
+	}
+	word = malloc(sizeof(char) * (len + 1));
+	if (!word)
+		return (NULL);
+	return (ft_strlcpy(word, str, len + 1), word);
+}
+
+char	**ft_arg_split(char *s, char c)
+{
+	char	**result;
+	int		stringnum;
+	int		i;
+	int		index;
+
+	index = 0;
+	if (!s)
+		return (NULL);
+	i = 0;
+	stringnum = countwords(s);
+	result = malloc(sizeof(char *) * (stringnum + 1));
+	if (!result)
+		return (NULL);
+	result[stringnum] = 0;
+	while (i < stringnum)
+	{
+		result[i] = wordalloc(s, c, &index);
+		if (!result[i])
+			return (freetrix(result), NULL);
+		i++;
+	}
+	return (result);
+}
+
+t_token	*expand_strs(t_token *tokens, t_mini *shell)
 {
 	int	i;
+	int	j;
+	int	k;
 	int	amount;
-
-	amount = 0;
-	i = 0;
-	(void)shell;
-	if (copy == NULL)
-		return (1);
-	while (copy[i])
-	{
-		printf("copy[%d] = %c\n",i, copy[i]);
-		amount += identifier(copy, &i, shell);
-	}
-	return (amount);
-}
-
-// int		count_exp_tokens(t_token *tokens, int flag)
-// {
-// 	int	i;
-// 	int	count;
-
-// 	i = 0;
-// 	count = 0;
-// 	if (flag == 1)
-// 	{
-// 		while(tokens[i].type != T_NULL)
-// 		{
-// 			count += count_add(tokens[i].value);
-// 			i++;
-// 		}
-// 	}
-// 	else if (flag == 2)
-// 	{
-// 		while(tokens[i].type != T_NULL)
-// 		{
-// 			count++;
-// 			i++;
-// 		}
-// 	}
-// 	return (count);
-// }
-
-// void	process_token(char	*value, t_token *new_tokens, int *i)
-// {
-// 	int	j;
-// 	int	dummy_len;
-
-// 	dummy_len = 0;
-// 	j = 0;
-// 	while(value && *value)
-// 	{
-// 		while (value && ft_strchr(" \t\n\v\f\r", *value) == NULL)
-// 		{
-// 			// if (is_quote(&value, &dummy_len) == false)
-// 			// 	value++;
-// 		}
-// 		skip_wspaces(&value);
-// 	}
-// }
-
-// t_token *new_tokens(t_token *tokens)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	amount;
-// 	int	real_amount;
-// 	t_token	*new_token;
-
-// 	j = 0;
-// 	i = 0;
-// 	real_amount = count_exp_tokens(tokens, 2);
-// 	amount = count_exp_tokens(tokens, 1);
-// 	if (real_amount == amount)
-// 		return (NULL);
-// 	new_token = ft_calloc(amount + 1, sizeof(t_token));
-// 	if (new_token == NULL)
-// 		return (NULL);
-// 	while (tokens[j].type != T_NULL)
-// 	{
-// 		if (count_add(tokens) > 1)
-// 			process_token(tokens[j].value, new_tokens, &i);
-// 		else
-// 			new_token[i].value = ft_strdup(tokens[j].value);
-// 		new_token[i].type = tokens[j].type;
-// 		i++;
-// 		j++;
-// 	}
-// 	while
-// }
-
-void	expand_strs(t_token *tokens, t_mini *shell)
-{
-	int	i;
+	t_token	*new_tokens;
+	char	**res;
 
 	i = 0;
-	while (tokens[i].type != T_NULL)
+	amount = 0;   
+	while (tokens[i].type != T_NULL) 
 	{
 		if (tokens[i].type != T_PIPE)
 		{
@@ -355,11 +248,57 @@ void	expand_strs(t_token *tokens, t_mini *shell)
 		i++;
 	}
 	i = 0;
-	printf("count_add amount dumbass = %d\n", count_add(tokens[i].copy, shell));
-	while (tokens[i].type != T_NULL)
+	while(tokens[i].type != T_NULL)
 	{
-		if (tokens[i].type != T_PIPE)
-			remove_quotes(&tokens[i]);
+		j = 0;
+		res = ft_arg_split(tokens[i].value, ' ');
+		if (res == NULL)
+			amount++;
+		while(res && res[j])
+			j++;
+		amount += j;
+		i++;
+		freetrix(res);
+	}
+	i = 0;
+	k = 0;
+	new_tokens = ft_calloc(amount + 1, sizeof(t_token));
+	if (new_tokens == NULL)
+		return (NULL);
+	new_tokens[amount].type = T_NULL;
+	new_tokens[amount].value = NULL;
+	printf("amout = %d\n",amount);
+	while(tokens[i].type != T_NULL)
+	{
+		j = -1;
+		res = ft_arg_split(tokens[i].value, ' ');
+		if (res == NULL)
+			amount++;
+		while(res && res[++j])
+		{
+			new_tokens[k].value = ft_strdup(res[j]);
+			if (tokens[i].type == T_PIPE)
+				new_tokens[k].type = token_type(new_tokens[k].value,1);
+			else
+				new_tokens[k].type = token_type(new_tokens[k].value,0);
+			k++;
+		}
+		i++;
+		freetrix(res);
+	}
+	i = 0;
+	while (new_tokens[i].type!= T_NULL)
+	{
+		printf("new tokens[%d] = %s\n" ,i, new_tokens[i].value);
+		printf("new tokens type [%d] = %d\n" ,i, new_tokens[i].type);
 		i++;
 	}
+	i = 0;
+	while (new_tokens[i].type!= T_NULL)
+	{
+		if (new_tokens[i].type != T_PIPE)
+			remove_quotes(&new_tokens[i]);
+		i++;
+	}
+	return(new_tokens);
 }
