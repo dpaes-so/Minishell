@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 13:57:37 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:06:27 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum TokenType
 typedef struct s_token
 {
 	char				*value;
+	char				*copy;
 	t_tokentype			type;
 	bool				in_quotes;
 }						t_token;

@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/14 14:15:04 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:16:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*add_quotes(char *expand, int flag)
 	return (new_expand);
 }
 
+
 void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 {
 	int		flag;
@@ -89,7 +90,6 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	}
 	if (temp && temp[0] && !(*token).in_quotes)
 		free(temp);
-	(*token).in_quotes = false;
 }
 
 void	put_expansion(t_token *token, t_mini *shell, char *expand, int amount)

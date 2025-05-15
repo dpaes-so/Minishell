@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 13:36:45 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:36:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
+	printf("first child\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
 		exit_childprocess(mini, 0);
@@ -105,6 +106,7 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
+	printf("ultimate child\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
 		exit_childprocess(mini, 0);
@@ -129,6 +131,7 @@ void	last_child(t_mini *mini, t_cmd cmds)
 
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
+	printf("in the middle  child\n");
 	do_redirect(&cmds, mini);
 	if (!cmds.cmd)
 		exit_childprocess(mini, 0);
@@ -161,6 +164,7 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{

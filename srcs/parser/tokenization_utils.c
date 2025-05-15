@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 13:58:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:36:57 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	free_tokens(t_token *tokens)
 	{
 		if (tokens[i].value)
 			free(tokens[i].value);
+		if (tokens[i].copy)
+			free(tokens[i].copy);
 		i++;
 	}
 	free(tokens);
@@ -97,8 +99,9 @@ t_tokentype	token_type(char *value)
 bool	word_alloc(char *input, int len, t_token *result, int i)
 {
 	result[i].value = ft_substr(input, 0, len);
-	result[i].in_quotes = false;
 	result[i].type = token_type(result[i].value);
+	result[i].copy = ft_strdup(result[i].value);
+	result[i].in_quotes = false;
 	if (result[i].value == NULL)
 	{
 		i = 0;
