@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/15 18:22:04 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:36:29 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int	unclosed_split_quotes(char *value)
 	return (quote);
 }
 
-void	do_count_words_loop_sigma_best_ever_made(int *i,char *s,char quote,int *count)
+void	do_count_words_loop_sigma_best_ever_made(int *i, char *s, char quote,
+		int *count)
 {
 	while (s[*i] && (s[*i] == ' ' || (s[*i] >= 9 && s[*i] <= 13)))
 		(*i)++;
@@ -154,7 +155,7 @@ static int	countwords(char *s)
 	count = 0;
 	quote = 0;
 	while (s[i])
-		do_count_words_loop_sigma_best_ever_made(&i,s,quote,&count);
+		do_count_words_loop_sigma_best_ever_made(&i, s, quote, &count);
 	return (count);
 }
 
@@ -229,16 +230,16 @@ char	**ft_arg_split(char *s, char c)
 
 t_token	*expand_strs(t_token *tokens, t_mini *shell)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	amount;
+	int		i;
+	int		j;
+	int		k;
+	int		amount;
 	t_token	*new_tokens;
 	char	**res;
 
 	i = 0;
-	amount = 0;   
-	while (tokens[i].type != T_NULL) 
+	amount = 0;
+	while (tokens[i].type != T_NULL)
 	{
 		if (tokens[i].type != T_PIPE)
 		{
@@ -248,17 +249,25 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 		i++;
 	}
 	i = 0;
-	while(tokens[i].type != T_NULL)
+	while (tokens[i].type != T_NULL)
 	{
-		j = 0;
-		res = ft_arg_split(tokens[i].value, ' ');
-		if (res == NULL)
+		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
+		{
+			j = 0;
+			res = ft_arg_split(tokens[i].value, ' ');
+			if (res == NULL)
+				amount++;
+			while (res && res[j])
+				j++;
+			amount += j;
+			i++;
+			freetrix(res);
+		}
+		else
+		{
 			amount++;
-		while(res && res[j])
-			j++;
-		amount += j;
-		i++;
-		freetrix(res);
+			i++;
+		}
 	}
 	i = 0;
 	k = 0;
@@ -267,38 +276,51 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 		return (NULL);
 	new_tokens[amount].type = T_NULL;
 	new_tokens[amount].value = NULL;
-	printf("amout = %d\n",amount);
-	while(tokens[i].type != T_NULL)
+	printf("amout = %d\n", amount);
+	while (tokens[i].type != T_NULL)
 	{
-		j = -1;
-		res = ft_arg_split(tokens[i].value, ' ');
-		if (res == NULL)
-			amount++;
-		while(res && res[++j])
+		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
 		{
-			new_tokens[k].value = ft_strdup(res[j]);
-			if (tokens[i].type == T_PIPE)
-				new_tokens[k].type = token_type(new_tokens[k].value,1);
-			else
-				new_tokens[k].type = token_type(new_tokens[k].value,0);
-			k++;
+			j = -1;
+			res = ft_arg_split(tokens[i].value, ' ');
+			if (res == NULL)
+				amount++;
+			while (res && res[++j])
+			{
+				new_tokens[k].value = ft_strdup(res[j]);
+				if (tokens[i].type == T_PIPE)
+					new_tokens[k].type = token_type(new_tokens[k].value, 1);
+				else
+					new_tokens[k].type = token_type(new_tokens[k].value, 0);
+				k++;
+			}
+			i++;
+			freetrix(res);
 		}
-		i++;
-		freetrix(res);
+		else
+		{
+			new_tokens[k].value = ft_strdup(tokens[i].value);
+			if (tokens[i].type == T_PIPE)
+				new_tokens[k].type = token_type(new_tokens[k].value, 1);
+			else
+				new_tokens[k].type = token_type(new_tokens[k].value, 0);
+			k++;
+			i++;
+		}
 	}
 	i = 0;
-	while (new_tokens[i].type!= T_NULL)
+	while (new_tokens[i].type != T_NULL)
 	{
-		printf("new tokens[%d] = %s\n" ,i, new_tokens[i].value);
-		printf("new tokens type [%d] = %d\n" ,i, new_tokens[i].type);
+		printf("new tokens[%d] = %s\n", i, new_tokens[i].value);
+		printf("new tokens type [%d] = %d\n", i, new_tokens[i].type);
 		i++;
 	}
 	i = 0;
-	while (new_tokens[i].type!= T_NULL)
+	while (new_tokens[i].type != T_NULL)
 	{
 		if (new_tokens[i].type != T_PIPE)
 			remove_quotes(&new_tokens[i]);
 		i++;
 	}
-	return(new_tokens);
+	return (new_tokens);
 }
