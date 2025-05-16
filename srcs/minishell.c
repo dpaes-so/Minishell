@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/16 17:46:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:33:58 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ int	main(int ac, char **av, char **ev)
 	ft_bzero(&mini, sizeof(t_mini));
 	my_env_start(&mini, ev);
 	get_pwd(&mini);
+	// mini.pipex.path = path_finder(mini.env->my_env);
 	mini.pipex.status = 0;
 	while (1)
 	{
-		mini.pipex.path = path_finder(ev);
+		mini.pipex.path = path_finder(mini.env->my_env);
 		mini.wait_check = 1;
 		choose_signal(1);
 		mini.save_fd = -1;
@@ -65,9 +66,9 @@ int	main(int ac, char **av, char **ev)
 		run_tree(&mini, ast, 0);
 		master_close();
 		wait_child(&mini);
+		freetrix(mini.pipex.path);
 		if (mini.ast)
 			free_tree(mini.ast);
-		freetrix(mini.pipex.path);
 		free(input);
 	}
 }

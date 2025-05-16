@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:43:59 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:55:26 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
-			ft_printf("sadadadasdadaas\n");
 			exec = ft_strdup(cmds.cmd);
 			flag = 1;
 		}
