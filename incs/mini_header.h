@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 16:10:03 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:37:26 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void					free_tree(t_tree *root);
 void					free_array(t_token **array);
 
 //-------------------------EXPANSIONS ! ! ! -------------------------------
+
 bool					dollar_expand(t_token *token, t_mini *shell);
 t_token					*expand_strs(t_token *tokens, t_mini *shell);
 void					small_cpy(t_token *token, char *expand, int *j,
@@ -173,5 +174,6 @@ void					handle_dollar(t_token *token, t_mini *shell,
 char					*status_expand(t_mini *shell);
 char					*found_dollar(t_token *token, t_mini *shell, int *flag);
 char					*find_env(t_token *token, t_mini *shell);
+char					**ft_arg_split(char *s, char c);
 
 #endif
