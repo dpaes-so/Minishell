@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:30:24 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:59:59 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:30:55 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long long	ft_atol(const char *nptr)
+long long	ft_atol(const char *nptr, int *f)
 {
 	int			i;
 	int			minus;
@@ -32,9 +32,9 @@ long long	ft_atol(const char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9' && result < LONG_MAX)
 	{
 		if (minus == 1 && (result > (LONG_MAX - (nptr[i] - '0')) / 10))
-			return LONG_MAX;
+			return ((*f) = 1, LONG_MAX);
 		else if (minus == -1 && (-result < (LONG_MIN + (nptr[i] - '0')) / 10))
-			return LONG_MIN;
+			return ((*f) = 1, LONG_MIN);
 		result = result * 10 + (nptr[i] - '0');
 		i++;
 	}

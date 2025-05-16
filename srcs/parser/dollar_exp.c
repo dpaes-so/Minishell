@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/15 14:49:03 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:32:54 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
+	if(temp && flag == 1)
+		free(temp);
 }
 
 void	put_expansion(t_token *token, t_mini *shell, char *expand, int amount)

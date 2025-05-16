@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 19:36:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:42:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,18 @@ void	here_doc_expand(char *s, t_mini *mini, int fd[2])
 		if (s[i] == '$')
 		{
 			i++;
+			if (s[i] == '?')
+			{
+				s2 = status_expand(mini);
+				while (s2 && s2[j])
+					write(fd[1], &s2[j++], 1);
+				free(s2);
+				return ;
+			}
 			if (ft_isdigit(s[i]))
 			{
 				i++;
-				continue;
+				continue ;
 			}
 			s2 = find_in_env(s + i, mini);
 			while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))

@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/14 13:51:23 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:52:57 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,11 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 	cd2 = get_dir(cmds, buffer, cd2, pwd);
 	ft_printf("tryng to go to !%s!\n", cd2);
 	if (chdir(cd2) < 0 && cd2)
+	{
 		ft_printf("Minishell: cd: %s: No such file or directory\n",
-			cmds.args[0]);
+			cmds.args[1]);
+			mini->pipex.status = 1;
+	}
 	else
 		get_pwd(mini);
 	free(cd2);
