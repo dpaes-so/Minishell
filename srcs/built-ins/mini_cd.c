@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 15:52:57 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:16:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ static int	cd_home(t_mini *mini)
 		get_pwd(mini);
 	}
 	else
+	{
 		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		mini->pipex.status = 1;
+	}
 	return (1);
 }
 
@@ -98,9 +101,12 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 
 	buffer = NULL;
 	cd2 = NULL;
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
 	if (cmds.amount > 2)
 		return (ft_printf("Minishell: cd: too many arguments\n"), 1);
-	do_redirect(&cmds, mini);
+	if(do_redirect(&cmds, mini) < 0)
+		return(mini->pipex.status = 1,1);
 	if (!cmds.args[1])
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
@@ -114,6 +120,5 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 	}
 	else
 		get_pwd(mini);
-	free(cd2);
-	return (pwd_update(mini), 1);
+	return (free(cd2),pwd_update(mini), 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/13 14:05:14 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:28:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,11 @@ void	get_pwd(t_mini *mini)
 int	build_pwd(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
+	int fd;
 
-	do_redirect(&cmds, mini);
+	fd = do_redirect(&cmds, mini);
+	if(fd < 0)
+		return(mini->pipex.status = 1, 1);
 	get_pwd(mini);
 	if (cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);

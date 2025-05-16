@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 14:42:34 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:19:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
+	int fd;
+	
 	printf("first child\n");
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini, 0);
+	fd = 	do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -114,10 +116,12 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
+	int fd; 
+	
 	printf("ultimate child\n");
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini, 0);
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -139,10 +143,11 @@ void	last_child(t_mini *mini, t_cmd cmds)
 
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
-	printf("in the middle  child\n");
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini, 0);
+	int fd;
+	
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -169,6 +174,7 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
+	int fd;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -177,9 +183,11 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	if (pid == 0)
 	{
 		choose_signal(2);
-		do_redirect(&cmds, mini);
+		fd = do_redirect(&cmds, mini);
 		if (!cmds.cmd)
 			exit_childprocess(mini, 0);
+		if (fd < 0)
+			exit_childprocess(mini, 1);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

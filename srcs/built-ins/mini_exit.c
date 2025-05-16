@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 15:52:20 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:06:36 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 		*f = 1;
 		return ;
 	}
+	if (cmds.args[1][0] == '-')
+		j++;
 	while (cmds.args[1][++j])
 	{
 		if (!((cmds.args[1][j] >= '0' && cmds.args[1][j] <= '9')
@@ -41,14 +43,14 @@ static void	check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 int	build_exit(t_mini *mini, t_cmd cmds)
 {
 	long long	n;
-	int f;
-	
+	int			f;
+
 	f = 0;
 	do_redirect(&cmds, mini);
 	if (cmds.args[1])
 	{
-		n = ft_atol(cmds.args[1],&f);
-		ft_printf("f == %d\n",f);
+		n = ft_atol(cmds.args[1], &f);
+		ft_printf("f == %d\n", f);
 		check_exit_code(mini, cmds, &f);
 	}
 	if (cmds.amount != 1 && f != 1)

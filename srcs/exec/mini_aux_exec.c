@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 15:50:44 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:10:39 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	wait_child(t_mini *mini)
 
 	status = 0;
 	i = 0;
-	while (i < mini->cmd_amount)
+	while (i < mini->cmd_amount && mini->wait_check == 1)
 	{
 		wait(&status);
 		if (WIFEXITED(status))

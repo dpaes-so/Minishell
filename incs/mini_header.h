@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 15:57:32 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:10:03 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
+	int					wait_check;
 	int					cmd_amount;
 	char				*pwd;
 	char				*input;

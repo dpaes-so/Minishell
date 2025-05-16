@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:03 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:47:01 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ t_tree	*parser(char *input, t_mini *shell)
 	t_token	**array;
 	t_tree	*tree;
 
-	(void)shell;
 	tokens = split_tokens(input);
 	if (tokens == NULL)
 		return (NULL);
 	if (error_syntax(tokens) == false)
-		return (free_tokens(tokens), NULL);
+		return (free_tokens(tokens),freetrix(shell->pipex.path),NULL);
 	new_tokens = expand_strs(tokens, shell);
 	array = create_array(new_tokens);
 	free_tokens(tokens);
