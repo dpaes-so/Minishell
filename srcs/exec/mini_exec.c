@@ -71,8 +71,6 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	{
 		mem_save(mini);
 		choose_signal(2);
-		if (!cmds.cmd)
-			exit_childprocess(mini, 0);
 		if (mini->pipex.cmd == 0)
 			first_child(mini, cmds);
 		else if (mini->pipex.cmd == mini->cmd_amount - 1)

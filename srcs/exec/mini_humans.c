@@ -17,7 +17,7 @@ void	first_child(t_mini *mini, t_cmd cmds)
 	int fd;
 	
 	printf("first child\n");
-	fd = 	do_redirect(&cmds, mini);
+	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)

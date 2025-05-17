@@ -88,8 +88,6 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 			ft_printf("%s\n", mini->pwd);
 			exit_childprocess(mini, 0);
 		}
-		else
-			wait(NULL);
 	}
 	return (1);
 }

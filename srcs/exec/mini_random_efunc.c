@@ -72,21 +72,6 @@ void	my_env_start(t_mini *mini, char **ev)
 	my_env_continue(mini,ev);
 }
 
-
-// char	**matrix_dup(t_mini *mini, char **ev)
-// {
-// 	int	j;
-
-// 	j = -1;
-// 	while (ev[++j])
-// 	{
-// 		mini->env->my_env[j] = ft_strdup(ev[j]);
-// 		if (mini->env->my_env[j] == NULL)
-// 			return (NULL);
-// 	}
-// 	return (mini->env->my_env);
-// }
-
 t_mini	*mem_save(t_mini *to_save)
 {
 	static t_mini	*save;
