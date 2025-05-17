@@ -49,9 +49,11 @@ int	build_env(t_mini *mini, t_cmd cmds)
 	int	res;
 	int fd;
 
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
 	if(fd < 0)
-		return(1);
+		return(mini->pipex.status = 1,1);
 	get_pwd(mini);
 	pwd_update(mini);
 	if (cmds.amount > 1)

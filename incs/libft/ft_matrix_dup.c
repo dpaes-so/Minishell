@@ -12,16 +12,22 @@
 
 #include "libft.h"
 
-char	**ft_matrix_dup(char **new_matrix, char **matrixdup)
+char	**ft_matrix_dup(char **new_matrix, char **src)
 {
 	int	j;
 
-	j = -1;
-	while (matrixdup[++j])
+	j = 0;
+	while (src[j])
 	{
-		new_matrix[j] = ft_strdup(matrixdup[j]);
-		if (new_matrix[j] == NULL)
+		new_matrix[j] = ft_strdup(src[j]);
+		if (!new_matrix[j])
+		{
+			while (j-- > 0)
+				free(new_matrix[j]);
 			return (NULL);
+		}
+		j++;
 	}
+	new_matrix[j] = NULL;
 	return (new_matrix);
 }

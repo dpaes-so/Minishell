@@ -97,7 +97,10 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
 
-	do_redirect(&cmds, mini);
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
+	if(do_redirect(&cmds, mini) < 0)
+		return(mini->pipex.status = 1,1);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);

@@ -68,6 +68,8 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 	int	pid;
 	int fd;
 
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
 	if(fd < 0)
 		return(mini->pipex.status = 1, 1);

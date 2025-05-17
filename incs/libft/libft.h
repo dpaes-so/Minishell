@@ -93,7 +93,7 @@ void				ft_putnbr_fd(int n, int fd);
 
 long long			ft_atol(const char *nptr, int *f);
 
-char				**ft_matrix_dup(char **new_matrix, char **matrixdup);
+char				**ft_matrix_dup(char **new_matrix, char **src);
 
 typedef struct s_list
 {

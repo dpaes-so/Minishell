@@ -46,7 +46,10 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	int			f;
 
 	f = 0;
-	do_redirect(&cmds, mini);
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
+	if(do_redirect(&cmds, mini) < 0)
+		return(mini->pipex.status = 1,1);
 	if (cmds.args[1])
 	{
 		n = ft_atol(cmds.args[1], &f);
@@ -59,6 +62,7 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (mini->env->home != NULL)
 		free(mini->env->home);
 	freetrix(mini->env->my_env);
+	freetrix(mini->env->my_export);
 	free(mini->env);
 	free_tree(mini->ast);
 	freetrix(mini->pipex.path);
