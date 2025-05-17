@@ -73,11 +73,9 @@ static void	*make_export(t_mini *mini, char *arg, int f)
 	int		break_point;
 
 	break_point = -1;
-	printf("arg =  1 %s\n",arg);
 	while (mini->env->my_export[++break_point])
 		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '=')- arg) || f == 2)
 		{
-			ft_printf("BRO IFEIME TODO\n");
 			if (f == 2)
 				return (add_export(mini, arg));
 			else

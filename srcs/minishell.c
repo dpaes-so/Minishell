@@ -42,13 +42,12 @@ int	main(int ac, char **av, char **ev)
 	ft_bzero(&mini, sizeof(t_mini));
 	my_env_start(&mini, ev);
 	get_pwd(&mini);
-	// mini.pipex.path = path_finder(mini.env->my_env);
 	mini.pipex.status = 0;
 	while (1)
 	{
 		mini.pipex.path = path_finder(mini.env->my_env);
 		mini.wait_check = 1;
-		choose_signal(1);
+		signals(1);
 		mini.save_fd = -1;
 		mini.cmd_amount = 0;
 		input = readline("minishell > ");

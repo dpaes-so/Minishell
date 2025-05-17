@@ -66,7 +66,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 	pid = fork();
 	if (pid == 0)
 	{
-		choose_signal(3);
+		signals(3);
 		here_loop(j, cmds, fd, mini);
 		exit_childprocess(mini, 0);
 	}

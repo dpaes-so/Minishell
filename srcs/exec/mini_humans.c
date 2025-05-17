@@ -107,7 +107,7 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	pid = fork();
 	if (pid == 0)
 	{
-		choose_signal(2);
+		signals(2);
 		fd = do_redirect(&cmds, mini);
 		if (!cmds.cmd)
 			exit_childprocess(mini, 0);

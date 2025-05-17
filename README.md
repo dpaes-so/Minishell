@@ -26,7 +26,8 @@ stuff exec needs to do:
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
 
-export no var apear on enb when no equal sign
+linhas no export.c
+heredoc.c
 
 export sort
 

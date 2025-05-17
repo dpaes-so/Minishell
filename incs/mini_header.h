@@ -130,7 +130,7 @@ void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini, char *cmd);
 void					cmd_exit_aux(char *exec, t_mini *mini);
 void					root_handler(int signal);
-void					choose_signal(int s);
+void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
 void					set_shlvl(t_mini *mini);

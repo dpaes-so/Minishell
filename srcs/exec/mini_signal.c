@@ -21,8 +21,20 @@ void	signal_handler(int signal)
 		rl_redisplay();
 	}
 }
+void more_signals(int s,struct sigaction sa)
+{
+	if (s == 3)
+	{
+		sa.sa_handler = here_doc_signals;
+		sa.sa_flags = 0;
+		if (sigemptyset(&sa.sa_mask) != 0)
+			return ;
+		sigaction(SIGINT, &sa, NULL);
+		signal(SIGQUIT, SIG_IGN);
+	}
+}
 
-void	choose_signal(int s)
+void	signals(int s)
 {
 	static struct sigaction	sa;
 
@@ -44,14 +56,6 @@ void	choose_signal(int s)
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 	}
-	else if (s == 3)
-	{
-		sa.sa_handler = here_doc_signals;
-		sa.sa_flags = 0;
-		if (sigemptyset(&sa.sa_mask) != 0)
-			return ;
-		sigaction(SIGINT, &sa, NULL);
-		signal(SIGQUIT, SIG_IGN);
-	}
+	more_signals(s,sa);
 }
 

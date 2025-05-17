@@ -53,7 +53,6 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (cmds.args[1])
 	{
 		n = ft_atol(cmds.args[1], &f);
-		ft_printf("f == %d\n", f);
 		check_exit_code(mini, cmds, &f);
 	}
 	if (cmds.amount != 1 && f != 1)
