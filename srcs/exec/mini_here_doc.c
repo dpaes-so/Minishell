@@ -71,7 +71,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 		exit_childprocess(mini, 0);
 	}
 	else
-		wait(NULL);
+		wait(&mini->execution_signal);
 	close(fd[1]);
 	return (fd[0]);
 }

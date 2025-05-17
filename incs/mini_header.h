@@ -84,6 +84,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
+	int 				execution_signal;
 	int					wait_check;
 	int					cmd_amount;
 	char				*pwd;
