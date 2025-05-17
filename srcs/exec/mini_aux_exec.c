@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 16:27:10 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:24:35 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	wait_child(t_mini *mini)
 
 	status = 0;
 	i = 0;
-	while (i < mini->cmd_amount)
+	while (i < mini->cmd_amount && mini->wait_check == 1)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
@@ -36,20 +36,6 @@ void	wait_child(t_mini *mini)
 		}
 		i++;
 	}
-}
-
-char	**matrix_dup(t_mini *mini, char **ev)
-{
-	int	j;
-
-	j = -1;
-	while (ev[++j])
-	{
-		mini->env->my_env[j] = ft_strdup(ev[j]);
-		if (mini->env->my_env[j] == NULL)
-			return (NULL);
-	}
-	return (mini->env->my_env);
 }
 
 void	set_shlvl(t_mini *mini)
@@ -101,11 +87,11 @@ void	my_env_start(t_mini *mini, char **ev)
 	set_shlvl(mini);
 }
 
-void	cmd_exit(char *exec, t_mini *mini)
+void	cmd_exit_aux(char *exec, t_mini *mini)
 {
 	if (access(exec, F_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: Command not found\n", 2);
+		ft_putstr_fd("Pipex: No such file or directory\n", 2);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -113,7 +99,7 @@ void	cmd_exit(char *exec, t_mini *mini)
 	}
 	if (access(exec, X_OK) < 0)
 	{
-		ft_putstr_fd("Permission  2 denied\n", 2);
+		ft_putstr_fd("Pipex: Permission denied\n", 2);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -121,11 +107,24 @@ void	cmd_exit(char *exec, t_mini *mini)
 	}
 }
 
-t_mini	*mem_save(t_mini *to_save)
+void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 {
-	static t_mini	*save;
-
-	if (to_save)
-		save = to_save;
-	return (save);
+	if (!cmd || !*cmd)
+	{
+		ft_putstr_fd("Pipex: command not found\n", 2);
+		exit_childprocess_exec(mini);
+		if (exec)
+			free(exec);
+		exit(127);
+	}
+	if (ft_strchr(cmd, '/'))
+		cmd_exit_aux(exec,mini);
+	else
+	{
+		ft_putstr_fd("Pipex: command not found\n", 2);
+		exit_childprocess_exec(mini);
+		if (exec)
+			free(exec);
+		exit(127);
+	}
 }

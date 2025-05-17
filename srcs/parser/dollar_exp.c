@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 18:34:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:32:54 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ char	*find_env(t_token *token, t_mini *shell)
 
 	j = -1;
 	count = 0;
-	while (*(*token).value && ft_isalnum(*(*token).value))
+	if (ft_isdigit(*(*token).value))
+		return ((*token).value++, NULL);
+	while (*(*token).value && (ft_isalnum(*(*token).value)
+			|| *(*token).value == '_'))
 	{
-		if (ft_isdigit(*(*token).value))
-		{
-			(*token).value++;
-			return (NULL);
-		}
 		(*token).value++;
 		count++;
 	}
@@ -62,7 +60,7 @@ char	*add_quotes(char *expand, int flag)
 		return (NULL);
 	new_expand[0] = '\"';
 	new_expand[ft_strlen(expand) + 1] = '\"';
-	while(expand[i])
+	while (expand[i])
 	{
 		new_expand[i + 1] = expand[i];
 		i++;
@@ -71,8 +69,9 @@ char	*add_quotes(char *expand, int flag)
 	new_expand[i + 1] = '\0';
 	if (flag == 1 && expand)
 		free(expand);
-	return(new_expand);
+	return (new_expand);
 }
+
 
 void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 {
@@ -83,12 +82,11 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	temp = found_dollar(token, shell, &flag);
 	if (temp != NULL && temp[0])
 	{
-		temp = add_quotes(temp, flag);
 		if (expand != NULL)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
-	if (temp && temp[0])
+	if(temp && flag == 1)
 		free(temp);
 }
 

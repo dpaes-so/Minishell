@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:31:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 12:45:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:49:36 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static int	redir_env(int fd, t_mini *mini, int t)
 			ft_printf("%s\n", mini->env->my_env[i]);
 		exit_childprocess(mini,0);
 	}
-	else
-		wait(NULL);
 	return (1);
 }
 
@@ -49,8 +47,11 @@ int	normal_env(t_mini *mini)
 int	build_env(t_mini *mini, t_cmd cmds)
 {
 	int	res;
+	int fd;
 
-	do_redirect(&cmds, mini);
+	fd = do_redirect(&cmds, mini);
+	if(fd < 0)
+		return(1);
 	get_pwd(mini);
 	pwd_update(mini);
 	if (cmds.amount > 1)
@@ -62,13 +63,3 @@ int	build_env(t_mini *mini, t_cmd cmds)
 	return (res);
 }
 
-// export function but no space, leave me alone >:(
-int	print_env_ex(t_mini *mini)
-{
-	int	i;
-
-	i = -1;
-	while (mini->env->my_env[++i])
-		ft_printf("declare -x %s\n", mini->env->my_env[i]);
-	return (1);
-}

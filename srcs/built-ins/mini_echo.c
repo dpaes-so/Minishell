@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 16:25:35 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:14:47 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	echo_flag(t_cmd cmds)
 	while (cmds.args[j][i] == 'n')
 		i++;
 	if (cmds.args[j][i] != '\0')
-		return (j);
+		return (0);
 	j = 2;
 	while (cmds.args[j] && cmds.args[j][0] == '-')
 	{

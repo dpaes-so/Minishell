@@ -3,48 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/10 15:57:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:19:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	here_doc(t_pipe pipex, t_cmd *cmds)
+void	here_doc_expand(char *s, t_mini *mini, int fd[2])
+{
+	int		i;
+	int		j;
+	char	*s2;
+
+	i = 0;
+	while (s[i])
+	{
+		j = 0;
+		if (s[i] == '$')
+		{
+			i++;
+			if (s[i] == '?')
+			{
+				s2 = status_expand(mini);
+				while (s2 && s2[j])
+					write(fd[1], &s2[j++], 1);
+				free(s2);
+				return ;
+			}
+			if (ft_isdigit(s[i]))
+			{
+				i++;
+				continue ;
+			}
+			s2 = find_in_env(s + i, mini);
+			while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
+				i++;
+			while (s2 && s2[j])
+				write(fd[1], &s2[j++], 1);
+		}
+		else
+			write(fd[1], &s[i++], 1);
+	}
+}
+void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 {
 	char	*str;
-	int		fd[2];
-	int		i;
 
-	(void)pipex;
-	pipe(fd);
-	choose_signal(3);
 	while (1)
 	{
-		i = 0;
 		str = readline("> ");
-		if (!str || !ft_strncmp(str, cmds->redir[0].value,
-				ft_strlen(cmds->redir[0].value)))
+		if (!str || !ft_strcmp(str, cmds->redir[j].value))
 		{
 			free(str);
 			break ;
 		}
-		while (str[i])
-			write(fd[1], &str[i++], 1);
+		here_doc_expand(str, mini, fd);
 		write(fd[1], "\n", 1);
 		free(str);
 	}
+}
+int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
+{
+	int	fd[2];
+	int	pid;
+
+	(void)pipex;
+	pipe(fd);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
+	{
+		choose_signal(3);
+		here_loop(j, cmds, fd, mini);
+		exit_childprocess(mini, 0);
+	}
+	else
+		wait(NULL);
 	close(fd[1]);
 	return (fd[0]);
 }
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+	int fd;
+	
+	printf("first child\n");
+	fd = 	do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -66,9 +116,12 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+	int fd; 
+	
+	printf("ultimate child\n");
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -90,9 +143,11 @@ void	last_child(t_mini *mini, t_cmd cmds)
 
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini,0);
+	int fd;
+	
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -119,17 +174,20 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
+	int fd;
 
 	signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{
-		mem_save(mini);
 		choose_signal(2);
-		do_redirect(&cmds, mini);
+		fd = do_redirect(&cmds, mini);
 		if (!cmds.cmd)
-			exit_childprocess(mini,0);
+			exit_childprocess(mini, 0);
+		if (fd < 0)
+			exit_childprocess(mini, 1);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

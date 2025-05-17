@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 16:03:01 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:28:34 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 	int	fd;
 
 	fd = 0;
+	(void)mini;
 	if (cmds->redir[i].type == T_OUT_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -28,7 +29,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdin = fd;
 		if (fd < 0)
 			return (ft_printf("Minishell: %s: No such file or directory\n",
-					cmds->redir[i].value),fd);
+					cmds->redir[i].value), fd);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
@@ -36,7 +37,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdout = fd;
 	}
 	else if (cmds->redir[i].type == T_HERE_DOC)
-		cmds->fdin = here_doc(mini->pipex, cmds);
+		cmds->fdin =cmds->here_fd;
 	return (fd);
 }
 
@@ -52,11 +53,24 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	return (fd);
 }
 
+void	get_pwd(t_mini *mini)
+{
+	char	*cdw;
+
+	cdw = NULL;
+	cdw = getcwd(cdw, 100);
+	free(mini->pwd);
+	mini->pwd = ft_strjoin(cdw, "");
+}
+
 int	build_pwd(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
+	int fd;
 
-	do_redirect(&cmds, mini);
+	fd = do_redirect(&cmds, mini);
+	if(fd < 0)
+		return(mini->pipex.status = 1, 1);
 	get_pwd(mini);
 	if (cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);
@@ -70,7 +84,7 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 			else
 				dup2(cmds.fdout, STDOUT_FILENO);
 			ft_printf("%s\n", mini->pwd);
-			exit_childprocess(mini,0);
+			exit_childprocess(mini, 0);
 		}
 		else
 			wait(NULL);
