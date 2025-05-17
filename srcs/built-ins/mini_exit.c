@@ -3,26 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 12:26:48 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:26:50 by dpaes-so         ###   ########.fr       */
+/*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/16 17:06:36 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-static void	check_exit_code(t_mini *mini, t_cmd cmds)
+static void	check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 {
 	int	j;
 
 	j = -1;
+	if (!cmds.args[1][0])
+	{
+		ft_putstr_fd("Minishell: exit: Numerical input required\n", 2);
+		mini->pipex.status = 2;
+		*f = 1;
+		return ;
+	}
+	if (cmds.args[1][0] == '-')
+		j++;
 	while (cmds.args[1][++j])
 	{
-		if (!(cmds.args[1][j] >= '0' && cmds.args[1][j] <= '9'))
+		if (!((cmds.args[1][j] >= '0' && cmds.args[1][j] <= '9')
+				|| (cmds.args[1][j] >= 9 && cmds.args[1][j] <= 13)
+				|| cmds.args[1][j] == ' ') || *f == 1)
 		{
 			ft_putstr_fd("Minishell: exit: Numerical input required\n", 2);
-			mini->pipex.status = 255;
+			mini->pipex.status = 2;
+			*f = 1;
 			return ;
 		}
 	}
@@ -30,14 +42,19 @@ static void	check_exit_code(t_mini *mini, t_cmd cmds)
 
 int	build_exit(t_mini *mini, t_cmd cmds)
 {
+	long long	n;
+	int			f;
+
+	f = 0;
 	do_redirect(&cmds, mini);
-	mini->pipex.status = 0;
-	if (cmds.amount > 2)
-		return (ft_putstr_fd("Minishell: exit: too many argumetns\n", 2), 1);
-	if (cmds.amount != 0)
-		mini->pipex.status = ft_atoi(cmds.args[0]);
 	if (cmds.args[1])
-		check_exit_code(mini, cmds);
+	{
+		n = ft_atol(cmds.args[1], &f);
+		ft_printf("f == %d\n", f);
+		check_exit_code(mini, cmds, &f);
+	}
+	if (cmds.amount != 1 && f != 1)
+		mini->pipex.status = (unsigned char)n;
 	free(mini->pwd);
 	if (mini->env->home != NULL)
 		free(mini->env->home);
@@ -48,5 +65,4 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	clear_history();
 	master_close();
 	exit(mini->pipex.status);
-	return (1);
 }

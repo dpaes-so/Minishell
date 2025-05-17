@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:04:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:18:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int	check_valid_variable_name(char *s)
 {
 	int	i;
+	int	ctd;
 
 	i = 0;
+	ctd = 0;
 	if (s[0] == '=')
 		return (0);
 	if (!((s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z')
@@ -25,40 +27,47 @@ static int	check_valid_variable_name(char *s)
 	while (s[i] && s[i] != '=')
 	{
 		if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
-				|| (s[i] >= '0' && s[i] <= '9') || (s[i] == '_')))
+				|| (s[i] >= '0' && s[i] <= '9') || (s[i] == '_')
+				|| s[i] == '+'))
+			return (0);
+		if (s[i] == '+')
+			ctd++;
+		if (ctd == 2)
 			return (0);
 		i++;
 	}
-	return (i);
+	if (s[i - 1] == '+')
+		return (2);
+	return (1);
 }
 
-static void	*make_export(t_mini *mini, char *arg)
+static void	*make_export(t_mini *mini, char *arg, int f)
 {
 	char	**new_env;
 	int		size;
 	int		break_point;
-	int		i;
 
 	size = 0;
-	i = -1;
 	break_point = -1;
 	while (mini->env->my_env[size])
 		size++;
 	while (mini->env->my_env[++break_point])
 		if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')
-				- arg))
-			return (free(mini->env->my_env[break_point]),
-				mini->env->my_env[break_point] = ft_strdup(arg), NULL);
-	new_env = malloc(sizeof(char *) * (size + 2));
+				- arg) || f == 2)
+		{
+			if (f == 2)
+				return (add_export(mini, arg));
+			else
+				return (free(mini->env->my_env[break_point]),
+					mini->env->my_env[break_point] = ft_strdup(arg), NULL);
+		}
+	new_env = ft_calloc((size + 2), sizeof(char *));
 	if (!new_env)
 		return (NULL);
-	while (mini->env->my_env[++i])
-		new_env[i] = ft_strdup(mini->env->my_env[i]);
-	new_env[i++] = ft_strdup(arg);
-	new_env[i] = NULL;
-	freetrix(mini->env->my_env);
-	mini->env->my_env = new_env;
-	return (NULL);
+	new_env = ft_matrix_dup(new_env, mini->env->my_env);
+	new_env[size++] = ft_strdup(arg);
+	new_env[size] = NULL;
+	return (freetrix(mini->env->my_env), mini->env->my_env = new_env, NULL);
 }
 
 static void	prep_export(t_mini *mini, t_cmd cmds)
@@ -71,6 +80,7 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 	while (cmds.args[j])
 	{
 		arg = cmds.args[j];
+		ft_printf("var = %s\n", arg);
 		i = check_valid_variable_name(arg);
 		if (!i)
 		{
@@ -78,7 +88,7 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 			j++;
 			continue ;
 		}
-		make_export(mini, arg);
+		make_export(mini, arg, i);
 		j++;
 	}
 }
@@ -99,7 +109,7 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 			print_env_ex(mini);
 		else
 			prep_export(mini, cmds);
-		exit_childprocess(mini);
+		exit_childprocess(mini, 0);
 	}
 	else
 		wait(NULL);

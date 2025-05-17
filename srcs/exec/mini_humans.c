@@ -3,47 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 13:05:27 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:19:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	here_doc(t_pipe pipex, t_cmd *cmds)
-{
-	char	*str;
-	int		fd[2];
-	int		i;
-
-	(void)pipex;
-	pipe(fd);
-	while (1)
-	{
-		i = 0;
-		str = readline("> ");
-		if (!str || !ft_strncmp(str, cmds->redir[0].value,
-				ft_strlen(cmds->redir[0].value)))
-		{
-			free(str);
-			break ;
-		}
-		while (str[i])
-			write(fd[1], &str[i++], 1);
-		write(fd[1], "\n", 1);
-		free(str);
-	}
-	close(fd[1]);
-	return (fd[0]);
-}
-
 void	first_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini);
+	int fd;
+	
+	printf("first child\n");
+	fd = 	do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -65,9 +41,12 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini);
+	int fd; 
+	
+	printf("ultimate child\n");
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -89,9 +68,11 @@ void	last_child(t_mini *mini, t_cmd cmds)
 
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
-	do_redirect(&cmds, mini);
-	if (!cmds.cmd)
-		exit_childprocess(mini);
+	int fd;
+	
+	fd = do_redirect(&cmds, mini);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -118,13 +99,20 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
+	int fd;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{
-		do_redirect(&cmds, mini);
+		choose_signal(2);
+		fd = do_redirect(&cmds, mini);
 		if (!cmds.cmd)
-			exit_childprocess(mini);
+			exit_childprocess(mini, 0);
+		if (fd < 0)
+			exit_childprocess(mini, 1);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

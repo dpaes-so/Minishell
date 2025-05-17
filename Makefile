@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniel <daniel@student.42.fr>              +#+  +:+       +#+         #
+#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/07 17:09:23 by daniel           ###   ########.fr        #
+#    Updated: 2025/05/16 19:36:46 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,13 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 SOURCES = minishell.c \
 		  parser/parsing.c \
+          parser/tokenization_utils.c \
+          parser/tokenization.c \
           parser/check_tokens.c \
           parser/expansions.c \
 		  parser/dollar_exp.c \
 		  parser/expansions_utils.c \
-          parser/tokenization_utils.c \
-          parser/tokenization.c \
+		  parser/final_split.c \
 		  parser/create_array.c \
 		  parser/ast_utils.c \
 		  parser/ast_tree.c \
@@ -33,12 +34,16 @@ SOURCES = minishell.c \
           built-ins/mini_cd.c \
           built-ins/mini_env.c \
           built-ins/mini_export.c \
+		  built-ins/mini_export_utils.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \
 		  exec/mini_exec.c \
 		  exec/mini_humans.c \
 		  exec/mini_aux_exec.c \
+		  exec/mini_signal.c \
+		  exec/mini_random_efunc.c \
+		  exec/mini_here_doc.c \
           mini_aux.c
 
 SRCS_DIR = srcs
@@ -67,7 +72,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
-	valgrind --leak-check=full --trace-children=yes --child-silent-after-fork=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 
 clean:
 	make clean -C ./incs/libft -s

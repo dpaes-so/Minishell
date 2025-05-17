@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 14:58:38 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:35:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,44 @@ void	master_close(void)
 		close(i);
 }
 
-void	exit_childprocess(t_mini *mini)
+void	exit_childprocess(t_mini *mini, int ecode)
 {
-	free(mini->pwd);
+	if (mini->pwd)
+		free(mini->pwd);
 	if (mini->env->home != NULL)
 		free(mini->env->home);
-	freetrix(mini->env->my_env);
-	free(mini->env);
-	free_tree(mini->ast);
-	freetrix(mini->pipex.path);
+	if (mini->env->my_env)
+		freetrix(mini->env->my_env);
+	if (mini->env)
+		free(mini->env);
+	if (ecode != -2)
+	{
+		if (mini->ast)
+			free_tree(mini->ast);
+	}
+	else
+		ecode = 0;
+	if (mini->pipex.path)
+		freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
-	exit(0);
+	exit(ecode);
 }
 
 void	exit_childprocess_exec(t_mini *mini)
 {
-	free(mini->pwd);
+	if (mini->pwd)
+		free(mini->pwd);
 	if (mini->env->home != NULL)
 		free(mini->env->home);
-	freetrix(mini->env->my_env);
-	free(mini->env);
-	free_tree(mini->ast);
-	free(mini->pipex.path);
+	if (mini->env->my_env)
+		freetrix(mini->env->my_env);
+	if (mini->env)
+		free(mini->env);
+	if (mini->ast)
+		free_tree(mini->ast);
+	if (mini->pipex.path)
+		free(mini->pipex.path);
 	clear_history();
 	master_close();
 }
@@ -68,6 +83,7 @@ char	**path_finder(char **envp)
 {
 	int		i;
 	char	*temp;
+	char	*str;
 	char	**split;
 
 	i = -1;
@@ -75,11 +91,9 @@ char	**path_finder(char **envp)
 		if (ft_strnstr(envp[i], "PATH", 4))
 			break ;
 	if (!envp[i])
-	{
-		exit(0);
-	}
-	envp[i] = envp[i] + 5;
-	split = ft_split(envp[i], ':');
+		return (NULL);
+	str = envp[i] + 5;
+	split = ft_split(str, ':');
 	i = -1;
 	while (split[++i])
 	{

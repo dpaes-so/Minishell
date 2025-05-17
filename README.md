@@ -26,6 +26,11 @@ stuff exec needs to do:
 5. im here now. daniel was late today,gotta check that eit stuff cuz the  beta male wanted me to do it
 
 
+fix home
+
+export no var apear on enb when no equal sign
+
+export sort
 
 stuff parser needs to do:
 echo ola > txt ola > outro | echo banana > banana
