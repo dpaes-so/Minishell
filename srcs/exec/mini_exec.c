@@ -52,6 +52,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
+			check_is_dir(exec,mini);
 			flag = 1;
 		}
 		master_close();

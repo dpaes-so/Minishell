@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <dirent.h>
 
 typedef enum TokenType
 {
@@ -129,9 +130,11 @@ void					cmd_exit_aux(char *exec, t_mini *mini);
 void					root_handler(int signal);
 void					choose_signal(int s);
 t_mini					*mem_save(t_mini *to_save);
+char					**matrix_dup(t_mini *mini, char **ev);
+void					set_shlvl(t_mini *mini);
+void 					check_is_dir(char *exec, t_mini *mini);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
-char					**matrix_dup(t_mini *mini, char **ev);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
