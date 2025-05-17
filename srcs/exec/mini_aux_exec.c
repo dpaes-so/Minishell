@@ -87,11 +87,11 @@ void	my_env_start(t_mini *mini, char **ev)
 	set_shlvl(mini);
 }
 
-void	cmd_exit(char *exec, t_mini *mini)
+void	cmd_exit_aux(char *exec, t_mini *mini)
 {
 	if (access(exec, F_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: Command not found\n", 2);
+		ft_putstr_fd("Pipex: No such file or directory\n", 2);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -99,10 +99,32 @@ void	cmd_exit(char *exec, t_mini *mini)
 	}
 	if (access(exec, X_OK) < 0)
 	{
-		ft_putstr_fd("Permission denied\n", 2);
+		ft_putstr_fd("Pipex: Permission denied\n", 2);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(126);
+	}
+}
+
+void	cmd_exit(char *exec, t_mini *mini, char *cmd)
+{
+	if (!cmd || !*cmd)
+	{
+		ft_putstr_fd("Pipex: command not found\n", 2);
+		exit_childprocess_exec(mini);
+		if (exec)
+			free(exec);
+		exit(127);
+	}
+	if (ft_strchr(cmd, '/'))
+		cmd_exit_aux(exec,mini);
+	else
+	{
+		ft_putstr_fd("Pipex: command not found\n", 2);
+		exit_childprocess_exec(mini);
+		if (exec)
+			free(exec);
+		exit(127);
 	}
 }

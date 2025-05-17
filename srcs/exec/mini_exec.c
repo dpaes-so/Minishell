@@ -47,8 +47,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	{
 		if (i > 0)
 			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
-					F_OK | X_OK) < 0))
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,F_OK | X_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
@@ -59,7 +58,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 		execve(exec, cmds.args, envp);
 		i++;
 	}
-	cmd_exit(exec, mini);
+	cmd_exit(exec, mini,cmds.cmd);
 }
 
 void	which_child(t_mini *mini, t_cmd cmds)
