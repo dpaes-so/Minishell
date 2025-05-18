@@ -51,6 +51,7 @@ static void	my_env_continue(t_mini *mini, char **ev)
 		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
 		return ;
+	ft_sort_matrix(mini->env->my_export);
 	set_shlvl(mini);
 }
 void	my_env_start(t_mini *mini, char **ev)

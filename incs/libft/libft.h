@@ -95,6 +95,8 @@ long long			ft_atol(const char *nptr, int *f);
 
 char				**ft_matrix_dup(char **new_matrix, char **src);
 
+void				ft_sort_matrix(char **matrix);
+
 typedef struct s_list
 {
 	void			*content;
