@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/10 16:37:37 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:38:05 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ void	free_tree(t_tree *root)
 	free(root);
 }
 
-void	print_array(t_token **array)
+void	print_array(t_token **array, t_token *tokens)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (array[i])
+	while (array && array[i])
 	{
 		j = 0;
 		while (array[i][j].type != T_NULL)
@@ -115,6 +115,12 @@ void	print_array(t_token **array)
 				array[i][j].value, array[i][j].type);
 			j++;
 		}
+		i++;
+	}
+	while (tokens && tokens[i].type != T_NULL)
+	{
+		printf("new tokens[%d] = %s\n", i, tokens[i].value);
+		printf("new tokens type [%d] = %d\n", i, tokens[i].type);
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/18 22:27:34 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	build_unset(t_mini *mini, t_cmd cmds)
 	cmd_n = 0;
 	do_redirect(&cmds, mini);
 	if (!cmds.args[1])
-		return (0);
+		return (1);
 	while (cmds.args[++cmd_n])
 	{
 		i = -1;

@@ -1,7 +1,7 @@
 
 #include "../../incs/mini_header.h"
 
-void	here_doc_expand(char *s, t_mini *mini, int fd[2])
+void	here_doc_expand(char *s, t_mini *mini, int fd[2], bool quotes)
 {
 	int		i;
 	int		j;
@@ -11,7 +11,7 @@ void	here_doc_expand(char *s, t_mini *mini, int fd[2])
 	while (s[i])
 	{
 		j = 0;
-		if (s[i] == '$')
+		if (s[i] == '$' && quotes == false)
 		{
 			i++;
 			if (s[i] == '?')
@@ -49,7 +49,7 @@ void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 			free(str);
 			break ;
 		}
-		here_doc_expand(str, mini, fd);
+		here_doc_expand(str, mini, fd, cmds->redir[j].in_quotes);
 		write(fd[1], "\n", 1);
 		free(str);
 	}
