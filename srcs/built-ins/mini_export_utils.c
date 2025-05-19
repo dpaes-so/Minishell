@@ -28,7 +28,7 @@ int	check_valid_variable_name(char *s)
 	{
 		if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
 				|| (s[i] >= '0' && s[i] <= '9') || (s[i] == '_')
-				|| s[i] == '+' || s[i] == '='))
+				|| s[i] == '+' || s[i] == '=') || (ctd == 1 && s[i] != '='))
 			return (0);
 		if (s[i] == '+')
 			ctd++;
@@ -36,6 +36,8 @@ int	check_valid_variable_name(char *s)
 			return (0);
 		i++;
 	}
+	if(ctd == 1 && s[i] !=  '=')
+		return(0);
 	if (s[i - 1] == '+')
 		return (2);
 	return (1);
@@ -79,6 +81,7 @@ void	*add_exp_agn(t_mini *mini, char *arg)
 	int		size;
 	int		break_point;
 	int		i;
+	int 	equal_check;
 
 	size = 0;
 	i = -1;
@@ -86,10 +89,13 @@ void	*add_exp_agn(t_mini *mini, char *arg)
 	while (mini->env->my_export[size])
 		size++;
 	while (mini->env->my_export[++break_point])
-		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '+')
-				- arg))
-			return (mini->env->my_export[break_point] = ft_strjoin(mini->env->my_export[break_point],
-					ft_strchr(arg, '+') + 2), NULL);
+		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '+')- arg))
+		{
+			equal_check = 0;
+			if(ft_strchr(mini->env->my_export[break_point],'='))
+				equal_check = 1;
+			return (mini->env->my_export[break_point] = ft_strjoin(mini->env->my_export[break_point],ft_strchr(arg, '+') + equal_check + 1), NULL);
+		}
 	new_export = ft_calloc((size + 2), sizeof(char *));
 	if (!new_export)
 		return (NULL);
@@ -120,6 +126,7 @@ void	*add_export(t_mini *mini, char *arg)
 				- arg))
 			return (mini->env->my_env[break_point] = ft_strjoin(mini->env->my_env[break_point],
 					ft_strchr(arg, '+') + 2),add_exp_agn(mini,arg), NULL);
+	ft_printf("arg  1 = %s\n",arg);
 	new_env = ft_calloc((size + 2), sizeof(char *));
 	if (!new_env)
 		return (NULL);

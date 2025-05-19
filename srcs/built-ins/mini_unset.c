@@ -51,7 +51,7 @@ int	build_unset(t_mini *mini, t_cmd cmds)
 	if(do_redirect(&cmds, mini) < 0)
 		return(mini->pipex.status = 1,1);
 	if (!cmds.args[1])
-		return (0);
+		return (1);
 	while (cmds.args[++cmd_n])
 		do_unset(mini,cmds,cmd_n,i);
 	return (1);

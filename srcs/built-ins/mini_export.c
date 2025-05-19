@@ -109,7 +109,6 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 	{
 		arg = cmds.args[j];
 		ft_printf("var = %s\n", arg);
-		printf("arg 0 = %s\n",arg);
 		i = check_valid_variable_name(arg);
 		if (!i)
 		{
