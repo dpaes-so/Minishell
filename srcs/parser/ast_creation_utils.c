@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/06 18:39:42 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:43:10 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 			tree_node->node.redir[j].value = ft_strdup(tokens[i].value
 					+ count);
 			tree_node->node.redir[j].type = tokens[i].type;
+			tree_node->node.redir[j].in_quotes = tokens[i].in_quotes;
 			j++;
 		}
 		i++;

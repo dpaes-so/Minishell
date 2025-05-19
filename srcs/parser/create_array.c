@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:20:07 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:41:34 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	init_array(t_token **array, t_token *tokens)
 			while (array[i][j].type != T_NULL && array[i][j].type != T_PIPE)
 			{
 				array[i][j].value = ft_strdup(tokens[k].value);
-				array[i][j].type = tokens[k++].type;
-				j++;
+				array[i][j].in_quotes = tokens[k].in_quotes;
+				array[i][j++].type = tokens[k++].type;
 			}
 		}
 	}

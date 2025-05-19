@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/15 17:45:10 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:42:38 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	free_tokens(t_token *tokens)
 	{
 		if (tokens[i].value)
 			free(tokens[i].value);
-		if (tokens[i].copy)
-			free(tokens[i].copy);
 		i++;
 	}
 	free(tokens);
@@ -75,7 +73,7 @@ t_tokentype	token_type(char *value ,int j)
 		i++;
 	if (value[i] && value[i] == '|'  && j == 1)
 		type = T_PIPE;
-	else if (value[i] && (value[i] == '>' || value[i] == '<'))
+	else if (value[i] && (value[i] == '>' || value[i] == '<') && j == 1)
 	{
 		if (value[i] == '>')
 			type = T_OUT_REDIR;
@@ -100,7 +98,6 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 {
 	result[i].value = ft_substr(input, 0, len);
 	result[i].type = token_type(result[i].value, 1);
-	result[i].copy = ft_strdup(result[i].value);
 	result[i].in_quotes = false;
 	if (result[i].value == NULL)
 	{

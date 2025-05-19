@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/16 14:32:54 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:29:46 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ char	*find_env(t_token *token, t_mini *shell)
 	{
 		(*token).value++;
 		count++;
-		if (ft_isdigit(*(*token).value))
-			break;
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)

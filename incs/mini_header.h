@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 19:37:26 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:00:18 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef enum TokenType
 typedef struct s_token
 {
 	char				*value;
-	char				*copy;
 	t_tokentype			type;
 	bool				in_quotes;
 }						t_token;
@@ -158,7 +157,7 @@ int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
 t_token					**array_creation(t_token *tokens);
 void					init_array(t_token **array, t_token *tokens);
-void					print_array(t_token **array);
+void					print_array(t_token **array, t_token *tokens);
 void					create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
 void					init_tree_node(t_tree *tree_node, t_token *tokens);

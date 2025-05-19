@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/30 21:41:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:00:44 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	check_and(t_token tokens)
 	i = 0;
 	while (tokens.value[i] != '\0')
 	{
-		if (tokens.value[i] == '&' && tokens.value[i + 1] == '&')
+		if (tokens.value[i] == '&')
 			return (false);
 		if (tokens.value[i] == '\"' || tokens.value[i] == '\'')
 		{
