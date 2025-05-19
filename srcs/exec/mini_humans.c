@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:19:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:31:09 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	first_child(t_mini *mini, t_cmd cmds)
 {
 	int fd;
 	
-	printf("first child\n");
+	// printf("first child\n");
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -43,7 +43,7 @@ void	last_child(t_mini *mini, t_cmd cmds)
 {
 	int fd; 
 	
-	printf("ultimate child\n");
+	// printf("ultimate child\n");
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -93,6 +93,7 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 		dup2(mini->save_fd, STDIN_FILENO);
 		close(mini->pipex.pipefd[0]);
 	}
+	master_close();
 	cmdexec(mini->env->my_env, cmds, mini);
 }
 
@@ -103,7 +104,7 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	printf("solo child\n");
+	// printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{
