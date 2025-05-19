@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 19:24:35 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:07:47 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	wait_child(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_amount && mini->wait_check == 1)
 	{
+		// printf("exec signal %d\n",mini->execution_signal);
 		wait(&status);
 		if (WIFEXITED(status))
 			mini->pipex.status = WEXITSTATUS(status);
@@ -46,6 +47,8 @@ void	wait_child(t_mini *mini)
 				ft_printf("\n");
 			mini->pipex.status = 128 + sig;
 		}
+		if(mini->execution_signal)
+			mini->pipex.status = 130;
 		i++;
 	}
 }

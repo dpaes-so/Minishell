@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:06:36 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:12:18 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
+	ft_printf("exit\n");
 	exit(mini->pipex.status);
 }

@@ -72,6 +72,7 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 	}
 	else
 		wait(&mini->execution_signal);
+	ft_printf("exec signal on here doc %d\n",mini->execution_signal);
 	close(fd[1]);
 	return (fd[0]);
 }
