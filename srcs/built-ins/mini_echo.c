@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 18:45:26 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:24:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static void	redir_echo(t_cmd cmds, int flag, int fd)
 
 	i = 1;
 	if (cmds.fdout == -1)
-		return((void)ft_printf("\n"));
+		return ;
 	else
 		dup2(fd, STDOUT_FILENO);
 	if (flag != 0)
 		i = flag;
-	if (cmds.amount == 1)
+	if (cmds.amount == 0)
 		ft_printf("\n");
 	else
 	{
@@ -48,7 +48,7 @@ static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 	(void)mini;
 	if (flag != 0)
 		i = flag;
-	if (cmds.amount == 1)
+	if (cmds.amount == 0)
 		ft_printf("\n");
 	else
 	{

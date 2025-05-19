@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/19 18:39:25 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:56:13 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 	}
 	else if (cmds->redir[i].type == T_HERE_DOC)
 	{
-		ft_printf("ola here doc %d \n",cmds->here_fd);
+		// ft_printf("ola here doc %d \n",cmds->here_fd);
 		cmds->fdin =cmds->here_fd;
 	}
 	return (fd);

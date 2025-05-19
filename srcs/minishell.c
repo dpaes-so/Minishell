@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/19 18:25:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:25:13 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 	{
 		while(ast->node.redir[i].type != T_NULL)
 		{
-			ft_printf("i = %d\n",i);
+			// ft_printf("i = %d\n",i);
 			if(mini->execution_signal != 0)
 				break;
 			if (ast->node.redir[i].type == T_HERE_DOC)
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		tree_apply_infix(mini.ast, 0, "root");
+		// tree_apply_infix(mini.ast, 0, "root");
 		mini.pipex.cmd = 0;
 		mem_save(&mini);
 		do_here_doc(&mini, ast, 0);

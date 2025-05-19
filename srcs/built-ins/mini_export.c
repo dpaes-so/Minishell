@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:18:30 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:00:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void *finish_export(t_mini *mini,char *arg)
 	int		size;
 
 	size = 0;
-	ft_printf("FINISH\n");
+	// ft_printf("FINISH\n");
 	if(ft_strchr(arg,'='))
 	{
 		while (mini->env->my_env[size])
@@ -108,11 +108,12 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 	while (cmds.args[j])
 	{
 		arg = cmds.args[j];
-		ft_printf("var = %s\n", arg);
+		// ft_printf("var = %s\n", arg);
 		i = check_valid_variable_name(arg);
 		if (!i)
 		{
 			ft_printf("Minishell: '%s' not a valid identifier\n", arg);
+			mini->pipex.status = 1;
 			j++;
 			continue ;
 		}
@@ -147,6 +148,8 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 
 int	build_export(t_mini *mini, t_cmd cmds)
 {
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
 	if (cmds.redir[0].type != T_NULL)
 		export_redirs(mini, cmds);
 	else

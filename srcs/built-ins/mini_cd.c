@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:16:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:04:36 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
 
 char	*find_in_env(char *str, t_mini *shell)
 {
@@ -61,9 +60,9 @@ void	pwd_update(t_mini *mini)
 
 static int	cd_home(t_mini *mini)
 {
-	char *home;
-	
-	home = find_in_env("HOME",mini);
+	char	*home;
+
+	home = find_in_env("HOME", mini);
 	if (home != NULL)
 	{
 		chdir(home);
@@ -88,7 +87,7 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, char *pwd)
 	{
 		buffer = ft_strjoin(pwd, "/");
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
-		ft_printf("after join !%s!\n", cd2);
+		// ft_printf("after join !%s!\n", cd2);
 	}
 	return (cd2);
 }
@@ -101,12 +100,13 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 
 	buffer = NULL;
 	cd2 = NULL;
-	if(mini->cmd_amount == 1)
+	if (mini->cmd_amount == 1)
 		mini->wait_check = 0;
 	if (cmds.amount > 2)
-		return (ft_printf("Minishell: cd: too many arguments\n"), 1);
-	if(do_redirect(&cmds, mini) < 0)
-		return(mini->pipex.status = 1,1);
+		return (mini->pipex.status = 1,
+			ft_printf("Minishell: cd: too many arguments\n"), 1);
+	if (do_redirect(&cmds, mini) < 0)
+		return (mini->pipex.status = 1, 1);
 	if (!cmds.args[1])
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
@@ -115,9 +115,9 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 	{
 		ft_printf("Minishell: cd: %s: No such file or directory\n",
 			cmds.args[1]);
-			mini->pipex.status = 1;
+		mini->pipex.status = 1;
 	}
 	else
 		get_pwd(mini);
-	return (free(cd2),pwd_update(mini), 1);
+	return (free(cd2), pwd_update(mini), 1);
 }
