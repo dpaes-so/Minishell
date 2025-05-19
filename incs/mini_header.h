@@ -67,6 +67,7 @@ typedef struct s_ast_tree
 typedef struct s_env
 {
 	char				**my_env;
+	char 				**my_export;
 	char				*home;
 	int					error_code;
 }						t_env;
@@ -83,6 +84,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
+	int 				execution_signal;
 	int					wait_check;
 	int					cmd_amount;
 	char				*pwd;
@@ -105,6 +107,7 @@ int						build_env(t_mini *mini, t_cmd cmds);
 int						build_unset(t_mini *mini, t_cmd cmds);
 int						build_export(t_mini *mini, t_cmd cmds);
 int						print_env_ex(t_mini *mini);
+int						check_valid_variable_name(char *s);
 void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
@@ -128,7 +131,7 @@ void					wait_child(t_mini *mini);
 void					cmd_exit(char *exec, t_mini *mini, char *cmd);
 void					cmd_exit_aux(char *exec, t_mini *mini);
 void					root_handler(int signal);
-void					choose_signal(int s);
+void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
 void					set_shlvl(t_mini *mini);

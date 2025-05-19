@@ -17,7 +17,7 @@ void	first_child(t_mini *mini, t_cmd cmds)
 	int fd;
 	
 	printf("first child\n");
-	fd = 	do_redirect(&cmds, mini);
+	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
 	if (cmds.fdout != -1)
@@ -107,7 +107,7 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	pid = fork();
 	if (pid == 0)
 	{
-		choose_signal(2);
+		signals(2);
 		fd = do_redirect(&cmds, mini);
 		if (!cmds.cmd)
 			exit_childprocess(mini, 0);

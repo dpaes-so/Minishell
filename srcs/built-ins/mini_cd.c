@@ -111,7 +111,6 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 		return (cd_home(mini));
 	pwd = ft_strdup(mini->pwd);
 	cd2 = get_dir(cmds, buffer, cd2, pwd);
-	ft_printf("tryng to go to !%s!\n", cd2);
 	if (chdir(cd2) < 0 && cd2)
 	{
 		ft_printf("Minishell: cd: %s: No such file or directory\n",

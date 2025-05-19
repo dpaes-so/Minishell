@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrix_dup.c                                    :+:      :+:    :+:   */
+/*   ft_putnbrbasef.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 17:06:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:19:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 12:55:00 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/04 14:28:47 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_fdprintf.h"
 
-char	**ft_matrix_dup(char **new_matrix, char **src)
+static int	ft_strlen(char *str)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (src[j])
+	i = 0;
+	while (str[i] != '\0')
 	{
-		new_matrix[j] = ft_strdup(src[j]);
-		if (!new_matrix[j])
-		{
-			while (j-- > 0)
-				free(new_matrix[j]);
-			return (NULL);
-		}
-		j++;
+		i++;
 	}
-	new_matrix[j] = NULL;
-	return (new_matrix);
+	return (i);
+}
+
+void	ft_dputnbrbasef(unsigned int nb, char *base, int *counter,int fd)
+{
+	unsigned int	len;
+
+	len = ft_strlen(base);
+	if (nb < len)
+		ft_dputcharf(base[nb], counter,fd);
+	else
+	{
+		ft_dputnbrbasef(nb / len, base, counter,fd);
+		ft_dputnbrbasef(nb % len, base, counter,fd);
+	}
 }

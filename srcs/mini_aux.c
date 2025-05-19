@@ -45,6 +45,8 @@ void	exit_childprocess(t_mini *mini, int ecode)
 		free(mini->env->home);
 	if (mini->env->my_env)
 		freetrix(mini->env->my_env);
+	if (mini->env->my_export)
+		freetrix(mini->env->my_export);
 	if (mini->env)
 		free(mini->env);
 	if (ecode != -2)
@@ -69,6 +71,8 @@ void	exit_childprocess_exec(t_mini *mini)
 		free(mini->env->home);
 	if (mini->env->my_env)
 		freetrix(mini->env->my_env);
+	if (mini->env->my_export)
+		freetrix(mini->env->my_export);
 	if (mini->env)
 		free(mini->env);
 	if (mini->ast)

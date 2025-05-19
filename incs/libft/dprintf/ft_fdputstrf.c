@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrix_dup.c                                    :+:      :+:    :+:   */
+/*   ft_putstrf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 17:06:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:19:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 14:25:35 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/04 14:34:00 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_fdprintf.h"
 
-char	**ft_matrix_dup(char **new_matrix, char **src)
+void	ft_dputstrf(const char *str, int *counter,int fd)
 {
-	int	j;
+	int	i;
+	int ret;
 
-	j = 0;
-	while (src[j])
+	i = 0;
+	if (!str)
 	{
-		new_matrix[j] = ft_strdup(src[j]);
-		if (!new_matrix[j])
-		{
-			while (j-- > 0)
-				free(new_matrix[j]);
-			return (NULL);
-		}
-		j++;
+		ret = write(fd, "(null)", 6);
+		fd_derror(ret);
+		(*counter) += 6;
+		return ;
 	}
-	new_matrix[j] = NULL;
-	return (new_matrix);
+	while (str[i] != '\0')
+	{
+		ret = write(fd, &str[i], 1);
+		fd_derror(ret);
+		i++;
+		(*counter)++;
+	}
 }

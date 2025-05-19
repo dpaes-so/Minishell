@@ -49,7 +49,11 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	fd = 1;
 	i = -1;
 	while (cmds->redir[++i].value != NULL)
+	{
 		fd = redir_check(cmds, mini, i);
+		if(fd < 0)
+			break ;
+	}
 	return (fd);
 }
 
@@ -68,6 +72,8 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 	int	pid;
 	int fd;
 
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
 	if(fd < 0)
 		return(mini->pipex.status = 1, 1);
@@ -86,8 +92,6 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 			ft_printf("%s\n", mini->pwd);
 			exit_childprocess(mini, 0);
 		}
-		else
-			wait(NULL);
 	}
 	return (1);
 }

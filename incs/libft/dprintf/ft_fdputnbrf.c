@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrix_dup.c                                    :+:      :+:    :+:   */
+/*   ft_putnbrf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 17:06:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:19:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 12:55:39 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/04 14:36:35 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_fdprintf.h"
 
-char	**ft_matrix_dup(char **new_matrix, char **src)
+void	ft_dputnbrf(int n, int *counter,int fd)
 {
-	int	j;
+	char	num[50];
+	int		i;
 
-	j = 0;
-	while (src[j])
+	i = 0;
+	if (n == 0)
+		ft_dputcharf('0', counter,fd);
+	if (n == -2147483648)
+		ft_dputstrf("-2147483648",counter,fd);
+	else if (n < 0)
 	{
-		new_matrix[j] = ft_strdup(src[j]);
-		if (!new_matrix[j])
-		{
-			while (j-- > 0)
-				free(new_matrix[j]);
-			return (NULL);
-		}
-		j++;
+		ft_dputcharf('-',counter,fd);
+		n = -n;
 	}
-	new_matrix[j] = NULL;
-	return (new_matrix);
+	while (n > 0)
+	{
+		num[i++] = (n % 10) + '0';
+		n = n / 10;
+	}
+	while (i > 0)
+		ft_dputcharf(num[--i], counter,fd);
 }

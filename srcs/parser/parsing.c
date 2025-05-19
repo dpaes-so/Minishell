@@ -41,7 +41,7 @@ t_tree	*parser(char *input, t_mini *shell)
 
 	tokens = split_tokens(input);
 	if (tokens == NULL)
-		return (NULL);
+		return (freetrix(shell->pipex.path),NULL);
 	if (error_syntax(tokens) == false)
 		return (free_tokens(tokens),freetrix(shell->pipex.path),NULL);
 	new_tokens = expand_strs(tokens, shell);
