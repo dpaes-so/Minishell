@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_more_exec_aux.c                               :+:      :+:    :+:   */
+/*   mini_random_efunc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/13 17:34:21 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:43:26 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	set_shlvl(t_mini *mini)
 	while (mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "SHLVL=", 6))
 			break ;
+	if(!mini->env->my_env[i])
+		return ;
 	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
 	sh_lvl++;
 	shlvl = ft_itoa(sh_lvl);

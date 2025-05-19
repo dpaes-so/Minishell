@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 20:30:29 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/19 18:46:20 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*no_dollar(t_token token)
 	int	count;
 
 	count = unclosed_quotes(token);
-	if (count % 2 != 0 || count == 0)
+	if (count % 2 != 0 || count == 0 || *token.value == '$')
 		return ("$");
 	return (NULL);
 }

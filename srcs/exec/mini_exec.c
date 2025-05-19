@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 17:38:28 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:46:30 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
 	mini->pipex.pid1 = fork();
-	// close(mini->save_fd);
 	if (mini->pipex.pid1 == 0)
 	{
 		mem_save(mini);
@@ -81,11 +80,10 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	else
 	{
 		close(mini->pipex.pipefd[1]);
-		close(mini->save_fd);
+		if(mini->save_fd != -1)
+			close(mini->save_fd);
 		mini->save_fd = dup(mini->pipex.pipefd[0]);
-		// dprintf(2,"save fd = %d\n",mini->save_fd);
 		close(mini->pipex.pipefd[0]);
-		// master_close();
 	}
 	mini->pipex.cmd++;
 }

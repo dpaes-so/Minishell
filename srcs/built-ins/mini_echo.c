@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:47 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:45:26 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static void	redir_echo(t_cmd cmds, int flag, int fd)
 
 	i = 1;
 	if (cmds.fdout == -1)
-		return ;
+		return((void)ft_printf("\n"));
 	else
 		dup2(fd, STDOUT_FILENO);
 	if (flag != 0)
 		i = flag;
-	if (cmds.amount == 0)
+	if (cmds.amount == 1)
 		ft_printf("\n");
 	else
 	{
@@ -48,7 +48,7 @@ static void	normal_echo(t_mini *mini, t_cmd cmds, int flag)
 	(void)mini;
 	if (flag != 0)
 		i = flag;
-	if (cmds.amount == 0)
+	if (cmds.amount == 1)
 		ft_printf("\n");
 	else
 	{
@@ -106,7 +106,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 		if (pid == 0)
 		{
 			redir_echo(cmds, flag, cmds.fdout);
-			if(fd > 0)
+			if(fd >= 0)
 				fd=0;
 			else
 				fd = 1;
