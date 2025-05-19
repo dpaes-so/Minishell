@@ -12,62 +12,90 @@
 
 #include "../../incs/mini_header.h"
 
-static int	check_valid_variable_name(char *s)
+static void *finish_export(t_mini *mini,char *arg)
 {
-	int	i;
-	int	ctd;
+	char	**new_env;
+	char 	**new_export;
+	int		size;
 
-	i = 0;
-	ctd = 0;
-	if (s[0] == '=')
-		return (0);
-	if (!((s[0] >= 'a' && s[0] <= 'z') || (s[0] >= 'A' && s[0] <= 'Z')
-			|| (s[0] == '_')))
-		return (0);
-	while (s[i] && s[i] != '=')
+	size = 0;
+	ft_printf("FINISH\n");
+	if(ft_strchr(arg,'='))
 	{
-		if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
-				|| (s[i] >= '0' && s[i] <= '9') || (s[i] == '_')
-				|| s[i] == '+'))
-			return (0);
-		if (s[i] == '+')
-			ctd++;
-		if (ctd == 2)
-			return (0);
-		i++;
+		while (mini->env->my_env[size])
+			size++;
+		new_env = ft_calloc((size + 2), sizeof(char *));
+		if (!new_env)
+			return (NULL);
+		new_env = ft_matrix_dup(new_env, mini->env->my_env);
+		new_env[size++] = ft_strdup(arg);
+		new_env[size] = NULL;
+		freetrix(mini->env->my_env);
+		mini->env->my_env = new_env;
 	}
-	if (s[i - 1] == '+')
-		return (2);
-	return (1);
+	size = 0;
+	while(mini->env->my_export[size])
+		size++;
+	new_export = ft_calloc((size + 2), sizeof(char *));
+	if (!new_export)
+		return (NULL);
+	new_export = ft_matrix_dup(new_export, mini->env->my_export);
+	new_export[size++] = ft_strdup(arg);
+	new_export[size] = NULL;
+	freetrix(mini->env->my_export);
+	mini->env->my_export = new_export;
+	return(NULL);
 }
 
-static void	*make_export(t_mini *mini, char *arg, int f)
+void *double_check(t_mini *mini, char *arg)
 {
 	char	**new_env;
 	int		size;
-	int		break_point;
 
 	size = 0;
+	if(ft_strchr(arg,'='))
+	{
+		while (mini->env->my_env[size])
+			size++;
+		new_env = ft_calloc((size + 2), sizeof(char *));
+		if (!new_env)
+			return (NULL);
+		new_env = ft_matrix_dup(new_env, mini->env->my_env);
+		new_env[size++] = ft_strdup(arg);
+		new_env[size] = NULL;
+		freetrix(mini->env->my_env);
+		mini->env->my_env = new_env;
+	}
+	return(NULL);
+}
+static void	*make_export(t_mini *mini, char *arg, int f)
+{
+	int		break_point;
+
 	break_point = -1;
-	while (mini->env->my_env[size])
-		size++;
-	while (mini->env->my_env[++break_point])
-		if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')
-				- arg) || f == 2)
+	while (mini->env->my_export[++break_point])
+		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '=')- arg) || f == 2)
 		{
 			if (f == 2)
 				return (add_export(mini, arg));
 			else
-				return (free(mini->env->my_env[break_point]),
-					mini->env->my_env[break_point] = ft_strdup(arg), NULL);
+			{
+				free(mini->env->my_export[break_point]);
+				mini->env->my_export[break_point] = ft_strdup(arg);
+				break_point = -1;
+				while(mini->env->my_env[++break_point])
+					if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')- arg))
+					{
+						free(mini->env->my_env[break_point]);
+						mini->env->my_env[break_point] = ft_strdup(arg);
+						break;
+					}
+				if(mini->env->my_env[break_point] == NULL)
+					double_check(mini,arg);
+				return (NULL);
+			}
 		}
-	new_env = ft_calloc((size + 2), sizeof(char *));
-	if (!new_env)
-		return (NULL);
-	new_env = ft_matrix_dup(new_env, mini->env->my_env);
-	new_env[size++] = ft_strdup(arg);
-	new_env[size] = NULL;
-	return (freetrix(mini->env->my_env), mini->env->my_env = new_env, NULL);
+	return (finish_export(mini,arg),NULL);
 }
 
 static void	prep_export(t_mini *mini, t_cmd cmds)
@@ -97,7 +125,10 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
 
-	do_redirect(&cmds, mini);
+	if(mini->cmd_amount == 1)
+		mini->wait_check = 0;
+	if(do_redirect(&cmds, mini) < 0)
+		return(mini->pipex.status = 1,1);
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
@@ -111,8 +142,6 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 			prep_export(mini, cmds);
 		exit_childprocess(mini, 0);
 	}
-	else
-		wait(NULL);
 	return (1);
 }
 
@@ -124,7 +153,8 @@ int	build_export(t_mini *mini, t_cmd cmds)
 	{
 		if (!cmds.args[1])
 			print_env_ex(mini);
-		prep_export(mini, cmds);
+		else
+			prep_export(mini, cmds);
 	}
 	return (1);
 }

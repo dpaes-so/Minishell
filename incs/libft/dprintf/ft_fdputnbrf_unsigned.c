@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrix_dup.c                                    :+:      :+:    :+:   */
+/*   ft_putnbrf_unsigned.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 17:06:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/12 17:19:09 by dpaes-so         ###   ########.fr       */
+/*   Created: 2024/11/04 12:55:27 by dpaes-so          #+#    #+#             */
+/*   Updated: 2024/11/04 14:37:37 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_fdprintf.h"
 
-char	**ft_matrix_dup(char **new_matrix, char **src)
+void	ft_dputnbrf_unsigned(unsigned int n, int *counter,int fd)
 {
-	int	j;
+	char	num[50];
+	int		i;
 
-	j = 0;
-	while (src[j])
+	i = 0;
+	if (n == 0)
 	{
-		new_matrix[j] = ft_strdup(src[j]);
-		if (!new_matrix[j])
-		{
-			while (j-- > 0)
-				free(new_matrix[j]);
-			return (NULL);
-		}
-		j++;
+		ft_dputcharf('0', counter,fd);
+		return ;
 	}
-	new_matrix[j] = NULL;
-	return (new_matrix);
+	while (n > 0)
+	{
+		num[i++] = (n % 10) + '0';
+		n = n / 10;
+	}
+	while (i > 0)
+		ft_dputcharf(num[--i], counter,fd);
 }

@@ -40,10 +40,10 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	int		flag;
 
 	flag = 0;
-	i = 0;
+	i = -1;
 	if (check_built_in(mini, cmds))
 		exit_childprocess(mini,0);
-	while (flag == 0 && cmds.cmd)
+	while (flag == 0 && cmds.cmd && ++i > -1)
 	{
 		if (i > 0)
 			free(exec);
@@ -57,7 +57,6 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 		}
 		master_close();
 		execve(exec, cmds.args, envp);
-		i++;
 	}
 	cmd_exit(exec, mini,cmds.cmd);
 }
@@ -70,9 +69,7 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	if (mini->pipex.pid1 == 0)
 	{
 		mem_save(mini);
-		choose_signal(2);
-		if (!cmds.cmd)
-			exit_childprocess(mini, 0);
+		signals(2);
 		if (mini->pipex.cmd == 0)
 			first_child(mini, cmds);
 		else if (mini->pipex.cmd == mini->cmd_amount - 1)

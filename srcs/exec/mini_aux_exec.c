@@ -42,9 +42,7 @@ void	wait_child(t_mini *mini)
 		else if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
-			if (sig == SIGQUIT)
-				ft_printf("Quit (core dumped)\n");
-			else if (sig == SIGINT)
+			if (sig == SIGINT)
 				ft_printf("\n");
 			mini->pipex.status = 128 + sig;
 		}
