@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 18:51:14 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:33:48 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	new_tokens_amount(t_token *tokens, int i, int j)
 	while (tokens[i].type != T_NULL)
 	{
 		count = 0;
-		if (tokens[i].type >= T_HERE_DOC && T_APPEND_REDIR)
+		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
 			while (ft_strchr(" ><", tokens[i].value[count]) != NULL)
 				count++;
 		j = 0;
@@ -144,7 +144,7 @@ int	new_tokens_amount(t_token *tokens, int i, int j)
 			amount++;
 		while (res && res[j])
 			j++;
-		if (tokens[i].type >= T_HERE_DOC && T_APPEND_REDIR && j > 1)
+		if (tokens[i].type >= T_HERE_DOC && tokens[i].type  <= T_APPEND_REDIR && j > 1)
 			return (freetrix(res), -1);
 		amount += j;
 		i++;
