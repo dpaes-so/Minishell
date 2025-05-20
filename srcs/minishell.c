@@ -15,6 +15,8 @@
 
 void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 {
+	if(!ast)
+		return ;
 	if (ast->node.pipe == true)
 	{
 		do_here_doc(mini, ast->left, 0);
@@ -49,7 +51,10 @@ int	main(int ac, char **av, char **ev)
 	while (1)
 	{
 		mini.execution_signal = 0;
-		mini.pipex.path = path_finder(mini.env->my_env);
+		if (mini.env && mini.env->my_env)
+			mini.pipex.path = path_finder(mini.env->my_env);
+		else
+			mini.pipex.path = NULL;
 		mini.wait_check = 1;
 		signals(1);
 		mini.save_fd = -1;
