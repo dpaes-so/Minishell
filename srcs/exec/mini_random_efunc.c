@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 18:32:03 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:04:10 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	set_shlvl(t_mini *mini)
 	while (mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "SHLVL=", 6))
 			break ;
-	if(!mini->env->my_env[i])
+	if (!mini->env->my_env[i])
 		return ;
 	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
 	sh_lvl++;
@@ -34,15 +34,16 @@ void	set_shlvl(t_mini *mini)
 	free(temp);
 	free(shlvl);
 }
+
 static void	my_env_continue(t_mini *mini, char **ev)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	mini->env->my_env = ft_matrix_dup(mini->env->my_env,ev);
+	mini->env->my_env = ft_matrix_dup(mini->env->my_env, ev);
 	if (mini->env->my_env == NULL)
 		return ;
-	mini->env->my_export = ft_matrix_dup(mini->env->my_export,ev);
+	mini->env->my_export = ft_matrix_dup(mini->env->my_export, ev);
 	if (mini->env->my_export == NULL)
 		return ;
 	while (ev[++i])
@@ -56,23 +57,24 @@ static void	my_env_continue(t_mini *mini, char **ev)
 	ft_sort_matrix(mini->env->my_export);
 	set_shlvl(mini);
 }
+
 void	my_env_start(t_mini *mini, char **ev)
 {
 	int	k;
 
 	k = 0;
-	mini->env = ft_calloc(1,sizeof(t_env));
+	mini->env = ft_calloc(1, sizeof(t_env));
 	if (mini->env == NULL)
 		return ;
 	while (ev[k])
 		k++;
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_env == NULL)
-		return((void)freetrix(mini->env->my_env));
+		return ((void)freetrix(mini->env->my_env));
 	mini->env->my_export = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_export == NULL)
-		return((void)freetrix(mini->env->my_env));
-	my_env_continue(mini,ev);
+		return ((void)freetrix(mini->env->my_env));
+	my_env_continue(mini, ev);
 }
 
 t_mini	*mem_save(t_mini *to_save)

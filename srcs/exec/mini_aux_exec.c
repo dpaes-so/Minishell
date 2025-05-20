@@ -6,26 +6,27 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 16:07:47 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:03:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-
-void check_is_dir(char *exec, t_mini *mini)
+void	check_is_dir(char *exec, t_mini *mini)
 {
-	DIR *check;
+	DIR	*check;
+
 	check = opendir(exec);
-	if(check)
+	if (check)
 	{
-		ft_printf("Minishell: %s: Is a directory\n",exec);
+		ft_printf("Minishell: %s: Is a directory\n", exec);
 		closedir(check);
-		if(exec)
+		if (exec)
 			free(exec);
-		exit_childprocess(mini,126);
+		exit_childprocess(mini, 126);
 	}
 }
+
 void	wait_child(t_mini *mini)
 {
 	int	i;
@@ -36,7 +37,6 @@ void	wait_child(t_mini *mini)
 	i = 0;
 	while (i < mini->cmd_amount && mini->wait_check == 1)
 	{
-		// printf("exec signal %d\n",mini->execution_signal);
 		wait(&status);
 		if (WIFEXITED(status))
 			mini->pipex.status = WEXITSTATUS(status);
@@ -47,7 +47,7 @@ void	wait_child(t_mini *mini)
 				ft_printf("\n");
 			mini->pipex.status = 128 + sig;
 		}
-		if(mini->execution_signal)
+		if (mini->execution_signal)
 			mini->pipex.status = 130;
 		i++;
 	}
@@ -84,7 +84,7 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 		exit(127);
 	}
 	if (ft_strchr(cmd, '/'))
-		cmd_exit_aux(exec,mini);
+		cmd_exit_aux(exec, mini);
 	else
 	{
 		ft_putstr_fd("Pipex: command not found\n", 2);

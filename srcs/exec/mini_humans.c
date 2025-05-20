@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 17:31:09 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:04:34 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
-	int fd;
-	
-	// printf("first child\n");
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -41,9 +40,8 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
-	int fd; 
-	
-	// printf("ultimate child\n");
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -68,8 +66,8 @@ void	last_child(t_mini *mini, t_cmd cmds)
 
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
-	int fd;
-	
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -100,11 +98,10 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
-	int fd;
+	int	fd;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	// printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_here_doc.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 20:02:58 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/20 20:04:41 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
@@ -37,6 +48,7 @@ void	here_doc_expand(char *s, t_mini *mini, int fd[2], bool quotes)
 			write(fd[1], &s[i++], 1);
 	}
 }
+
 void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 {
 	char	*str;
@@ -54,6 +66,7 @@ void	here_loop(int j, t_cmd *cmds, int fd[2], t_mini *mini)
 		free(str);
 	}
 }
+
 int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 {
 	int	fd[2];
@@ -72,7 +85,6 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 	}
 	else
 		wait(&mini->execution_signal);
-	// ft_printf("exec signal on here doc %d\n",mini->execution_signal);
 	close(fd[1]);
 	return (fd[0]);
 }

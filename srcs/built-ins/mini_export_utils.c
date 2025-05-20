@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 19:16:46 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:05:03 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	*add_export(t_mini *mini, char *arg)
 {
 	char	**new_env;
 	int		size;
-	char	*new_arg;    
+	char	*new_arg;
 	int		break_point;
 	int		i;
 

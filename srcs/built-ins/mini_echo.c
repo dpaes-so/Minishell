@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 20:24:41 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:04:55 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 {
 	int	flag;
 	int	pid;
-	int fd;
+	int	fd;
 
 	flag = 0;
 	if (cmds.amount != 1)
@@ -106,11 +106,11 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 		if (pid == 0)
 		{
 			redir_echo(cmds, flag, cmds.fdout);
-			if(fd >= 0)
-				fd=0;
+			if (fd >= 0)
+				fd = 0;
 			else
 				fd = 1;
-			exit_childprocess(mini,fd);
+			exit_childprocess(mini, fd);
 		}
 	}
 	else

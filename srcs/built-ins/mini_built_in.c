@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 18:48:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:05:24 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdout = fd;
 	}
 	else if (cmds->redir[i].type == T_HERE_DOC)
-	{
-		// ft_printf("ola here doc %d \n",cmds->here_fd);
-		cmds->fdin =cmds->here_fd;
-	}
+		cmds->fdin = cmds->here_fd;
 	return (fd);
 }
 
@@ -54,7 +51,7 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
 		fd = redir_check(cmds, mini, i);
-		if(fd < 0)
+		if (fd < 0)
 			break ;
 	}
 	return (fd);
@@ -73,13 +70,13 @@ void	get_pwd(t_mini *mini)
 int	build_pwd(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
-	int fd;
+	int	fd;
 
-	if(mini->cmd_amount == 1)
+	if (mini->cmd_amount == 1)
 		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
-	if(fd < 0)
-		return(mini->pipex.status = 1, 1);
+	if (fd < 0)
+		return (mini->pipex.status = 1, 1);
 	get_pwd(mini);
 	if (cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);

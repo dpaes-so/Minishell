@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 19:46:30 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:02:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_built_in(t_mini *mini, t_cmd cmds)
 	if (ft_strcmp(cmds.cmd, "unset") == 0)
 		return (build_unset(mini, cmds));
 	if (ft_strcmp(cmds.cmd, "exit") == 0)
-		return(build_exit(mini, cmds));
+		return (build_exit(mini, cmds));
 	return (0);
 }
 
@@ -42,29 +42,30 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	flag = 0;
 	i = -1;
 	if (check_built_in(mini, cmds))
-		exit_childprocess(mini,0);
+		exit_childprocess(mini, 0);
 	while (flag == 0 && cmds.cmd && ++i > -1)
 	{
 		if (i > 0)
 			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,F_OK | X_OK) < 0))
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
+					F_OK | X_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
-			check_is_dir(exec,mini);
+			check_is_dir(exec, mini);
 			flag = 1;
 		}
 		master_close();
 		execve(exec, cmds.args, envp);
 	}
-	cmd_exit(exec, mini,cmds.cmd);
+	cmd_exit(exec, mini, cmds.cmd);
 }
 
 void	which_child(t_mini *mini, t_cmd cmds)
 {
 	signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	mini->pipex.pid1 = fork();
 	if (mini->pipex.pid1 == 0)
 	{
@@ -80,7 +81,7 @@ void	which_child(t_mini *mini, t_cmd cmds)
 	else
 	{
 		close(mini->pipex.pipefd[1]);
-		if(mini->save_fd != -1)
+		if (mini->save_fd != -1)
 			close(mini->save_fd);
 		mini->save_fd = dup(mini->pipex.pipefd[0]);
 		close(mini->pipex.pipefd[0]);

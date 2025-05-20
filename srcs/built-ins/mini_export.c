@@ -6,12 +6,11 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 19:58:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:05:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
 
 static void	*finish_export(t_mini *mini, char *arg)
 {
@@ -72,11 +71,12 @@ void	*double_check(t_mini *mini, char *arg)
 }
 static void	*make_export(t_mini *mini, char *arg, int f)
 {
-	int		break_point;
+	int	break_point;
 
 	break_point = -1;
 	while (mini->env->my_export[++break_point])
-		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '=')- arg) || f == 2)
+		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg,
+					'=') - arg) || f == 2)
 		{
 			if (f == 2)
 				return (add_export(mini, arg));
@@ -85,19 +85,20 @@ static void	*make_export(t_mini *mini, char *arg, int f)
 				free(mini->env->my_export[break_point]);
 				mini->env->my_export[break_point] = ft_strdup(arg);
 				break_point = -1;
-				while(mini->env->my_env[++break_point])
-					if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')- arg))
+				while (mini->env->my_env[++break_point])
+					if (!ft_strncmp(mini->env->my_env[break_point], arg,
+							ft_strchr(arg, '=') - arg))
 					{
 						free(mini->env->my_env[break_point]);
 						mini->env->my_env[break_point] = ft_strdup(arg);
-						break;
+						break ;
 					}
-				if(mini->env->my_env[break_point] == NULL)
-					double_check(mini,arg);
+				if (mini->env->my_env[break_point] == NULL)
+					double_check(mini, arg);
 				return (NULL);
 			}
 		}
-	return (finish_export(mini,arg),NULL);
+	return (finish_export(mini, arg), NULL);
 }
 
 static void	prep_export(t_mini *mini, t_cmd cmds)

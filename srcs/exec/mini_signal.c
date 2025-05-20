@@ -1,27 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_signal.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 20:02:54 by dpaes-so          #+#    #+#             */
+/*   Updated: 2025/05/20 20:04:04 by dpaes-so         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../incs/mini_header.h"
 
-
-void here_doc_signals(int signal)
+void	here_doc_signals(int signal)
 {
-	t_mini *mini_exit;
+	t_mini	*mini_exit;
+
 	if (signal == SIGINT)
 	{
 		ft_printf("\n");
 		mini_exit = mem_save(NULL);
-		exit_childprocess(mini_exit,130);
+		exit_childprocess(mini_exit, 130);
 	}
 }
+
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-        ft_printf("\n");
+		ft_printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
-void more_signals(int s,struct sigaction sa)
+
+void	more_signals(int s, struct sigaction sa)
 {
 	if (s == 3)
 	{
@@ -45,7 +59,7 @@ void	signals(int s)
 		if (sigemptyset(&sa.sa_mask) != 0)
 			return ;
 		sigaction(SIGINT, &sa, NULL);
-        signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (s == 2)
 	{
@@ -56,6 +70,5 @@ void	signals(int s)
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 	}
-	more_signals(s,sa);
+	more_signals(s, sa);
 }
-
