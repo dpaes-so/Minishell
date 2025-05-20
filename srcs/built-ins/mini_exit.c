@@ -68,10 +68,10 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
-	ft_printf("exit\n");
+	ft_dprintf(2,"exit\n");
 	if (cmds.amount > 2)
 	{
-		ft_printf("too many arguments\n");
+		ft_dprintf(2,"too many arguments\n");
 		exit(1);
 	}
 	exit(mini->pipex.status);

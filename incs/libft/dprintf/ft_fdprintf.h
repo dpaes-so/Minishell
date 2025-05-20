@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
+#ifndef FT_FDPRINTF_H
 
-# define FT_PRINTF_H
+# define FT_FDPRINTF_H
 
 # include <stdarg.h>
 # include <stdio.h>
@@ -26,7 +26,7 @@ void	ft_dputnbrf_unsigned(unsigned int n, int *counter,int fd);
 void	ft_dputnbrf(int n, int *counter,int fd);
 void	ft_dputnbrbasef(unsigned int nb, char *base, int *counter,int fd);
 void	ft_dputptr(unsigned long int nb, char *base, int *counter,int fd);
-void	check_null(unsigned long int nb, char *base, int *counter,int fd);
+void	check_null_fd(unsigned long int nb, char *base, int *counter,int fd);
 int	    ft_dformat(const char *str, va_list args, int i,int fd);
 void    fd_derror(int ret);
 #endif

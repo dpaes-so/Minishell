@@ -24,7 +24,6 @@ void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 	{
 		while(ast->node.redir[i].type != T_NULL)
 		{
-			// ft_printf("i = %d\n",i);
 			if(mini->execution_signal != 0)
 				break;
 			if (ast->node.redir[i].type == T_HERE_DOC)

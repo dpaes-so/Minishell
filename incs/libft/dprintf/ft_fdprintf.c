@@ -34,7 +34,7 @@ int	ft_dformat(const char *str, va_list args, int i, int fd)
 	if (str[i] == 'p')
 	{
 		addr = (unsigned long)va_arg(args, void *);
-		check_null(addr, "0123456789abcdef", &counter,fd);
+		check_null_fd(addr, "0123456789abcdef", &counter,fd);
 	}
 	return(counter);
 }

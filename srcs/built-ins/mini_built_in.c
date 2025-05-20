@@ -28,7 +28,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		fd = open(cmds->redir[i].value, O_RDONLY, 0644);
 		cmds->fdin = fd;
 		if (fd < 0)
-			return (ft_printf("Minishell: %s: No such file or directory\n",
+			return (ft_dprintf(2,"Minishell: %s: No such file or directory\n",
 					cmds->redir[i].value), fd);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)

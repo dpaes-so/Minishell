@@ -128,7 +128,6 @@ void	*add_export(t_mini *mini, char *arg)
 				- arg))
 			return (mini->env->my_env[break_point] = ft_strjoin(mini->env->my_env[break_point],
 					ft_strchr(arg, '+') + 2), add_exp_agn(mini, arg), NULL);
-	// ft_printf("arg  1 = %s\n",arg);
 	new_env = ft_calloc((size + 2), sizeof(char *));
 	if (!new_env)
 		return (NULL);

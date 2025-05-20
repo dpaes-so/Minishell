@@ -106,7 +106,7 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 		mini->wait_check = 0;
 	if (cmds.amount > 2)
 		return (mini->pipex.status = 1,
-			ft_printf("Minishell: cd: too many arguments\n"), 1);
+			ft_dprintf(2,"Minishell: cd: too many arguments\n"), 1);
 	if (do_redirect(&cmds, mini) < 0)
 		return (mini->pipex.status = 1, 1);
 	if (!cmds.args[1])

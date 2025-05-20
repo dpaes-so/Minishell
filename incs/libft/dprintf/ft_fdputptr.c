@@ -24,7 +24,7 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
-void	check_null(unsigned long int nb, char *base, int *counter,int fd)
+void	check_null_fd(unsigned long int nb, char *base, int *counter,int fd)
 {
 	if (!nb)
 		ft_dputstrf("(nil)",counter,fd);

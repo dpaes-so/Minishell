@@ -19,7 +19,7 @@ void	check_is_dir(char *exec, t_mini *mini)
 	check = opendir(exec);
 	if (check)
 	{
-		ft_printf("Minishell: %s: Is a directory\n", exec);
+		ft_dprintf(2,"Minishell: %s: Is a directory\n", exec);
 		closedir(check);
 		if (exec)
 			free(exec);

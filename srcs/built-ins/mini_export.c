@@ -17,9 +17,7 @@ static void	*finish_export(t_mini *mini, char *arg)
 	char	**new_env;
 	char	**new_export;
 	int		size;
-	int		b_point;
 
-	b_point = -1;
 	size = 0;
 	if (ft_strchr(arg, '='))
 	{
@@ -114,7 +112,7 @@ static void	prep_export(t_mini *mini, t_cmd cmds)
 		i = check_valid_variable_name(arg);
 		if (!i)
 		{
-			ft_printf("Minishell: '%s' not a valid identifier\n", arg);
+			ft_dprintf(2,"Minishell: '%s' not a valid identifier\n", arg);
 			mini->pipex.status = 1;
 			j++;
 			continue ;
