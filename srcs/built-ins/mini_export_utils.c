@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 19:59:53 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:16:46 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	print_env_ex(t_mini *mini)
 	int	i;
 
 	i = -1;
-	while (mini->env->my_export[++i])
+	while (mini->env->my_export && mini->env->my_export[++i])
 		ft_printf("declare -x %s\n", mini->env->my_export[i]);
 	return (1);
 }

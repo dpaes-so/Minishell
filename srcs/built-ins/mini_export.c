@@ -6,41 +6,12 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 16:58:05 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:58:23 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-
-int find_e_sign(char *s)
-{
-	int i;
-
-	i = 0;
-	while(s[i])
-	{
-		if(s[i] == '\n')
-			break;
-		i++;
-	}
-	return(i);
-}
-int	str_equal_s_cmp(char *s1, char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0') && s1[i] != '=')
-	{
-		if (!(s1[i] == s2[i]))
-			return ((unsigned char)s1[i] - ((unsigned char)s2[i]));
-		i++;
-	}
-	if ((s1[i] == '=') && (ft_strlen(s1) != ft_strlen(s2)))
-		return ((unsigned char)s1[i - 1] - (unsigned char)s2[i - 1]);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 static void	*finish_export(t_mini *mini, char *arg)
 {
@@ -63,12 +34,6 @@ static void	*finish_export(t_mini *mini, char *arg)
 		new_env[size] = NULL;
 		freetrix(mini->env->my_env);
 		mini->env->my_env = new_env;
-	}
-	else
-	{
-		while (mini->env->my_export[++b_point])
-			if (!str_equal_s_cmp(mini->env->my_export[b_point], arg))
-				return (NULL);
 	}
 	size = 0;
 	while (mini->env->my_export[size])
@@ -107,17 +72,11 @@ void	*double_check(t_mini *mini, char *arg)
 }
 static void	*make_export(t_mini *mini, char *arg, int f)
 {
-	int	break_point;
-	char s1[find_e_sign(arg) + 1];
+	int		break_point;
 
-	if(ft_strchr(arg,'='))
-		ft_strlcpy(s1,arg,find_e_sign(arg));
-	else
-		ft_strlcpy(s1,arg,find_e_sign(arg) + 1);
 	break_point = -1;
 	while (mini->env->my_export[++break_point])
-	{
-		if (!ft_strcmp(mini->env->my_export[break_point],s1) || f == 2)
+		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg, '=')- arg) || f == 2)
 		{
 			if (f == 2)
 				return (add_export(mini, arg));
@@ -126,20 +85,19 @@ static void	*make_export(t_mini *mini, char *arg, int f)
 				free(mini->env->my_export[break_point]);
 				mini->env->my_export[break_point] = ft_strdup(arg);
 				break_point = -1;
-				while (mini->env->my_env[++break_point])
-					if (!ft_strncmp(mini->env->my_env[break_point], arg,(ft_strchr(arg, '=') - arg)))
+				while(mini->env->my_env[++break_point])
+					if (!ft_strncmp(mini->env->my_env[break_point], arg, ft_strchr(arg, '=')- arg))
 					{
 						free(mini->env->my_env[break_point]);
 						mini->env->my_env[break_point] = ft_strdup(arg);
-						break ;
+						break;
 					}
-				if (mini->env->my_env[break_point] == NULL)
-					double_check(mini, arg);
+				if(mini->env->my_env[break_point] == NULL)
+					double_check(mini,arg);
 				return (NULL);
 			}
 		}
-	}
-	return (finish_export(mini, arg), NULL);
+	return (finish_export(mini,arg),NULL);
 }
 
 static void	prep_export(t_mini *mini, t_cmd cmds)
@@ -191,6 +149,7 @@ static int	export_redirs(t_mini *mini, t_cmd cmds)
 
 int	build_export(t_mini *mini, t_cmd cmds)
 {
+	mini->pipex.status = 0;
 	if (mini->cmd_amount == 1)
 		mini->wait_check = 0;
 	if (cmds.redir[0].type != T_NULL)

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:01:18 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/11/14 15:10:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:00:06 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	stringnum = countwords(s, c);
 	result = malloc(sizeof(char *) * (stringnum + 1));
-	result[stringnum] = 0;
 	if (!result)
 		return (NULL);
+	result[stringnum] = 0;
 	while (i < stringnum)
 	{
 		result[i] = wordalloc(&s, c);

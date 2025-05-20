@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 20:04:36 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:39:18 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*find_in_env(char *str, t_mini *shell)
 		return (NULL);
 	ft_strlcpy(expand, str - count, count + 1);
 	expand = ft_strjoin(expand, "=");
-	while (shell->env->my_env[++j])
+	while (shell->env->my_env && shell->env->my_env[++j])
 		if (ft_strnstr(shell->env->my_env[j], expand, count + 1))
 			return (free(expand), shell->env->my_env[j] + count + 1);
 	return (free(expand), NULL);
@@ -47,7 +47,9 @@ void	pwd_update(t_mini *mini)
 	char	*prefix;
 
 	i = -1;
-	while (mini->env->my_env[++i])
+	if(mini->env)
+		return ;
+	while (mini->env->my_env[i] && mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
 	if (mini->env->my_env[i])
@@ -98,6 +100,7 @@ int	build_cd(t_mini *mini, t_cmd cmds)
 	char	*pwd;
 	char	*buffer;
 
+	mini->pipex.status = 0;
 	buffer = NULL;
 	cd2 = NULL;
 	if (mini->cmd_amount == 1)

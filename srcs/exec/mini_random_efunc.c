@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/19 19:43:26 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:32:03 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ void	my_env_start(t_mini *mini, char **ev)
 	int	k;
 
 	k = 0;
-	mini->env = malloc(sizeof(t_env));
+	mini->env = ft_calloc(1,sizeof(t_env));
 	if (mini->env == NULL)
 		return ;
 	while (ev[k])
 		k++;
 	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
 	if (mini->env->my_env == NULL)
-		return ;
+		return((void)freetrix(mini->env->my_env));
 	mini->env->my_export = (char **)ft_calloc(k + 1, sizeof(char *));
-	if (mini->env->my_env == NULL)
-		return ;
+	if (mini->env->my_export == NULL)
+		return((void)freetrix(mini->env->my_env));
 	my_env_continue(mini,ev);
 }
 

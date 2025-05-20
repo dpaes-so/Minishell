@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 18:41:34 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:13:40 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_token	**array_creation(t_token *tokens)
 		len = token_count(tokens, &index);
 		array[i] = ft_calloc(len + 1, sizeof(t_token));
 		if (array[i] == NULL)
-			return (NULL);
+			return (free_array(array), NULL);
 		array[i][len].value = NULL;
 		array[i][len].type = T_NULL;
 		i++;
@@ -91,7 +91,7 @@ void	init_array(t_token **array, t_token *tokens)
 
 	i = -1;
 	k = 0;
-	while (array[++i])
+	while (array && array[++i])
 	{
 		j = 0;
 		if (array[i][j].type != T_NULL && tokens[k].type == T_PIPE)
@@ -118,7 +118,7 @@ void	free_array(t_token **array)
 	int	j;
 
 	i = 0;
-	while (array[i])
+	while (array && array[i])
 	{
 		j = 0;
 		while (array[i][j].type != T_NULL)

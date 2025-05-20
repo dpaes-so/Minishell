@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/18 22:27:34 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:39:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ int	build_unset(t_mini *mini, t_cmd cmds)
 		return (1);
 	while (cmds.args[++cmd_n])
 		do_unset(mini,cmds,cmd_n,i);
+	mini->pipex.status = 0;
 	return (1);
 }

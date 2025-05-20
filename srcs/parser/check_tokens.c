@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 19:00:44 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:37:13 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	unclosed_quotes(t_token tokens)
 
 	i = 0;
 	quote = 0;
-	while (tokens.value[i])
+	while (tokens.value && tokens.value[i])
 	{
 		if (tokens.value[i] == '\"' || tokens.value[i] == '\'')
 		{
@@ -55,7 +55,7 @@ bool	check_and(t_token tokens)
 
 	quote = 0;
 	i = 0;
-	while (tokens.value[i] != '\0')
+	while (tokens.value && tokens.value[i] != '\0')
 	{
 		if (tokens.value[i] == '&')
 			return (false);

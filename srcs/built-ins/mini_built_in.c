@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/19 19:56:13 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:48:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 
 	fd = 1;
 	i = -1;
-	while (cmds->redir[++i].value != NULL)
+	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
 		fd = redir_check(cmds, mini, i);
 		if(fd < 0)

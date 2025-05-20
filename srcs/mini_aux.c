@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 18:35:41 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:42:23 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	exit_childprocess_exec(t_mini *mini)
 {
 	if (mini->pwd)
 		free(mini->pwd);
-	if (mini->env->home != NULL)
+	if (mini->env->home && mini->env->home != NULL)
 		free(mini->env->home);
 	if (mini->env->my_env)
 		freetrix(mini->env->my_env);
@@ -90,8 +90,11 @@ char	**path_finder(char **envp)
 	char	*str;
 	char	**split;
 
+	str = NULL;
+	if(!envp)
+		return(NULL);
 	i = -1;
-	while (envp[++i])
+	while (envp && envp[++i])
 		if (ft_strnstr(envp[i], "PATH", 4))
 			break ;
 	if (!envp[i])
@@ -99,10 +102,12 @@ char	**path_finder(char **envp)
 	str = envp[i] + 5;
 	split = ft_split(str, ':');
 	i = -1;
-	while (split[++i])
+	while (split && split[++i])
 	{
 		temp = split[i];
 		split[i] = ft_strjoin(temp, "/");
+		if(!split[i])
+			return(freetrix(split),NULL);
 	}
 	return (split);
 }

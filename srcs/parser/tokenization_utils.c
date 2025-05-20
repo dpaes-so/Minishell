@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/18 18:42:38 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:09:40 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ bool	check_next(char *input)
 /// @param tokens Array of tokens
 void	free_tokens(t_token *tokens)
 {
+	if (tokens == NULL)
+		return ;
 	int	i;
 
 	i = 0;
-	while (tokens[i].type != T_NULL)
+	while (tokens && tokens[i].type != T_NULL)
 	{
 		if (tokens[i].value)
 			free(tokens[i].value);
@@ -69,6 +71,8 @@ t_tokentype	token_type(char *value ,int j)
 
 	i = 0;
 	type = T_WORD;
+	if (value == NULL)
+		return (type);
 	while (value[i] && (value[i] == ' ' || (value[i] >= 9 && value[i] <= 13)))
 		i++;
 	if (value[i] && value[i] == '|'  && j == 1)
@@ -101,13 +105,7 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 	result[i].in_quotes = false;
 	if (result[i].value == NULL)
 	{
-		i = 0;
-		while (result[i].value)
-		{
-			free(result[i].value);
-			i++;
-		}
-		free(result);
+		free_tokens(result);
 		return (false);
 	}
 	i++;

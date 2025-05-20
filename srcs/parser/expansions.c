@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/19 17:01:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:12:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	remove_quotes(t_token *token)
 	free((*token).value);
 	(*token).value = ft_calloc((ft_strlen(temp) - count) + 1, sizeof(char));
 	if ((*token).value == NULL)
-		return (false);
+		return (free(temp), false);
 	(*token).value[ft_strlen(temp) - count] = '\0';
 	removed(token, temp);
 	free(temp);
@@ -223,7 +223,7 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 		return (printf("ambiguous redirect stoopid D:<\n"), NULL);
 	new_tokens = create_new_tokens(tokens, amount, 0, 0);
 	i = -1;
-	while (new_tokens[++i].type != T_NULL)
+	while (new_tokens && new_tokens[++i].type != T_NULL)
 		if (new_tokens[i].type != T_PIPE)
 			remove_quotes(&new_tokens[i]);
 	return (new_tokens);

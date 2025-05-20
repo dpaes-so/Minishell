@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 20:29:46 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:40:27 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	get_amount(t_token *token, t_mini *shell)
 	int	amount;
 
 	amount = 0;
-	while (*(*token).value)
+	while (token && token->value && *(*token).value)
 	{
 		if (*(*token).value == '\'')
 		{

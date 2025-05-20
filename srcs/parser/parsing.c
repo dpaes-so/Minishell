@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/18 19:45:37 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:06:23 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_tree	*tree_maker(t_token **array)
 {
 	t_tree	*root;
+	root = NULL;
 	int		i;
 
 	i = 0;
@@ -25,6 +26,7 @@ t_tree	*tree_maker(t_token **array)
 t_token	**create_array(t_token *tokens)
 {
 	t_token	**array;
+	array = NULL;
 
 	array = array_creation(tokens);
 	init_array(array, tokens);
@@ -39,6 +41,10 @@ t_tree	*parser(char *input, t_mini *shell)
 	t_token	**array;
 	t_tree	*tree;
 
+	tokens = NULL;
+	new_tokens = NULL;
+	array = NULL;
+	tree = NULL;
 	tokens = split_tokens(input);
 	if (tokens == NULL)
 		return (freetrix(shell->pipex.path), NULL);
