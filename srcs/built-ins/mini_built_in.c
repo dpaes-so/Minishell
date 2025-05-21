@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:37:47 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:11:12 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdin = fd;
 		if (fd < 0)
 			return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
-					cmds->redir[i].value), fd);
+					cmds->redir[i].value), -2);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
@@ -51,8 +51,13 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
 		fd = redir_check(cmds, mini, i);
-		if (fd < 0)
+		if (fd == -2)
+		{
+			fd = -1;
 			break ;
+		}
+		else if (fd < 0)
+			ft_dprintf(2, "Minishell: %s: Permission denied\n");
 	}
 	return (fd);
 }

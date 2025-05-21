@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:37:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:40:05 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ void	print_tabs(int level)
 // 	}
 // }
 
-void	tree_apply_infix(t_tree *root, int level, char *side)
-{
-	if (root->left != NULL)
-		tree_apply_infix(root->right, level + 1, "right");
-	print_tree(root, level, side);
-	if (root->right != NULL)
-		tree_apply_infix(root->left, level + 1, "left");
-}
+// void	tree_apply_infix(t_tree *root, int level, char *side)
+// {
+// 	if (root->left != NULL)
+// 		tree_apply_infix(root->right, level + 1, "right");
+// 	print_tree(root, level, side);
+// 	if (root->right != NULL)
+// 		tree_apply_infix(root->left, level + 1, "left");
+// }
 
 void	free_tree(t_tree *root)
 {

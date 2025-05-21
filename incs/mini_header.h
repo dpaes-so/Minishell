@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 16:06:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:09:50 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
-bool					error_syntax(t_token *tokens);
+bool					error_syntax(t_mini *shell, t_token *tokens);
 int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
 t_token					**array_creation(t_token *tokens);

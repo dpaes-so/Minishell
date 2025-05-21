@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 14:14:44 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:10:20 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	unclosed_quotes(t_token tokens)
 	return (quote);
 }
 
-/// @brief Checks for every string of a token to see if an & exists 
+/// @brief Checks for every string of a token to see if an & exists
 /// out of quotes
 /// @param tokens The token it will inspect
 /// @return True if no & was found out of quotes
@@ -138,7 +138,7 @@ bool	pipe_syntax(t_token *tokens)
 /// @param tokens array of tokens
 /// @param amount amount of tokens
 /// @return True if all checks passed
-bool	error_syntax(t_token *tokens)
+bool	error_syntax(t_mini *shell, t_token *tokens)
 {
 	int	i;
 
@@ -146,14 +146,21 @@ bool	error_syntax(t_token *tokens)
 	if (pipe_syntax(tokens) == false)
 	{
 		ft_dprintf(2, "error syntax lil bro\n");
+		shell->pipex.status = 2;
 		return (false);
 	}
 	while (tokens[i].type != T_NULL)
 	{
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
+		{
+			shell->pipex.status = 2;
 			return (ft_dprintf(2, "syntax error noob\n"), false);
+		}
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
+		{
+			shell->pipex.status = 2;
 			return (ft_dprintf(2, "quotes aint closed dumbass\n"), false);
+		}
 		i++;
 	}
 	return (true);

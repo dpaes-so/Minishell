@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 19:38:02 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:11:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	redir_echo(t_cmd cmds, int flag, int fd)
 	int	i;
 
 	i = 1;
-	if (cmds.fdout == -1 || fd < 0)
+	if (fd < 0)
 		return ;
-	else
+	if (cmds.fdout != -1)
 		dup2(cmds.fdout, STDOUT_FILENO);
 	if (flag != 0)
 		i = flag;
