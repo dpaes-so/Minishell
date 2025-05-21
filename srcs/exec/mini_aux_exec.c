@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 16:27:29 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:37:34 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	cmd_exit_aux(char *exec, t_mini *mini)
 {
 	if (access(exec, F_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: No such file or directory\n", 2);
+		ft_dprintf(2, "Minishell: %s: No such file or directory\n", exec);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -65,7 +65,7 @@ void	cmd_exit_aux(char *exec, t_mini *mini)
 	}
 	if (access(exec, X_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: Permission denied\n", 2);
+		ft_dprintf(2, "Minishell: %s: Permission denied\n", exec);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -77,7 +77,7 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 {
 	if (!cmd || !*cmd)
 	{
-		ft_putstr_fd("Pipex: command not found\n", 2);
+		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -87,7 +87,7 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 		cmd_exit_aux(exec, mini);
 	else
 	{
-		ft_putstr_fd("Pipex: command not found\n", 2);
+		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 16:35:29 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:34:37 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,31 @@ void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 	}
 }
 
-void	shell_execution(t_mini mini, t_tree *ast)
+void	shell_execution(t_mini *mini, t_tree *ast)
 {
-	tree_apply_infix(mini.ast, 0, "root");
-	mini.pipex.cmd = 0;
-	mem_save(&mini);
-	do_here_doc(&mini, ast, 0);
-	if (mini.execution_signal == 0)
-		run_tree(&mini, ast, 0);
+	mini->pipex.cmd = 0;
+	mem_save(mini);
+	do_here_doc(mini, ast, 0);
+	if (mini->execution_signal == 0)
+		run_tree(mini, ast, 0);
 	master_close();
-	wait_child(&mini);
-	freetrix(mini.pipex.path);
-	if (mini.ast)
-		free_tree(mini.ast);
+	wait_child(mini);
+	freetrix(mini->pipex.path);
+	if (mini->ast)
+		free_tree(mini->ast);
 }
 
-void	hell_born(t_mini mini)
+void	hell_born(t_mini *mini)
 {
-	mini.execution_signal = 0;
-	if (mini.env && mini.env->my_env)
-		mini.pipex.path = path_finder(mini.env->my_env);
+	mini->execution_signal = 0;
+	if (mini->env && mini->env->my_env)
+		mini->pipex.path = path_finder(mini->env->my_env);
 	else
-		mini.pipex.path = NULL;
-	mini.wait_check = 1;
+		mini->pipex.path = NULL;
+	mini->wait_check = 1;
 	signals(1);
-	mini.save_fd = -1;
-	mini.cmd_amount = 0;
+	mini->save_fd = -1;
+	mini->cmd_amount = 0;
 }
 
 int	main(int ac, char **av, char **ev)
@@ -76,6 +75,7 @@ int	main(int ac, char **av, char **ev)
 	mini.pipex.status = 0;
 	while (1)
 	{
+		hell_born(&mini);
 		input = readline("minishell > ");
 		if (!input)
 			exit_childprocess(&mini, -2);
@@ -84,7 +84,7 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		shell_execution(mini, ast);
+		shell_execution(&mini, ast);
 		free(input);
 	}
 }

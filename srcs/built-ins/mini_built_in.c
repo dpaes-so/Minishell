@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 14:39:07 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:37:47 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ int	build_pwd(t_mini *mini, t_cmd cmds)
 	int	pid;
 	int	fd;
 
-	if (mini->cmd_amount == 1)
-		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
 	if (fd < 0)
-		return (mini->pipex.status = 1, 1);
+		return (mini->wait_check = 0, mini->pipex.status = 1, 1);
 	get_pwd(mini);
 	if (cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);

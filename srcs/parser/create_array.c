@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 19:13:40 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:36:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,6 @@ int	token_count(t_token *tokens, int *i)
 		}
 	}
 	return (amount);
-}
-
-t_token	**array_creation(t_token *tokens)
-{
-	int		i;
-	int		index;
-	int		len;
-	int		amount;
-	t_token	**array;
-
-	i = 0;
-	index = 0;
-	amount = count_elems(tokens);
-	array = ft_calloc(amount + 1, sizeof(t_token *));
-	if (array == NULL)
-		return (NULL);
-	array[amount] = NULL;
-	while (i < amount)
-	{
-		len = token_count(tokens, &index);
-		array[i] = ft_calloc(len + 1, sizeof(t_token));
-		if (array[i] == NULL)
-			return (free_array(array), NULL);
-		array[i][len].value = NULL;
-		array[i][len].type = T_NULL;
-		i++;
-	}
-	return (array);
 }
 
 void	init_array(t_token **array, t_token *tokens)
@@ -130,4 +102,32 @@ void	free_array(t_token **array)
 		i++;
 	}
 	free(array);
+}
+
+t_token	**array_creation(t_token *tokens)
+{
+	int		i;
+	int		index;
+	int		len;
+	int		amount;
+	t_token	**array;
+
+	i = 0;
+	index = 0;
+	amount = count_elems(tokens);
+	array = ft_calloc(amount + 1, sizeof(t_token *));
+	if (array == NULL)
+		return (NULL);
+	array[amount] = NULL;
+	while (i < amount)
+	{
+		len = token_count(tokens, &index);
+		array[i] = ft_calloc(len + 1, sizeof(t_token));
+		if (array[i] == NULL)
+			return (free_array(array), NULL);
+		array[i][len].value = NULL;
+		array[i][len].type = T_NULL;
+		i++;
+	}
+	return (array);
 }
