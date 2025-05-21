@@ -6,44 +6,48 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:02:58 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 20:04:41 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:23:11 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
+static void	here_dollar_handle(int *i, char *s, int fd[2], t_mini *mini)
+{
+	char	*s2;
+	int		j;
+
+	j = 0;
+	(*i)++;
+	if (s[(*i)] == '?')
+	{
+		s2 = status_expand(mini);
+		while (s2 && s2[j])
+			write(fd[1], &s2[j++], 1);
+		free(s2);
+		return ;
+	}
+	if (ft_isdigit(s[(*i)]))
+	{
+		(*i)++;
+		return ;
+	}
+	s2 = find_in_env(s + (*i), mini);
+	while (s[(*i)] && (ft_isalnum(s[(*i)]) || s[(*i)] == '_'))
+		(*i)++;
+	while (s2 && s2[j])
+		write(fd[1], &s2[j++], 1);
+}
+
 void	here_doc_expand(char *s, t_mini *mini, int fd[2], bool quotes)
 {
-	int		i;
-	int		j;
-	char	*s2;
+	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		j = 0;
 		if (s[i] == '$' && quotes == false)
-		{
-			i++;
-			if (s[i] == '?')
-			{
-				s2 = status_expand(mini);
-				while (s2 && s2[j])
-					write(fd[1], &s2[j++], 1);
-				free(s2);
-				return ;
-			}
-			if (ft_isdigit(s[i]))
-			{
-				i++;
-				continue ;
-			}
-			s2 = find_in_env(s + i, mini);
-			while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
-				i++;
-			while (s2 && s2[j])
-				write(fd[1], &s2[j++], 1);
-		}
+			here_dollar_handle(&i, s, fd, mini);
 		else
 			write(fd[1], &s[i++], 1);
 	}

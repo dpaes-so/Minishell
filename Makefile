@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniel <daniel@student.42.fr>              +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/21 02:23:51 by daniel           ###   ########.fr        #
+#    Updated: 2025/05/21 16:05:00 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ SOURCES = minishell.c \
           built-ins/mini_env.c \
           built-ins/mini_export.c \
 		  built-ins/mini_export_utils.c \
+		  built-ins/mini_export_more_utils.c \
+		  built-ins/mini_export_even_more_utils.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \

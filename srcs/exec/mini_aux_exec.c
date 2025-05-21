@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 20:03:16 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:27:29 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_is_dir(char *exec, t_mini *mini)
 	check = opendir(exec);
 	if (check)
 	{
-		ft_dprintf(2,"Minishell: %s: Is a directory\n", exec);
+		ft_dprintf(2, "Minishell: %s: Is a directory\n", exec);
 		closedir(check);
 		if (exec)
 			free(exec);
@@ -93,4 +93,13 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 			free(exec);
 		exit(127);
 	}
+}
+
+t_mini	*mem_save(t_mini *to_save)
+{
+	static t_mini	*save;
+
+	if (to_save)
+		save = to_save;
+	return (save);
 }

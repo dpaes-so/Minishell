@@ -6,11 +6,23 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 20:05:01 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:45:51 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+void	omega_free(t_mini *mini)
+{
+	free(mini->pwd);
+	if (mini->env->home != NULL)
+		free(mini->env->home);
+	freetrix(mini->env->my_env);
+	freetrix(mini->env->my_export);
+	free(mini->env);
+	free_tree(mini->ast);
+	freetrix(mini->pipex.path);
+}
 
 static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 {
@@ -58,20 +70,13 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	}
 	if (cmds.amount != 1 && f != 1)
 		mini->pipex.status = (unsigned char)n;
-	free(mini->pwd);
-	if (mini->env->home != NULL)
-		free(mini->env->home);
-	freetrix(mini->env->my_env);
-	freetrix(mini->env->my_export);
-	free(mini->env);
-	free_tree(mini->ast);
-	freetrix(mini->pipex.path);
 	clear_history();
 	master_close();
-	ft_dprintf(2,"exit\n");
+	omega_free(mini);
+	ft_dprintf(2, "exit\n");
 	if (cmds.amount > 2)
 	{
-		ft_dprintf(2,"too many arguments\n");
+		ft_dprintf(2, "too many arguments\n");
 		exit(1);
 	}
 	exit(mini->pipex.status);

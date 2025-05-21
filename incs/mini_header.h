@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 02:32:18 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:06:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft/libft.h"
 # include "limits.h"
 # include "stdbool.h"
+# include "time.h"
+# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -23,9 +25,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
-#include "time.h"
-
 
 typedef enum TokenType
 {
@@ -68,7 +67,7 @@ typedef struct s_ast_tree
 typedef struct s_env
 {
 	char				**my_env;
-	char 				**my_export;
+	char				**my_export;
 	char				*home;
 	int					error_code;
 }						t_env;
@@ -85,7 +84,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
-	int 				execution_signal;
+	int					execution_signal;
 	int					wait_check;
 	int					cmd_amount;
 	char				*pwd;
@@ -114,6 +113,16 @@ void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
 char					*find_in_env(char *str, t_mini *shell);
+char					*get_name(char *arg);
+int						find_equal(char *in_arr, char *new_arg);
+void					*double_check(t_mini *mini, char *arg);
+int						export_redirs(t_mini *mini, t_cmd cmds);
+void					*check_exist(int break_point, char *arg, char *key,
+							t_mini *mini);
+void					prep_export(t_mini *mini, t_cmd cmds);
+int						print_env_ex(t_mini *mini);
+char					*remove_plus_sign(char *src);
+int						check_char(char *s, int *ctd, int i);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 
@@ -136,7 +145,7 @@ void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
 void					set_shlvl(t_mini *mini);
-void 					check_is_dir(char *exec, t_mini *mini);
+void					check_is_dir(char *exec, t_mini *mini);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 

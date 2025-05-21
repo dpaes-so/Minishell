@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 18:37:13 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:14:44 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,15 @@ bool	error_syntax(t_token *tokens)
 	i = 0;
 	if (pipe_syntax(tokens) == false)
 	{
-		printf("error syntax lil bro\n");
+		ft_dprintf(2, "error syntax lil bro\n");
 		return (false);
 	}
 	while (tokens[i].type != T_NULL)
 	{
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
-			return (printf("syntax error noob\n"), false);
+			return (ft_dprintf(2, "syntax error noob\n"), false);
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
-			return (printf("quotes aint closed dumbass\n"), false);
+			return (ft_dprintf(2, "quotes aint closed dumbass\n"), false);
 		i++;
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 19:42:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:31:02 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exit_childprocess(t_mini *mini, int ecode)
 {
 	if (mini->pwd)
 		free(mini->pwd);
-	if(mini->env)
+	if (mini->env)
 	{
 		if (mini->env->home != NULL)
 			free(mini->env->home);
@@ -94,8 +94,8 @@ char	**path_finder(char **envp)
 	char	**split;
 
 	str = NULL;
-	if(!envp)
-		return(NULL);
+	if (!envp)
+		return (NULL);
 	i = -1;
 	while (envp && envp[++i])
 		if (ft_strnstr(envp[i], "PATH", 4))
@@ -109,8 +109,8 @@ char	**path_finder(char **envp)
 	{
 		temp = split[i];
 		split[i] = ft_strjoin(temp, "/");
-		if(!split[i])
-			return(freetrix(split),NULL);
+		if (!split[i])
+			return (freetrix(split), NULL);
 	}
 	return (split);
 }

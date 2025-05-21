@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 20:04:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:23:28 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ void	last_child(t_mini *mini, t_cmd cmds)
 	cmdexec(mini->env->my_env, cmds, mini);
 }
 
+static void	fdin_middlec_check(t_cmd cmds, t_mini *mini)
+{
+	if (cmds.fdin != -1)
+	{
+		dup2(cmds.fdin, STDIN_FILENO);
+		close(cmds.fdin);
+	}
+	else
+	{
+		dup2(mini->save_fd, STDIN_FILENO);
+		close(mini->pipex.pipefd[0]);
+	}
+}
+
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
 	int	fd;
@@ -81,16 +95,7 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 		dup2(mini->pipex.pipefd[1], STDOUT_FILENO);
 		close(mini->pipex.pipefd[1]);
 	}
-	if (cmds.fdin != -1)
-	{
-		dup2(cmds.fdin, STDIN_FILENO);
-		close(cmds.fdin);
-	}
-	else
-	{
-		dup2(mini->save_fd, STDIN_FILENO);
-		close(mini->pipex.pipefd[0]);
-	}
+	fdin_middlec_check(cmds, mini);
 	master_close();
 	cmdexec(mini->env->my_env, cmds, mini);
 }

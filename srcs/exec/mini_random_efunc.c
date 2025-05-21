@@ -6,25 +6,24 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 20:04:10 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:27:31 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void free_env(t_env *env)
+void	free_env(t_env *env)
 {
-    if (!env)
-        return;
-    if (env->my_env)
-        freetrix(env->my_env);
-    if (env->my_export)
-        freetrix(env->my_export);
-    if (env->home)
-        free(env->home);
-    free(env);
+	if (!env)
+		return ;
+	if (env->my_env)
+		freetrix(env->my_env);
+	if (env->my_export)
+		freetrix(env->my_export);
+	if (env->home)
+		free(env->home);
+	free(env);
 }
-
 
 void	set_shlvl(t_mini *mini)
 {
@@ -49,27 +48,33 @@ void	set_shlvl(t_mini *mini)
 	free(shlvl);
 }
 
-static void my_env_continue(t_mini *mini, char **ev)
+static void	matrix_dup_env(t_mini *mini, char **ev)
 {
-	int i = -1;
-
 	mini->env->my_env = ft_matrix_dup(mini->env->my_env, ev);
 	if (mini->env->my_env == NULL)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		return;
+		return ;
 	}
 	mini->env->my_export = ft_matrix_dup(mini->env->my_export, ev);
 	if (mini->env->my_export == NULL)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		return;
+		return ;
 	}
+}
+
+static void	my_env_continue(t_mini *mini, char **ev)
+{
+	int	i;
+
+	i = -1;
+	matrix_dup_env(mini, ev);
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
-			break;
+			break ;
 	mini->env->home = NULL;
 	if (ev[i])
 		mini->env->home = ft_strdup(ev[i] + 5);
@@ -77,46 +82,35 @@ static void my_env_continue(t_mini *mini, char **ev)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		return;
+		return ;
 	}
 	ft_sort_matrix(mini->env->my_export);
 	set_shlvl(mini);
 }
 
-
-void my_env_start(t_mini *mini, char **ev)
+void	my_env_start(t_mini *mini, char **ev)
 {
-    int k;
+	int	k;
 
-    k = 0;
-    while (ev[k])
-        k++;
-    mini->env = ft_calloc(1, sizeof(t_env));
-    if (!mini->env)
-        return;
-    mini->env->my_env = ft_calloc(k + 1, sizeof(char *));
-    if (!mini->env->my_env)
-    {
-        free_env(mini->env);
-        mini->env = NULL;
-        return;
-    }
-    mini->env->my_export = ft_calloc(k + 1, sizeof(char *));
-    if (!mini->env->my_export)
-    {
-        free_env(mini->env);
-        mini->env = NULL;
-        return;
-    }
-    my_env_continue(mini, ev);
-}
-
-
-t_mini	*mem_save(t_mini *to_save)
-{
-	static t_mini	*save;
-
-	if (to_save)
-		save = to_save;
-	return (save);
+	k = 0;
+	while (ev[k])
+		k++;
+	mini->env = ft_calloc(1, sizeof(t_env));
+	if (!mini->env)
+		return ;
+	mini->env->my_env = ft_calloc(k + 1, sizeof(char *));
+	if (!mini->env->my_env)
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		return ;
+	}
+	mini->env->my_export = ft_calloc(k + 1, sizeof(char *));
+	if (!mini->env->my_export)
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		return ;
+	}
+	my_env_continue(mini, ev);
 }

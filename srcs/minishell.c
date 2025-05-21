@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 01:24:21 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:35:29 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/mini_header.h"
 
-
 void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 {
-	if(!ast)
+	if (!ast)
 		return ;
 	if (ast->node.pipe == true)
 	{
@@ -24,20 +23,47 @@ void	do_here_doc(t_mini *mini, t_tree *ast, int i)
 	}
 	else if (ast->node.redir && ast->node.redir[i].type != T_NULL)
 	{
-		while(ast->node.redir[i].type != T_NULL)
+		while (ast->node.redir[i].type != T_NULL)
 		{
-			if(mini->execution_signal != 0)
-				break;
+			if (mini->execution_signal != 0)
+				break ;
 			if (ast->node.redir[i].type == T_HERE_DOC)
-				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i,mini);
+				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i, mini);
 			i++;
 		}
 	}
 }
 
+void	shell_execution(t_mini mini, t_tree *ast)
+{
+	tree_apply_infix(mini.ast, 0, "root");
+	mini.pipex.cmd = 0;
+	mem_save(&mini);
+	do_here_doc(&mini, ast, 0);
+	if (mini.execution_signal == 0)
+		run_tree(&mini, ast, 0);
+	master_close();
+	wait_child(&mini);
+	freetrix(mini.pipex.path);
+	if (mini.ast)
+		free_tree(mini.ast);
+}
+
+void	hell_born(t_mini mini)
+{
+	mini.execution_signal = 0;
+	if (mini.env && mini.env->my_env)
+		mini.pipex.path = path_finder(mini.env->my_env);
+	else
+		mini.pipex.path = NULL;
+	mini.wait_check = 1;
+	signals(1);
+	mini.save_fd = -1;
+	mini.cmd_amount = 0;
+}
+
 int	main(int ac, char **av, char **ev)
 {
-	srand(time(NULL));
 	t_mini	mini;
 	t_tree	*ast;
 	char	*input;
@@ -50,15 +76,6 @@ int	main(int ac, char **av, char **ev)
 	mini.pipex.status = 0;
 	while (1)
 	{
-		mini.execution_signal = 0;
-		if (mini.env && mini.env->my_env)
-			mini.pipex.path = path_finder(mini.env->my_env);
-		else
-			mini.pipex.path = NULL;
-		mini.wait_check = 1;
-		signals(1);
-		mini.save_fd = -1;
-		mini.cmd_amount = 0;
 		input = readline("minishell > ");
 		if (!input)
 			exit_childprocess(&mini, -2);
@@ -67,17 +84,7 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		tree_apply_infix(mini.ast, 0, "root");
-		mini.pipex.cmd = 0;
-		mem_save(&mini);
-		do_here_doc(&mini, ast, 0);
-		if(mini.execution_signal == 0)
-			run_tree(&mini, ast, 0);
-		master_close();
-		wait_child(&mini);
-		freetrix(mini.pipex.path);
-		if (mini.ast)
-			free_tree(mini.ast);
+		shell_execution(mini, ast);
 		free(input);
 	}
 }

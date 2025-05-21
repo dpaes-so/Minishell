@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 02:26:43 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:14:45 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 	amount = 0;
 	while (tokens[i].type != T_NULL)
 	{
-		// printf("str = %s\n", tokens[i].value);
 		if (tokens[i].type != T_PIPE)
 		{
 			if (tokens[i].type != T_HERE_DOC)
