@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 18:40:27 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:26:54 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,57 +22,6 @@
 // 	return (i);
 // }
 
-char	*find_env(t_token *token, t_mini *shell)
-{
-	char	*expand;
-	int		count;
-	int		j;
-
-	j = -1;
-	count = 0;
-	if (ft_isdigit(*(*token).value))
-		return ((*token).value++, NULL);
-	while (*(*token).value && (ft_isalnum(*(*token).value)
-			|| *(*token).value == '_'))
-	{
-		(*token).value++;
-		count++;
-	}
-	expand = ft_calloc(count + 2, sizeof(char));
-	if (expand == NULL)
-		return (NULL);
-	ft_strlcpy(expand, (*token).value - count, count + 1);
-	expand = ft_strjoin(expand, "=");
-	while (shell->env->my_env[++j])
-		if (ft_strnstr(shell->env->my_env[j], expand, count + 1))
-			return (free(expand), shell->env->my_env[j] + count + 1);
-	return (free(expand), NULL);
-}
-
-char	*add_quotes(char *expand, int flag)
-{
-	char	*new_expand;
-	int		i;
-
-	i = 0;
-	new_expand = ft_calloc(ft_strlen(expand) + 3, sizeof(char));
-	if (new_expand == NULL)
-		return (NULL);
-	new_expand[0] = '\"';
-	new_expand[ft_strlen(expand) + 1] = '\"';
-	while (expand[i])
-	{
-		new_expand[i + 1] = expand[i];
-		i++;
-	}
-	i++;
-	new_expand[i + 1] = '\0';
-	if (flag == 1 && expand)
-		free(expand);
-	return (new_expand);
-}
-
-
 void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 {
 	int		flag;
@@ -82,11 +31,13 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	temp = found_dollar(token, shell, &flag);
 	if (temp != NULL && temp[0])
 	{
-		if (expand != NULL)
+		if ((*token).in_quotes == false)
+			temp = add_quotes(temp, &flag);
+		if (expand != NULL && temp != NULL)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
 	}
-	if(temp && flag == 1)
+	if (temp && (flag == 1 || flag == 2))
 		free(temp);
 }
 

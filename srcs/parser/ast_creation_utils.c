@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/20 18:02:31 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:28:56 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,15 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 	while (tokens[i].type != T_NULL && tokens[i].type >= T_HERE_DOC
 		&& tokens[i].type <= T_APPEND_REDIR)
 		i++;
-	while(tokens[i].type != T_NULL)
+	while (tokens[i].type != T_NULL)
 	{
-		if(tokens[i].value != NULL && tokens[i].type != T_NULL && tokens[i].type == T_WORD)
+		if (tokens[i].value != NULL && tokens[i].type != T_NULL
+			&& tokens[i].type == T_WORD)
 		{
 			tree_node->node.cmd = ft_strdup(tokens[i].value);
 			if (tree_node->node.cmd == NULL)
 				return ;
-			break;	
+			break ;
 		}
 		i++;
 	}
@@ -113,7 +114,7 @@ void	init_tree_node(t_tree *tree_node, t_token *tokens)
 void	count_cmds(t_tree *tree, t_mini *shell)
 {
 	if (!tree || tree == NULL)
-		return;
+		return ;
 	if (tree->node.pipe == false)
 		shell->cmd_amount++;
 	count_cmds(tree->left, shell);

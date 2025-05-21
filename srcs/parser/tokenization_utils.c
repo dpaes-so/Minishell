@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 19:09:40 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:13:29 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ bool	check_next(char *input)
 /// @param tokens Array of tokens
 void	free_tokens(t_token *tokens)
 {
-	if (tokens == NULL)
-		return ;
 	int	i;
 
+	if (tokens == NULL)
+		return ;
 	i = 0;
 	while (tokens && tokens[i].type != T_NULL)
 	{
@@ -64,7 +64,7 @@ void	free_tokens(t_token *tokens)
 /// @brief Identifies each token
 /// @param value String of the token
 /// @return The type of token
-t_tokentype	token_type(char *value ,int j)
+t_tokentype	token_type(char *value, int j)
 {
 	t_tokentype	type;
 	int			i;
@@ -75,7 +75,7 @@ t_tokentype	token_type(char *value ,int j)
 		return (type);
 	while (value[i] && (value[i] == ' ' || (value[i] >= 9 && value[i] <= 13)))
 		i++;
-	if (value[i] && value[i] == '|'  && j == 1)
+	if (value[i] && value[i] == '|' && j == 1)
 		type = T_PIPE;
 	else if (value[i] && (value[i] == '>' || value[i] == '<') && j == 1)
 	{
@@ -92,7 +92,7 @@ t_tokentype	token_type(char *value ,int j)
 	return (type);
 }
 
-/// @brief Allocates memory for each element of the array result
+/// @brief Allocates memory for each element of the array of tokens
 /// @param input Input from readline
 /// @param len Length of the word
 /// @param result The array of tokens

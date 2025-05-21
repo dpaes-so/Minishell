@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:56:13 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/20 18:56:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:29:29 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	buffer = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!buffer)
-		return (free((char *)s1),NULL);
+		return (free((char *)s1), NULL);
 	while (i < ft_strlen(s1))
 	{
 		buffer[i] = s1[i];
