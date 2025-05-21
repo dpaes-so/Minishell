@@ -12,6 +12,20 @@
 
 #include "../../incs/mini_header.h"
 
+void free_env(t_env *env)
+{
+    if (!env)
+        return;
+    if (env->my_env)
+        freetrix(env->my_env);
+    if (env->my_export)
+        freetrix(env->my_export);
+    if (env->home)
+        free(env->home);
+    free(env);
+}
+
+
 void	set_shlvl(t_mini *mini)
 {
 	int		sh_lvl;
@@ -35,47 +49,68 @@ void	set_shlvl(t_mini *mini)
 	free(shlvl);
 }
 
-static void	my_env_continue(t_mini *mini, char **ev)
+static void my_env_continue(t_mini *mini, char **ev)
 {
-	int	i;
+	int i = -1;
 
-	i = -1;
 	mini->env->my_env = ft_matrix_dup(mini->env->my_env, ev);
 	if (mini->env->my_env == NULL)
-		return ;
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		return;
+	}
 	mini->env->my_export = ft_matrix_dup(mini->env->my_export, ev);
 	if (mini->env->my_export == NULL)
-		return ;
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		return;
+	}
 	while (ev[++i])
 		if (ft_strnstr(ev[i], "HOME=", 5))
-			break ;
+			break;
 	mini->env->home = NULL;
 	if (ev[i])
 		mini->env->home = ft_strdup(ev[i] + 5);
 	if (mini->env->home == NULL)
-		return ;
+	{
+		free_env(mini->env);
+		mini->env = NULL;
+		return;
+	}
 	ft_sort_matrix(mini->env->my_export);
 	set_shlvl(mini);
 }
 
-void	my_env_start(t_mini *mini, char **ev)
-{
-	int	k;
 
-	k = 0;
-	mini->env = ft_calloc(1, sizeof(t_env));
-	if (mini->env == NULL)
-		return ;
-	while (ev[k])
-		k++;
-	mini->env->my_env = (char **)ft_calloc(k + 1, sizeof(char *));
-	if (mini->env->my_env == NULL)
-		return ((void)freetrix(mini->env->my_env));
-	mini->env->my_export = (char **)ft_calloc(k + 1, sizeof(char *));
-	if (mini->env->my_export == NULL)
-		return ((void)freetrix(mini->env->my_env));
-	my_env_continue(mini, ev);
+void my_env_start(t_mini *mini, char **ev)
+{
+    int k;
+
+    k = 0;
+    while (ev[k])
+        k++;
+    mini->env = ft_calloc(1, sizeof(t_env));
+    if (!mini->env)
+        return;
+    mini->env->my_env = ft_calloc(k + 1, sizeof(char *));
+    if (!mini->env->my_env)
+    {
+        free_env(mini->env);
+        mini->env = NULL;
+        return;
+    }
+    mini->env->my_export = ft_calloc(k + 1, sizeof(char *));
+    if (!mini->env->my_export)
+    {
+        free_env(mini->env);
+        mini->env = NULL;
+        return;
+    }
+    my_env_continue(mini, ev);
 }
+
 
 t_mini	*mem_save(t_mini *to_save)
 {

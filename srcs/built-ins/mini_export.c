@@ -12,6 +12,29 @@
 
 #include "../../incs/mini_header.h"
 
+char	*get_name(char *arg)
+{
+	int	len;
+
+	len = 0;
+	while (arg[len] && arg[len] != '=')
+		len++;
+	return (ft_substr(arg, 0, len));
+}
+
+static int	find_equal(char *in_arr,char *new_arg)
+{
+	char	*equal_in_arr;
+	char	*equal_in_new;
+
+	equal_in_arr= ft_strchr(in_arr, '=');
+	equal_in_new = ft_strchr(new_arg, '=');
+	if (equal_in_arr != NULL && equal_in_new == NULL)
+		return (1); 
+	return (0);
+}
+
+
 static void	*finish_export(t_mini *mini, char *arg)
 {
 	char	**new_env;
@@ -69,33 +92,45 @@ void	*double_check(t_mini *mini, char *arg)
 }
 static void	*make_export(t_mini *mini, char *arg, int f)
 {
-	int	break_point;
+	int		break_point;
+	char	*key;
 
+	key = get_name(arg);
+	if (!key)
+		return (NULL);
 	break_point = -1;
 	while (mini->env->my_export[++break_point])
-		if (!ft_strncmp(mini->env->my_export[break_point], arg, ft_strchr(arg,
-					'=') - arg) || f == 2)
+	{
+		if ((!ft_strncmp(mini->env->my_export[break_point], key, ft_strlen(key)) &&
+			(mini->env->my_export[break_point][ft_strlen(key)] == '=' ||
+			mini->env->my_export[break_point][ft_strlen(key)] == '\0')) || f == 2)
 		{
+			if (find_equal(mini->env->my_export[break_point], arg))
+				return (free(key),NULL);
 			if (f == 2)
-				return (add_export(mini, arg));
-			else
+				return (free(key),add_export(mini, arg));
+			free(mini->env->my_export[break_point]);
+			mini->env->my_export[break_point] = ft_strdup(arg);
+			break_point = -1;
+			while (mini->env->my_env[++break_point])
 			{
-				free(mini->env->my_export[break_point]);
-				mini->env->my_export[break_point] = ft_strdup(arg);
-				break_point = -1;
-				while (mini->env->my_env[++break_point])
-					if (!ft_strncmp(mini->env->my_env[break_point], arg,
-							ft_strchr(arg, '=') - arg))
-					{
-						free(mini->env->my_env[break_point]);
-						mini->env->my_env[break_point] = ft_strdup(arg);
-						break ;
-					}
-				if (mini->env->my_env[break_point] == NULL)
-					double_check(mini, arg);
-				return (NULL);
+				if (!ft_strncmp(mini->env->my_env[break_point], key, ft_strlen(key)) &&
+					(mini->env->my_env[break_point][ft_strlen(key)] == '=' ||
+					mini->env->my_env[break_point][ft_strlen(key)] == '\0'))
+				{
+					free(mini->env->my_env[break_point]);
+					mini->env->my_env[break_point] = ft_strdup(arg);
+					free(key);
+					return (NULL);
+				}
 			}
+			if (mini->env->my_env[break_point] == NULL)
+				double_check(mini, arg);
+			free(key);
+			return (NULL);
 		}
+	}
+	free(key);
 	return (finish_export(mini, arg), NULL);
 }
 
