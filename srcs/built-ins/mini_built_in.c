@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/16 17:28:34 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:35:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		fd = open(cmds->redir[i].value, O_RDONLY, 0644);
 		cmds->fdin = fd;
 		if (fd < 0)
-			return (ft_printf("Minishell: %s: No such file or directory\n",
-					cmds->redir[i].value), fd);
+			return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
+					cmds->redir[i].value), -2);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
@@ -37,7 +37,7 @@ int	redir_check(t_cmd *cmds, t_mini *mini, int i)
 		cmds->fdout = fd;
 	}
 	else if (cmds->redir[i].type == T_HERE_DOC)
-		cmds->fdin =cmds->here_fd;
+		cmds->fdin = cmds->here_fd;
 	return (fd);
 }
 
@@ -48,11 +48,22 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 
 	fd = 1;
 	i = -1;
-	while (cmds->redir[++i].value != NULL)
+	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
 		fd = redir_check(cmds, mini, i);
-		if(fd < 0)
+		if (fd == -2)
+		{
+			fd = -1;
 			break ;
+		}
+		else if (fd < 0)
+		{
+			if (!check_is_dir(cmds->redir[i].value, mini, 0))
+			{
+				ft_dprintf(2, "Minishell: %s: Permission denied\n",
+					cmds->redir[i].value);
+			}
+		}
 	}
 	return (fd);
 }
@@ -70,13 +81,11 @@ void	get_pwd(t_mini *mini)
 int	build_pwd(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
-	int fd;
+	int	fd;
 
-	if(mini->cmd_amount == 1)
-		mini->wait_check = 0;
 	fd = do_redirect(&cmds, mini);
-	if(fd < 0)
-		return(mini->pipex.status = 1, 1);
+	if (fd < 0)
+		return (mini->wait_check = 0, mini->pipex.status = 1, 1);
 	get_pwd(mini);
 	if (cmds.fdout == -1)
 		ft_printf("%s\n", mini->pwd);

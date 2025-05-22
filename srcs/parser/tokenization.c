@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/14 18:54:45 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:09:22 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,14 @@ t_token	*split_tokens(char *input)
 	int		amount;
 
 	amount = count_tokens(input, NULL);
+	if (amount == 0)
+		return (NULL);
 	token = ft_calloc(amount + 1, sizeof(t_token));
 	if (token == NULL)
 		return (NULL);
 	token[amount].value = NULL;
 	token[amount].type = T_NULL;
-	if (count_tokens(input, token) == 0)
-		return (free(token), NULL);
+	if (token && count_tokens(input, token) == 0)
+		return (NULL);
 	return (token);
 }

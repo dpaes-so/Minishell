@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:16:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:43:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
 
 char	*find_in_env(char *str, t_mini *shell)
 {
@@ -36,7 +35,7 @@ char	*find_in_env(char *str, t_mini *shell)
 		return (NULL);
 	ft_strlcpy(expand, str - count, count + 1);
 	expand = ft_strjoin(expand, "=");
-	while (shell->env->my_env[++j])
+	while (shell->env->my_env && shell->env->my_env[++j])
 		if (ft_strnstr(shell->env->my_env[j], expand, count + 1))
 			return (free(expand), shell->env->my_env[j] + count + 1);
 	return (free(expand), NULL);
@@ -48,7 +47,9 @@ void	pwd_update(t_mini *mini)
 	char	*prefix;
 
 	i = -1;
-	while (mini->env->my_env[++i])
+	if (mini->env)
+		return ;
+	while (mini->env->my_env[i] && mini->env->my_env[++i])
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
 	if (mini->env->my_env[i])
@@ -61,9 +62,9 @@ void	pwd_update(t_mini *mini)
 
 static int	cd_home(t_mini *mini)
 {
-	char *home;
-	
-	home = find_in_env("HOME",mini);
+	char	*home;
+
+	home = find_in_env("HOME", mini);
 	if (home != NULL)
 	{
 		chdir(home);
@@ -77,18 +78,21 @@ static int	cd_home(t_mini *mini)
 	return (1);
 }
 
-static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, char *pwd)
+static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 {
+	char	*pwd;
+
+	pwd = ft_strdup(mini->pwd);
 	if (cmds.args[1][0] == '/')
 	{
 		cd2 = ft_strdup(cmds.args[1]);
-		free(pwd);
+		if (pwd)
+			free(pwd);
 	}
 	else
 	{
 		buffer = ft_strjoin(pwd, "/");
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
-		ft_printf("after join !%s!\n", cd2);
 	}
 	return (cd2);
 }
@@ -96,28 +100,28 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, char *pwd)
 int	build_cd(t_mini *mini, t_cmd cmds)
 {
 	char	*cd2;
-	char	*pwd;
 	char	*buffer;
 
+	mini->pipex.status = 0;
 	buffer = NULL;
 	cd2 = NULL;
-	if(mini->cmd_amount == 1)
+	if (mini->cmd_amount == 1)
 		mini->wait_check = 0;
 	if (cmds.amount > 2)
-		return (ft_printf("Minishell: cd: too many arguments\n"), 1);
-	if(do_redirect(&cmds, mini) < 0)
-		return(mini->pipex.status = 1,1);
+		return (mini->pipex.status = 1, ft_dprintf(2,
+				"Minishell: cd: too many arguments\n"), 1);
+	if (do_redirect(&cmds, mini) < 0)
+		return (mini->pipex.status = 1, 1);
 	if (!cmds.args[1])
 		return (cd_home(mini));
-	pwd = ft_strdup(mini->pwd);
-	cd2 = get_dir(cmds, buffer, cd2, pwd);
+	cd2 = get_dir(cmds, buffer, cd2, mini);
 	if (chdir(cd2) < 0 && cd2)
 	{
-		ft_printf("Minishell: cd: %s: No such file or directory\n",
+		ft_dprintf(2, "Minishell: cd: %s: No such file or directory\n",
 			cmds.args[1]);
-			mini->pipex.status = 1;
+		mini->pipex.status = 1;
 	}
 	else
 		get_pwd(mini);
-	return (free(cd2),pwd_update(mini), 1);
+	return (free(cd2), pwd_update(mini), 1);
 }

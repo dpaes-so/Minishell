@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 17:23:52 by dpaes-so          #+#    #+#              #
-#    Updated: 2025/05/12 17:09:50 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/05/20 17:32:30 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRC_FILES =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_
 
 PRINTF = $(addprefix ./printf/, ft_putcharf.c  ft_putnbrbasef.c  ft_putnbrf.c ft_putnbrf_unsigned.c \
 		ft_putstrf.c  ft_putptr.c ft_printf.c)
+DPRINTF = $(addprefix ./dprintf/, ft_fdputcharf.c  ft_fdputnbrbasef.c  ft_fdputnbrf.c ft_fdputnbrf_unsigned.c \
+		ft_fdputstrf.c  ft_fdputptr.c ft_fdprintf.c)
 
 BONUS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
@@ -33,11 +35,12 @@ BONUS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_
 BONUS_OBJS = $(BONUS_FILES:.c=.o)
 OBJS = $(SRC_FILES:.c=.o)
 PRINTF_OBJ = $(PRINTF:.c=.o)
+DPRINTF_OBJ = $(DPRINTF:.c=.o)
 
 all: $(NAME) 
 
-$(NAME): $(OBJS) $(PRINTF_OBJ)
-	@ar rcs $(NAME) $(OBJS) $(PRINTF_OBJ)
+$(NAME): $(OBJS) $(PRINTF_OBJ) $(DPRINTF_OBJ)
+	@ar rcs $(NAME) $(OBJS) $(PRINTF_OBJ) $(DPRINTF_OBJ)
 
 bonus: $(BONUS_OBJS) $(NAME)
 	@ar rcs $(NAME) $(BONUS_OBJS)
@@ -47,11 +50,15 @@ bonus: $(BONUS_OBJS) $(NAME)
 
 $(PRINTF_OBJ): %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
+
+$(DPRINTF_OBJ): %.o: %.c
+	@$(CC) $(FLAGS) -c $< -o $@
 	
 clean:
 	@rm -f $(OBJS)
 	@rm -f $(BONUS_OBJS)
 	@rm -f $(PRINTF_OBJ)
+	@rm -f $(DPRINTF_OBJ)
 fclean: clean
 	@rm -f $(NAME)
 	

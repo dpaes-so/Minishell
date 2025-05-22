@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/13 13:55:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:52:36 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 {
 	if (*i < 0)
 		return ;
-	if (array[*i])
+	if (array && array[*i])
 	{
 		while (array[*i] != NULL && array[*i]->type != T_PIPE && pipe == false)
 			(*i)++;

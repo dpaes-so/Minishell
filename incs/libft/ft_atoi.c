@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:47:16 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/10/31 10:35:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:42:48 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@ int	ft_atoi(const char *str)
 	result = 0;
 	sinal = 1;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-	{
 		i++;
-	}
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
-		{
 			sinal = -sinal;
-		}
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')

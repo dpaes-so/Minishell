@@ -6,14 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:23 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:38:55 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-
-static void do_unset(t_mini *mini, t_cmd cmds,int cmd_n,int i)
+static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 {
 	while (mini->env->my_env[++i])
 		if (ft_strncmp(mini->env->my_env[i], cmds.args[cmd_n],
@@ -39,20 +38,22 @@ static void do_unset(t_mini *mini, t_cmd cmds,int cmd_n,int i)
 		i++;
 	}
 }
+
 int	build_unset(t_mini *mini, t_cmd cmds)
 {
 	int	cmd_n;
-	int i;
+	int	i;
 
 	i = -1;
 	cmd_n = 0;
-	if(mini->cmd_amount == 1)
+	if (mini->cmd_amount == 1)
 		mini->wait_check = 0;
-	if(do_redirect(&cmds, mini) < 0)
-		return(mini->pipex.status = 1,1);
+	if (do_redirect(&cmds, mini) < 0)
+		return (mini->pipex.status = 1, 1);
 	if (!cmds.args[1])
 		return (1);
 	while (cmds.args[++cmd_n])
-		do_unset(mini,cmds,cmd_n,i);
+		do_unset(mini, cmds, cmd_n, i);
+	mini->pipex.status = 0;
 	return (1);
 }

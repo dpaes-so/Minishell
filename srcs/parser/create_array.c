@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/23 14:20:07 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:36:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,55 @@ int	token_count(t_token *tokens, int *i)
 	return (amount);
 }
 
+void	init_array(t_token **array, t_token *tokens)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = -1;
+	k = 0;
+	while (array && array[++i])
+	{
+		j = 0;
+		if (array[i][j].type != T_NULL && tokens[k].type == T_PIPE)
+		{
+			array[i][j].value = ft_strdup(tokens[k++].value);
+			array[i]->type = T_PIPE;
+			j++;
+		}
+		else
+		{
+			while (array[i][j].type != T_NULL && array[i][j].type != T_PIPE)
+			{
+				array[i][j].value = ft_strdup(tokens[k].value);
+				array[i][j].in_quotes = tokens[k].in_quotes;
+				array[i][j++].type = tokens[k++].type;
+			}
+		}
+	}
+}
+
+void	free_array(t_token **array)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (array && array[i])
+	{
+		j = 0;
+		while (array[i][j].type != T_NULL)
+		{
+			free(array[i][j].value);
+			j++;
+		}
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 t_token	**array_creation(t_token *tokens)
 {
 	int		i;
@@ -75,59 +124,10 @@ t_token	**array_creation(t_token *tokens)
 		len = token_count(tokens, &index);
 		array[i] = ft_calloc(len + 1, sizeof(t_token));
 		if (array[i] == NULL)
-			return (NULL);
+			return (free_array(array), NULL);
 		array[i][len].value = NULL;
 		array[i][len].type = T_NULL;
 		i++;
 	}
 	return (array);
-}
-
-void	init_array(t_token **array, t_token *tokens)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = -1;
-	k = 0;
-	while (array[++i])
-	{
-		j = 0;
-		if (array[i][j].type != T_NULL && tokens[k].type == T_PIPE)
-		{
-			array[i][j].value = ft_strdup(tokens[k++].value);
-			array[i]->type = T_PIPE;
-			j++;
-		}
-		else
-		{
-			while (array[i][j].type != T_NULL && array[i][j].type != T_PIPE)
-			{
-				array[i][j].value = ft_strdup(tokens[k].value);
-				array[i][j].type = tokens[k++].type;
-				j++;
-			}
-		}
-	}
-}
-
-void	free_array(t_token **array)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (array[i])
-	{
-		j = 0;
-		while (array[i][j].type != T_NULL)
-		{
-			free(array[i][j].value);
-			j++;
-		}
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }

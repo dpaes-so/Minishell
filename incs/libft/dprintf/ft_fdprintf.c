@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/11/04 14:31:01 by dpaes-so          #+#    #+#             */
 /*   Updated: 2024/11/04 14:31:01 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
@@ -15,31 +18,31 @@
 int	ft_dformat(const char *str, va_list args, int i, int fd)
 {
 	unsigned long	addr;
-	int counter;
+	int				counter;
 
 	if (str[i] == 'c')
-		ft_dputcharf((char)va_arg(args, int), &counter,fd);
+		ft_dputcharf((char)va_arg(args, int), &counter, fd);
 	if (str[i] == 's')
-		ft_dputstrf(va_arg(args, char *), &counter,fd);
+		ft_dputstrf(va_arg(args, char *), &counter, fd);
 	if (str[i] == 'd' || str[i] == 'i')
-		ft_dputnbrf(va_arg(args, int), &counter,fd);
+		ft_dputnbrf(va_arg(args, int), &counter, fd);
 	if (str[i] == 'u')
-		ft_dputnbrf_unsigned(va_arg(args, unsigned int), &counter,fd);
+		ft_dputnbrf_unsigned(va_arg(args, unsigned int), &counter, fd);
 	if (str[i] == 'X')
-		ft_dputnbrbasef(va_arg(args, int), "0123456789ABCDEF", &counter,fd);
+		ft_dputnbrbasef(va_arg(args, int), "0123456789ABCDEF", &counter, fd);
 	if (str[i] == 'x')
-		ft_dputnbrbasef(va_arg(args, int), "0123456789abcdef", &counter,fd);
+		ft_dputnbrbasef(va_arg(args, int), "0123456789abcdef", &counter, fd);
 	if (str[i] == '%')
-		ft_dputcharf('%', &counter,fd);
+		ft_dputcharf('%', &counter, fd);
 	if (str[i] == 'p')
 	{
 		addr = (unsigned long)va_arg(args, void *);
-		check_null(addr, "0123456789abcdef", &counter,fd);
+		check_null_fd(addr, "0123456789abcdef", &counter, fd);
 	}
-	return(counter);
+	return (counter);
 }
 
-int	ft_dprintf(int fd,const char *str, ...)
+int	ft_dprintf(int fd, const char *str, ...)
 {
 	va_list	args;
 	int		counter;
@@ -55,10 +58,10 @@ int	ft_dprintf(int fd,const char *str, ...)
 		if (str[i] == '%')
 		{
 			i++;
-			counter = ft_dformat(str, args, i,fd);
+			counter = ft_dformat(str, args, i, fd);
 		}
 		else
-			ft_dputcharf(str[i], &counter,fd);
+			ft_dputcharf(str[i], &counter, fd);
 		i++;
 	}
 	va_end(args);

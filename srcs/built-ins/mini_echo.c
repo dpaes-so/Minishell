@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 14:14:47 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:11:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static void	redir_echo(t_cmd cmds, int flag, int fd)
 	int	i;
 
 	i = 1;
-	if (cmds.fdout == -1)
+	if (fd < 0)
 		return ;
-	else
-		dup2(fd, STDOUT_FILENO);
+	if (cmds.fdout != -1)
+		dup2(cmds.fdout, STDOUT_FILENO);
 	if (flag != 0)
 		i = flag;
 	if (cmds.amount == 0)
@@ -93,7 +93,7 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 {
 	int	flag;
 	int	pid;
-	int fd;
+	int	fd;
 
 	flag = 0;
 	if (cmds.amount != 1)
@@ -105,12 +105,12 @@ int	build_echo(t_mini *mini, t_cmd cmds)
 		pid = fork();
 		if (pid == 0)
 		{
-			redir_echo(cmds, flag, cmds.fdout);
-			if(fd > 0)
-				fd=0;
+			redir_echo(cmds, flag, fd);
+			if (fd >= 0)
+				fd = 0;
 			else
 				fd = 1;
-			exit_childprocess(mini,fd);
+			exit_childprocess(mini, fd);
 		}
 	}
 	else

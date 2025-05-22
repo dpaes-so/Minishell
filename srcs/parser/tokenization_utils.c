@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/15 17:45:10 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:37:18 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	free_tokens(t_token *tokens)
 {
 	int	i;
 
+	if (tokens == NULL)
+		return ;
 	i = 0;
-	while (tokens[i].type != T_NULL)
+	while (tokens && tokens[i].type != T_NULL)
 	{
 		if (tokens[i].value)
 			free(tokens[i].value);
-		if (tokens[i].copy)
-			free(tokens[i].copy);
 		i++;
 	}
 	free(tokens);
@@ -64,18 +64,20 @@ void	free_tokens(t_token *tokens)
 /// @brief Identifies each token
 /// @param value String of the token
 /// @return The type of token
-t_tokentype	token_type(char *value ,int j)
+t_tokentype	token_type(char *value, int j)
 {
 	t_tokentype	type;
 	int			i;
 
 	i = 0;
 	type = T_WORD;
+	if (value == NULL)
+		return (type);
 	while (value[i] && (value[i] == ' ' || (value[i] >= 9 && value[i] <= 13)))
 		i++;
-	if (value[i] && value[i] == '|'  && j == 1)
+	if (value[i] && value[i] == '|' && j == 1)
 		type = T_PIPE;
-	else if (value[i] && (value[i] == '>' || value[i] == '<'))
+	else if (value[i] && (value[i] == '>' || value[i] == '<') && j == 1)
 	{
 		if (value[i] == '>')
 			type = T_OUT_REDIR;
@@ -90,7 +92,7 @@ t_tokentype	token_type(char *value ,int j)
 	return (type);
 }
 
-/// @brief Allocates memory for each element of the array result
+/// @brief Allocates memory for each element of the array of tokens
 /// @param input Input from readline
 /// @param len Length of the word
 /// @param result The array of tokens
@@ -100,17 +102,10 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 {
 	result[i].value = ft_substr(input, 0, len);
 	result[i].type = token_type(result[i].value, 1);
-	result[i].copy = ft_strdup(result[i].value);
 	result[i].in_quotes = false;
 	if (result[i].value == NULL)
 	{
-		i = 0;
-		while (result[i].value)
-		{
-			free(result[i].value);
-			i++;
-		}
-		free(result);
+		free_tokens(result);
 		return (false);
 	}
 	i++;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/16 19:36:46 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/05/21 18:30:23 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ SOURCES = minishell.c \
           parser/check_tokens.c \
           parser/expansions.c \
 		  parser/dollar_exp.c \
+		  parser/exp_options.c \
 		  parser/expansions_utils.c \
 		  parser/final_split.c \
+		  parser/quotes_funcs.c \
 		  parser/create_array.c \
 		  parser/ast_utils.c \
 		  parser/ast_tree.c \
@@ -35,6 +37,8 @@ SOURCES = minishell.c \
           built-ins/mini_env.c \
           built-ins/mini_export.c \
 		  built-ins/mini_export_utils.c \
+		  built-ins/mini_export_more_utils.c \
+		  built-ins/mini_export_even_more_utils.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \

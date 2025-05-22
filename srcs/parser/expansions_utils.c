@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:45 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/15 14:48:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:21:58 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
-char	*status_expand(t_mini *shell)
-{
-	char	*result;
-
-	result = ft_itoa(shell->pipex.status);
-	if (result == NULL)
-		return (NULL);
-	return (result);
-}
 
 void	small_cpy(t_token *token, char *expand, int *j, int *amount)
 {
@@ -32,16 +22,6 @@ void	small_cpy(t_token *token, char *expand, int *j, int *amount)
 	if (expand == NULL)
 		(*amount)++;
 	(*token).value++;
-}
-
-char	*no_dollar(t_token token)
-{
-	int	count;
-
-	count = unclosed_quotes(token);
-	if (count % 2 != 0 || count == 0)
-		return ("$");
-	return (NULL);
 }
 
 char	*found_dollar(t_token *token, t_mini *shell, int *flag)
@@ -88,7 +68,7 @@ void	handle_s_quote(t_token *token, char *expand, int *j)
 	(*token).value++;
 }
 
-void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
+void	d_quote_helper(t_token *token, t_mini *shell, char *expand, int *j)
 {
 	if (expand != NULL)
 	{
@@ -114,4 +94,11 @@ void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
 		}
 		small_cpy(token, NULL, 0, j);
 	}
+}
+
+void	handle_d_quote(t_token *token, t_mini *shell, char *expand, int *j)
+{
+	(*token).in_quotes = true;
+	d_quote_helper(token, shell, expand, j);
+	(*token).in_quotes = false;
 }

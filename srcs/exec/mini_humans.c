@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 17:19:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:47:56 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	first_child(t_mini *mini, t_cmd cmds)
 {
-	int fd;
-	
-	printf("first child\n");
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -41,9 +40,8 @@ void	first_child(t_mini *mini, t_cmd cmds)
 
 void	last_child(t_mini *mini, t_cmd cmds)
 {
-	int fd; 
-	
-	printf("ultimate child\n");
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -66,10 +64,24 @@ void	last_child(t_mini *mini, t_cmd cmds)
 	cmdexec(mini->env->my_env, cmds, mini);
 }
 
+static void	fdin_middlec_check(t_cmd cmds, t_mini *mini)
+{
+	if (cmds.fdin != -1)
+	{
+		dup2(cmds.fdin, STDIN_FILENO);
+		close(cmds.fdin);
+	}
+	else
+	{
+		dup2(mini->save_fd, STDIN_FILENO);
+		close(mini->pipex.pipefd[0]);
+	}
+}
+
 void	middle_child(t_mini *mini, t_cmd cmds)
 {
-	int fd;
-	
+	int	fd;
+
 	fd = do_redirect(&cmds, mini);
 	if (!cmds.cmd || fd < 0)
 		exit_childprocess(mini, 1);
@@ -83,27 +95,18 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 		dup2(mini->pipex.pipefd[1], STDOUT_FILENO);
 		close(mini->pipex.pipefd[1]);
 	}
-	if (cmds.fdin != -1)
-	{
-		dup2(cmds.fdin, STDIN_FILENO);
-		close(cmds.fdin);
-	}
-	else
-	{
-		dup2(mini->save_fd, STDIN_FILENO);
-		close(mini->pipex.pipefd[0]);
-	}
+	fdin_middlec_check(cmds, mini);
+	master_close();
 	cmdexec(mini->env->my_env, cmds, mini);
 }
 
 void	solo_child(t_mini *mini, t_cmd cmds)
 {
 	int	pid;
-	int fd;
+	int	fd;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	printf("solo child\n");
 	pid = fork();
 	if (pid == 0)
 	{

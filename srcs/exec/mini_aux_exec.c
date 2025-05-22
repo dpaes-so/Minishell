@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 19:24:35 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-
-void check_is_dir(char *exec, t_mini *mini)
+int	check_is_dir(char *exec, t_mini *mini, int f)
 {
-	DIR *check;
+	DIR	*check;
+
 	check = opendir(exec);
-	if(check)
+	if (check)
 	{
-		ft_printf("Minishell: %s: Is a directory\n",exec);
+		ft_dprintf(2, "Minishell: %s: Is a directory\n", exec);
 		closedir(check);
-		if(exec)
-			free(exec);
-		exit_childprocess(mini,126);
+		if (f == 1)
+		{
+			if (exec)
+				free(exec);
+			exit_childprocess(mini, 126);
+		}
+		return (1);
 	}
+	return (0);
 }
+
 void	wait_child(t_mini *mini)
 {
 	int	i;
@@ -46,6 +52,8 @@ void	wait_child(t_mini *mini)
 				ft_printf("\n");
 			mini->pipex.status = 128 + sig;
 		}
+		if (mini->execution_signal)
+			mini->pipex.status = 130;
 		i++;
 	}
 }
@@ -54,7 +62,7 @@ void	cmd_exit_aux(char *exec, t_mini *mini)
 {
 	if (access(exec, F_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: No such file or directory\n", 2);
+		ft_dprintf(2, "Minishell: %s: No such file or directory\n", exec);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -62,7 +70,7 @@ void	cmd_exit_aux(char *exec, t_mini *mini)
 	}
 	if (access(exec, X_OK) < 0)
 	{
-		ft_putstr_fd("Pipex: Permission denied\n", 2);
+		ft_dprintf(2, "Minishell: %s: Permission denied\n", exec);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
@@ -74,20 +82,29 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 {
 	if (!cmd || !*cmd)
 	{
-		ft_putstr_fd("Pipex: command not found\n", 2);
+		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(127);
 	}
 	if (ft_strchr(cmd, '/'))
-		cmd_exit_aux(exec,mini);
+		cmd_exit_aux(exec, mini);
 	else
 	{
-		ft_putstr_fd("Pipex: command not found\n", 2);
+		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);
 		exit(127);
 	}
+}
+
+t_mini	*mem_save(t_mini *to_save)
+{
+	static t_mini	*save;
+
+	if (to_save)
+		save = to_save;
+	return (save);
 }

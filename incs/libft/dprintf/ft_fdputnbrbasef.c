@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbrbasef.c                                   :+:      :+:    :+:   */
+/*   ft_fdputnbrbasef.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:55:00 by dpaes-so          #+#    #+#             */
-/*   Updated: 2024/11/04 14:28:47 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:28:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_dputnbrbasef(unsigned int nb, char *base, int *counter,int fd)
+void	ft_dputnbrbasef(unsigned int nb, char *base, int *counter, int fd)
 {
 	unsigned int	len;
 
 	len = ft_strlen(base);
 	if (nb < len)
-		ft_dputcharf(base[nb], counter,fd);
+		ft_dputcharf(base[nb], counter, fd);
 	else
 	{
-		ft_dputnbrbasef(nb / len, base, counter,fd);
-		ft_dputnbrbasef(nb % len, base, counter,fd);
+		ft_dputnbrbasef(nb / len, base, counter, fd);
+		ft_dputnbrbasef(nb % len, base, counter, fd);
 	}
 }

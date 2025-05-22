@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/16 19:37:26 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:35:21 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft/libft.h"
 # include "limits.h"
 # include "stdbool.h"
+# include "time.h"
+# include <dirent.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -23,7 +25,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
 
 typedef enum TokenType
 {
@@ -39,7 +40,6 @@ typedef enum TokenType
 typedef struct s_token
 {
 	char				*value;
-	char				*copy;
 	t_tokentype			type;
 	bool				in_quotes;
 }						t_token;
@@ -67,7 +67,7 @@ typedef struct s_ast_tree
 typedef struct s_env
 {
 	char				**my_env;
-	char 				**my_export;
+	char				**my_export;
 	char				*home;
 	int					error_code;
 }						t_env;
@@ -84,7 +84,7 @@ typedef struct s_pipe
 }						t_pipe;
 typedef struct s_mini
 {
-	int 				execution_signal;
+	int					execution_signal;
 	int					wait_check;
 	int					cmd_amount;
 	char				*pwd;
@@ -113,6 +113,16 @@ void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
 char					*find_in_env(char *str, t_mini *shell);
+char					*get_name(char *arg);
+int						find_equal(char *in_arr, char *new_arg);
+void					*double_check(t_mini *mini, char *arg);
+int						export_redirs(t_mini *mini, t_cmd cmds);
+void					*check_exist(int break_point, char *arg, char *key,
+							t_mini *mini);
+void					prep_export(t_mini *mini, t_cmd cmds);
+int						print_env_ex(t_mini *mini);
+char					*remove_plus_sign(char *src);
+int						check_char(char *s, int *ctd, int i);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 
@@ -135,7 +145,7 @@ void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
 void					set_shlvl(t_mini *mini);
-void 					check_is_dir(char *exec, t_mini *mini);
+int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 
@@ -153,12 +163,12 @@ bool					is_quote(char **input, int *len);
 bool					skip_wspaces(char **input);
 bool					check_next(char *input);
 bool					check_redir(t_token tokens);
-bool					error_syntax(t_token *tokens);
+bool					error_syntax(t_mini *shell, t_token *tokens);
 int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
 t_token					**array_creation(t_token *tokens);
 void					init_array(t_token **array, t_token *tokens);
-void					print_array(t_token **array);
+void					print_array(t_token **array, t_token *tokens);
 void					create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
 void					init_tree_node(t_tree *tree_node, t_token *tokens);
@@ -178,9 +188,12 @@ void					handle_d_quote(t_token *token, t_mini *shell,
 							char *expand, int *j);
 void					handle_dollar(t_token *token, t_mini *shell,
 							char *expand, int *j);
-char					*status_expand(t_mini *shell);
 char					*found_dollar(t_token *token, t_mini *shell, int *flag);
+char					*status_expand(t_mini *shell);
+char					*no_dollar(t_token token);
 char					*find_env(t_token *token, t_mini *shell);
+char					*add_quotes(char *temp, int *flag);
 char					**ft_arg_split(char *s, char c);
+bool					remove_quotes(t_token *token);
 
 #endif

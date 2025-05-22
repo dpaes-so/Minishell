@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:19:28 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/04/30 21:41:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:10:20 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	unclosed_quotes(t_token tokens)
 
 	i = 0;
 	quote = 0;
-	while (tokens.value[i])
+	while (tokens.value && tokens.value[i])
 	{
 		if (tokens.value[i] == '\"' || tokens.value[i] == '\'')
 		{
@@ -44,7 +44,7 @@ int	unclosed_quotes(t_token tokens)
 	return (quote);
 }
 
-/// @brief Checks for every string of a token to see if an & exists 
+/// @brief Checks for every string of a token to see if an & exists
 /// out of quotes
 /// @param tokens The token it will inspect
 /// @return True if no & was found out of quotes
@@ -55,9 +55,9 @@ bool	check_and(t_token tokens)
 
 	quote = 0;
 	i = 0;
-	while (tokens.value[i] != '\0')
+	while (tokens.value && tokens.value[i] != '\0')
 	{
-		if (tokens.value[i] == '&' && tokens.value[i + 1] == '&')
+		if (tokens.value[i] == '&')
 			return (false);
 		if (tokens.value[i] == '\"' || tokens.value[i] == '\'')
 		{
@@ -138,22 +138,29 @@ bool	pipe_syntax(t_token *tokens)
 /// @param tokens array of tokens
 /// @param amount amount of tokens
 /// @return True if all checks passed
-bool	error_syntax(t_token *tokens)
+bool	error_syntax(t_mini *shell, t_token *tokens)
 {
 	int	i;
 
 	i = 0;
 	if (pipe_syntax(tokens) == false)
 	{
-		printf("error syntax lil bro\n");
+		ft_dprintf(2, "error syntax lil bro\n");
+		shell->pipex.status = 2;
 		return (false);
 	}
 	while (tokens[i].type != T_NULL)
 	{
 		if (check_redir(tokens[i]) == false || check_and(tokens[i]) == false)
-			return (printf("syntax error noob\n"), false);
+		{
+			shell->pipex.status = 2;
+			return (ft_dprintf(2, "syntax error noob\n"), false);
+		}
 		if (unclosed_quotes(tokens[i]) % 2 != 0)
-			return (printf("quotes aint closed dumbass\n"), false);
+		{
+			shell->pipex.status = 2;
+			return (ft_dprintf(2, "quotes aint closed dumbass\n"), false);
+		}
 		i++;
 	}
 	return (true);
