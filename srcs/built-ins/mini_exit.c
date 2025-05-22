@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 14:45:51 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:08:11 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (cmds.amount != 1 && f != 1)
 		mini->pipex.status = (unsigned char)n;
 	if (cmds.amount > 2 && f == 0)
-		return(ft_dprintf(2, "too many arguments\n"),1);
+		return (mini->pipex.status = 1, ft_dprintf(2, "too many arguments\n"),
+			1);
 	clear_history();
 	master_close();
 	omega_free(mini);
-	if(mini->cmd_amount == 1)
-		ft_dprintf(2, "exit\n");
+	if (mini->cmd_amount == 1)
+		ft_dprintf(1, "exit\n");
 	exit(mini->pipex.status);
 }

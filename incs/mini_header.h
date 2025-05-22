@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 20:09:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:35:21 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
 void					set_shlvl(t_mini *mini);
-void					check_is_dir(char *exec, t_mini *mini);
+int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 

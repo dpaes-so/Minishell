@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 20:11:12 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:35:08 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,13 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 			break ;
 		}
 		else if (fd < 0)
-			ft_dprintf(2, "Minishell: %s: Permission denied\n",cmds->redir[i].value);
+		{
+			if (!check_is_dir(cmds->redir[i].value, mini, 0))
+			{
+				ft_dprintf(2, "Minishell: %s: Permission denied\n",
+					cmds->redir[i].value);
+			}
+		}
 	}
 	return (fd);
 }

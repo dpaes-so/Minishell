@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 19:07:02 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:35:05 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
-			check_is_dir(exec, mini);
+			check_is_dir(exec, mini, 1);
 			flag = 1;
 		}
 		master_close();

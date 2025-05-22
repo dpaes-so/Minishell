@@ -6,13 +6,13 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 19:37:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:04 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void	check_is_dir(char *exec, t_mini *mini)
+int	check_is_dir(char *exec, t_mini *mini, int f)
 {
 	DIR	*check;
 
@@ -21,10 +21,15 @@ void	check_is_dir(char *exec, t_mini *mini)
 	{
 		ft_dprintf(2, "Minishell: %s: Is a directory\n", exec);
 		closedir(check);
-		if (exec)
-			free(exec);
-		exit_childprocess(mini, 126);
+		if (f == 1)
+		{
+			if (exec)
+				free(exec);
+			exit_childprocess(mini, 126);
+		}
+		return (1);
 	}
+	return (0);
 }
 
 void	wait_child(t_mini *mini)
