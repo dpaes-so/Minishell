@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 20:09:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:53:37 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ char					*status_expand(t_mini *shell);
 char					*no_dollar(t_token token);
 char					*find_env(t_token *token, t_mini *shell);
 char					*add_quotes(char *temp, int *flag);
+void					quoting_quotes(char *new_expand, int *j, char to_put, char between);
 char					**ft_arg_split(char *s, char c);
 bool					remove_quotes(t_token *token);
 

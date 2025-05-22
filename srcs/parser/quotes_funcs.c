@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:44:11 by daniel            #+#    #+#             */
-/*   Updated: 2025/05/21 16:13:14 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:51:58 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ char	*put_quotes(char *temp, int count)
 	while (temp[i])
 	{
 		if (temp[i] == '\'')
-		{
-			new_expand[j++] = '\"';
-			new_expand[j++] = '\'';
-			new_expand[j++] = '\"';
-		}
+			quoting_quotes(new_expand, &j, '\'', '\"');
+		else if (temp[i] == '\"')
+			quoting_quotes(new_expand, &j, '\"', '\'');
 		else
 			new_expand[j++] = temp[i];
 		i++;
@@ -105,7 +103,7 @@ char	*add_quotes(char *temp, int *flag)
 	i = 0;
 	while (temp[i])
 	{
-		if (temp[i] == '\'')
+		if (temp[i] == '\'' || temp[i] == '\"')
 			count++;
 		i++;
 	}
