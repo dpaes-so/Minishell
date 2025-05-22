@@ -57,7 +57,7 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 			break ;
 		}
 		else if (fd < 0)
-			ft_dprintf(2, "Minishell: %s: Permission denied\n");
+			ft_dprintf(2, "Minishell: %s: Permission denied\n",cmds->redir[i].value);
 	}
 	return (fd);
 }

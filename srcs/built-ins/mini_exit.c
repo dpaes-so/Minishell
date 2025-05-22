@@ -70,14 +70,12 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	}
 	if (cmds.amount != 1 && f != 1)
 		mini->pipex.status = (unsigned char)n;
+	if (cmds.amount > 2 && f == 0)
+		return(ft_dprintf(2, "too many arguments\n"),1);
 	clear_history();
 	master_close();
 	omega_free(mini);
-	ft_dprintf(2, "exit\n");
-	if (cmds.amount > 2)
-	{
-		ft_dprintf(2, "too many arguments\n");
-		exit(1);
-	}
+	if(mini->cmd_amount == 1)
+		ft_dprintf(2, "exit\n");
 	exit(mini->pipex.status);
 }
