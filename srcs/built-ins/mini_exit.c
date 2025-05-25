@@ -15,8 +15,6 @@
 void	omega_free(t_mini *mini)
 {
 	free(mini->pwd);
-	if (mini->env->home != NULL)
-		free(mini->env->home);
 	freetrix(mini->env->my_env);
 	freetrix(mini->env->my_export);
 	free(mini->env);

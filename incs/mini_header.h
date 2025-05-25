@@ -68,7 +68,6 @@ typedef struct s_env
 {
 	char				**my_env;
 	char				**my_export;
-	char				*home;
 	int					error_code;
 }						t_env;
 

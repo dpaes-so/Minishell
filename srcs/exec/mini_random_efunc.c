@@ -20,8 +20,6 @@ void	free_env(t_env *env)
 		freetrix(env->my_env);
 	if (env->my_export)
 		freetrix(env->my_export);
-	if (env->home)
-		free(env->home);
 	free(env);
 }
 
@@ -68,22 +66,7 @@ static void	matrix_dup_env(t_mini *mini, char **ev)
 
 static void	my_env_continue(t_mini *mini, char **ev)
 {
-	int	i;
-
-	i = -1;
 	matrix_dup_env(mini, ev);
-	while (ev[++i])
-		if (ft_strnstr(ev[i], "HOME=", 5))
-			break ;
-	mini->env->home = NULL;
-	if (ev[i])
-		mini->env->home = ft_strdup(ev[i] + 5);
-	if (mini->env->home == NULL)
-	{
-		free_env(mini->env);
-		mini->env = NULL;
-		return ;
-	}
 	ft_sort_matrix(mini->env->my_export);
 	set_shlvl(mini);
 }
