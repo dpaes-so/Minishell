@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:40:05 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:52:04 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ void	print_tabs(int level)
 // 	if (root->right != NULL)
 // 		tree_apply_infix(root->left, level + 1, "left");
 // }
+
+void	quoting_quotes(char *new_expand, int *j, char to_put, char between)
+{
+	new_expand[(*j)++] = between;
+	new_expand[(*j)++] = to_put;
+	new_expand[(*j)++] = between;
+}
 
 void	free_tree(t_tree *root)
 {

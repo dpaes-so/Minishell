@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 16:55:53 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/22 15:35:21 by dpaes-so         ###   ########.fr       */
+/*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
+/*   Updated: 2025/05/22 16:11:23 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_HEADER_H
-# define MINI_HEADER_H
 
+# define MINI_HEADER_H
 # include "libft/libft.h"
 # include "limits.h"
 # include "stdbool.h"
@@ -193,6 +193,8 @@ char					*status_expand(t_mini *shell);
 char					*no_dollar(t_token token);
 char					*find_env(t_token *token, t_mini *shell);
 char					*add_quotes(char *temp, int *flag);
+void					quoting_quotes(char *new_expand, int *j, char to_put,
+							char between);
 char					**ft_arg_split(char *s, char c);
 bool					remove_quotes(t_token *token);
 
