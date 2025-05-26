@@ -6,11 +6,26 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/22 15:58:21 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:02:53 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+int	ambiguous_check(t_token *tokens, int i)
+{
+	int	count;
+
+	count = 0;
+	if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
+		while (tokens[i].value[count] && ft_strchr(" ><",
+				tokens[i].value[count]) != NULL)
+			count++;
+	if (tokens[i].value && !tokens[i].value[count]
+		&& tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
+		return (-1);
+	return (count);
+}
 
 int	new_tokens_amount(t_token *tokens, int i, int j)
 {
@@ -21,11 +36,10 @@ int	new_tokens_amount(t_token *tokens, int i, int j)
 	amount = 0;
 	while (tokens[i].type != T_NULL)
 	{
-		count = 0;
-		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
-			while (ft_strchr(" ><", tokens[i].value[count]) != NULL)
-				count++;
 		j = 0;
+		count = ambiguous_check(tokens, i);
+		if (count == -1)
+			return (-1);
 		res = ft_arg_split(tokens[i].value + count, ' ');
 		if (res == NULL)
 			amount++;
