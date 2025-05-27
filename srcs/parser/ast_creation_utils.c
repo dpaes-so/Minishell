@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/05/27 11:37:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:26:07 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
-			while (tokens[i].value[count] && ft_strchr(" ><", tokens[i].value[count]) != NULL)
+			while (tokens[i].value[count] && ft_strchr(" ><",
+					tokens[i].value[count]) != NULL)
 				count++;
-			tree_node->node.redir[j].value = ft_strdup(tokens[i].value
-					+ count);
+			tree_node->node.redir[j].value = ft_strdup(tokens[i].value + count);
 			tree_node->node.redir[j].type = tokens[i].type;
 			tree_node->node.redir[j].in_quotes = tokens[i].in_quotes;
 			j++;

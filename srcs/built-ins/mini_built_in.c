@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/27 12:25:47 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:28:17 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int check_value(t_cmd *cmds, int i)
+int	check_value(t_cmd *cmds, int i)
 {
-	if(cmds->redir[i].value[0] == '\0')
+	if (cmds->redir[i].value[0] == '\0')
 		return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
-					cmds->redir[i].value), -2);
+				cmds->redir[i].value), -2);
 }
+
 int	redir_check(t_cmd *cmds, int i)
 {
 	int	fd;
 
 	fd = 0;
-	check_value(cmds,i);
+	check_value(cmds, i);
 	if (cmds->redir[i].type == T_OUT_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
