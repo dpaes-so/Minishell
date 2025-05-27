@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/22 15:33:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:07:25 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 {
 	if (!cmd || !*cmd)
 	{
-		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
+		ft_dprintf(2, "Minishell: '%s': command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);

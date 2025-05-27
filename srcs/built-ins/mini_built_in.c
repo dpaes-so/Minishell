@@ -6,25 +6,28 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/27 12:28:17 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:17:09 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	check_value(t_cmd *cmds, int i)
+int	check_value(t_cmd *cmds, int i, int *fd)
 {
+	*fd = 0;
+	ft_printf("bla bla bla = !%s!\n", cmds->redir[i].value);
 	if (cmds->redir[i].value[0] == '\0')
 		return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
 				cmds->redir[i].value), -2);
+	return (1);
 }
 
 int	redir_check(t_cmd *cmds, int i)
 {
 	int	fd;
 
-	fd = 0;
-	check_value(cmds, i);
+	if (check_value(cmds, i, &fd) < 0)
+		return (-2);
 	if (cmds->redir[i].type == T_OUT_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
