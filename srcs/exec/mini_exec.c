@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/22 15:35:05 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:26:00 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 
 void	run_tree(t_mini *mini, t_tree *ast, int f)
 {
+	if (!ast)
+		return ;
 	if (ast->node.pipe == true)
 	{
 		run_tree(mini, ast->left, 1);

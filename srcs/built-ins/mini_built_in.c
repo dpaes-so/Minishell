@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/27 15:17:09 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:48:41 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	check_value(t_cmd *cmds, int i, int *fd)
 {
 	*fd = 0;
-	ft_printf("bla bla bla = !%s!\n", cmds->redir[i].value);
 	if (cmds->redir[i].value[0] == '\0')
 		return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
 				cmds->redir[i].value), -2);
