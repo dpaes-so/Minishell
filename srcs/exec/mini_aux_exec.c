@@ -50,7 +50,8 @@ void	wait_child(t_mini *mini)
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 				ft_printf("\n");
-			mini->pipex.status = 128 + sig;
+			if(sig != SIGPIPE)
+				mini->pipex.status = 128 + sig;
 		}
 		if (mini->execution_signal)
 			mini->pipex.status = 130;
