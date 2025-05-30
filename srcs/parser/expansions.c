@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:52:09 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:49:54 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,10 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 	}
 	amount = new_tokens_amount(tokens, 0, 0, &shell->f_malloc);
 	if (shell->f_malloc == 1)
+	{
+		free_tokens(tokens);
 		fmalloc (shell);
+	}
 	if (amount < 0)
 		return (printf("ambiguous redirect stoopid D:<\n"), NULL);
 	new_tokens = create_new_tokens(tokens, amount, 0, shell);

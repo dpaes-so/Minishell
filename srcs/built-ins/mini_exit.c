@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/26 18:29:14 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:41:30 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void	omega_free(t_mini *mini)
 {
 	free(mini->pwd);
-	freetrix(mini->env->my_env);
-	freetrix(mini->env->my_export);
+	if (mini->env && mini->env->my_env)
+		freetrix(mini->env->my_env);
+	if (mini->env && mini->env->my_env)
+		freetrix(mini->env->my_export);
 	free(mini->env);
 	free_tree(mini->ast);
 	freetrix(mini->pipex.path);

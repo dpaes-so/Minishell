@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:59:07 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:56:17 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+// # define malloc(x) NULLa
 
 typedef enum TokenType
 {

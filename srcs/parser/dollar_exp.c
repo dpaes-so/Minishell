@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:16:15 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:44:03 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ bool	dollar_expand(t_token *token, t_mini *shell)
 	put_expansion(token, shell, expand, amount);
 	free((*token).value - len);
 	(*token).value = ft_strdup(expand);
+	if (!(*token).value)
+		fmalloc(shell);
 	free(expand);
 	return (true);
 }
