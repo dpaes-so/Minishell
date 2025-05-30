@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/26 17:08:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:14:13 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "dprintf/ft_fdprintf.h"
 # include <stdlib.h>
 # include <unistd.h>
+
+// #define malloc(x) NULL
 
 int					ft_isalpha(int c);
 

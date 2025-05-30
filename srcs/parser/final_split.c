@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:35:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/16 19:37:59 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:29:29 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	quote_handle(int *len, char *s, int *i)
 	(*len)++;
 }
 
-static char	*wordalloc(char *s, char c, int *i)
+static char	*wordalloc(char *s, char c, int *i, int *flag)
 {
 	char	*word;
 	char	*str;
@@ -88,11 +88,11 @@ static char	*wordalloc(char *s, char c, int *i)
 	}
 	word = malloc(sizeof(char) * (len + 1));
 	if (!word)
-		return (NULL);
+		return (*flag = 1, NULL);
 	return (ft_strlcpy(word, str, len + 1), word);
 }
 
-char	**ft_arg_split(char *s, char c)
+char	**ft_arg_split(char *s, char c, int *flag)
 {
 	char	**result;
 	int		stringnum;
@@ -106,11 +106,11 @@ char	**ft_arg_split(char *s, char c)
 	stringnum = countwords(s);
 	result = malloc(sizeof(char *) * (stringnum + 1));
 	if (!result)
-		return (NULL);
+		return (*flag = 1, NULL);
 	result[stringnum] = 0;
 	while (i < stringnum)
 	{
-		result[i] = wordalloc(s, c, &index);
+		result[i] = wordalloc(s, c, &index, flag);
 		if (!result[i])
 			return (freetrix(result), NULL);
 		i++;

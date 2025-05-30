@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/26 16:02:53 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:52:09 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ambiguous_check(t_token *tokens, int i)
 	return (count);
 }
 
-int	new_tokens_amount(t_token *tokens, int i, int j)
+int	new_tokens_amount(t_token *tokens, int i, int j, int *flag)
 {
 	int		count;
 	char	**res;
@@ -40,7 +40,7 @@ int	new_tokens_amount(t_token *tokens, int i, int j)
 		count = ambiguous_check(tokens, i);
 		if (count == -1)
 			return (-1);
-		res = ft_arg_split(tokens[i].value + count, ' ');
+		res = ft_arg_split(tokens[i].value + count, ' ', flag);
 		if (res == NULL)
 			amount++;
 		while (res && res[j])
@@ -55,13 +55,15 @@ int	new_tokens_amount(t_token *tokens, int i, int j)
 	return (amount);
 }
 
-void	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
+int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 {
 	char	**res;
 	int		j;
+	int		flag;
 
+	flag = 0;
 	j = -1;
-	res = ft_arg_split(tokens[*i].value, ' ');
+	res = ft_arg_split(tokens[*i].value, ' ', &flag);
 	while (res && res[++j])
 	{
 		new_tokens[*k].value = ft_strdup(res[j]);
@@ -73,21 +75,27 @@ void	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 	}
 	(*i)++;
 	freetrix(res);
+	return (flag);
 }
 
-t_token	*create_new_tokens(t_token *tokens, int amount, int i, int k)
+t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 {
 	t_token	*new_tokens;
+	int k;
 
+	k = 0;
 	new_tokens = ft_calloc(amount + 1, sizeof(t_token));
 	if (new_tokens == NULL)
-		return (NULL);
+		fmalloc(shell);
 	new_tokens[amount].type = T_NULL;
 	new_tokens[amount].value = NULL;
 	while (tokens[i].type != T_NULL)
 	{
 		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
-			put_new_tokens(tokens, new_tokens, &k, &i);
+		{
+			if (put_new_tokens(tokens, new_tokens, &k, &i) == 1)
+				fmalloc(shell);
+		}
 		else
 		{
 			new_tokens[k].value = ft_strdup(tokens[i].value);
@@ -119,13 +127,15 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 				dollar_expand(&tokens[i], shell);
 		}
 	}
-	amount = new_tokens_amount(tokens, 0, 0);
+	amount = new_tokens_amount(tokens, 0, 0, &shell->f_malloc);
+	if (shell->f_malloc == 1)
+		fmalloc (shell);
 	if (amount < 0)
 		return (printf("ambiguous redirect stoopid D:<\n"), NULL);
-	new_tokens = create_new_tokens(tokens, amount, 0, 0);
+	new_tokens = create_new_tokens(tokens, amount, 0, shell);
 	i = -1;
 	while (new_tokens && new_tokens[++i].type != T_NULL)
 		if (new_tokens[i].type != T_PIPE)
-			remove_quotes(&new_tokens[i]);
+			remove_quotes(&new_tokens[i], shell);
 	return (new_tokens);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_options.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:21:31 by daniel            #+#    #+#             */
-/*   Updated: 2025/05/21 02:22:15 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/30 19:15:38 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*status_expand(t_mini *shell)
 
 	result = ft_itoa(shell->pipex.status);
 	if (result == NULL)
-		return (NULL);
+		fmalloc(shell);
 	return (result);
 }
 
@@ -40,7 +40,7 @@ char	*find_env(t_token *token, t_mini *shell)
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)
-		return (NULL);
+		fmalloc(shell);
 	ft_strlcpy(expand, (*token).value - count, count + 1);
 	expand = ft_strjoin(expand, "=");
 	while (shell->env->my_env[++j])

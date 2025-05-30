@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:44:11 by daniel            #+#    #+#             */
-/*   Updated: 2025/05/22 15:51:58 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:51:15 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	removed(t_token *token, char *temp)
 	}
 }
 
-char	*put_quotes(char *temp, int count)
+char	*put_quotes(char *temp, int count, t_mini *shell)
 {
 	int		i;
 	int		j;
@@ -80,7 +80,7 @@ char	*put_quotes(char *temp, int count)
 	j = 0;
 	new_expand = ft_calloc(ft_strlen(temp) + (count * 2) + 1, sizeof(char));
 	if (new_expand == NULL)
-		return (NULL);
+		fmalloc(shell);
 	while (temp[i])
 	{
 		if (temp[i] == '\'')
@@ -94,7 +94,7 @@ char	*put_quotes(char *temp, int count)
 	return (new_expand);
 }
 
-char	*add_quotes(char *temp, int *flag)
+char	*add_quotes(char *temp, int *flag, t_mini *shell)
 {
 	int		i;
 	int		count;
@@ -109,12 +109,12 @@ char	*add_quotes(char *temp, int *flag)
 	}
 	if (count == 0)
 		return (temp);
-	temp = put_quotes(temp, count);
+	temp = put_quotes(temp, count, shell);
 	*flag = 2;
 	return (temp);
 }
 
-bool	remove_quotes(t_token *token)
+bool	remove_quotes(t_token *token, t_mini *shell)
 {
 	int		count;
 	char	*temp;
@@ -128,7 +128,10 @@ bool	remove_quotes(t_token *token)
 	free((*token).value);
 	(*token).value = ft_calloc((ft_strlen(temp) - count) + 1, sizeof(char));
 	if ((*token).value == NULL)
-		return (free(temp), false);
+	{
+		free(temp);
+		fmalloc(shell);
+	}
 	(*token).value[ft_strlen(temp) - count] = '\0';
 	removed(token, temp);
 	free(temp);

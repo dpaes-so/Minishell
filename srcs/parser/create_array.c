@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:36:41 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:54:38 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	free_array(t_token **array)
 	free(array);
 }
 
-t_token	**array_creation(t_token *tokens)
+t_token	**array_creation(t_token *tokens, t_mini *shell)
 {
 	int		i;
 	int		index;
@@ -117,14 +117,14 @@ t_token	**array_creation(t_token *tokens)
 	amount = count_elems(tokens);
 	array = ft_calloc(amount + 1, sizeof(t_token *));
 	if (array == NULL)
-		return (NULL);
+		fmalloc (shell);
 	array[amount] = NULL;
 	while (i < amount)
 	{
 		len = token_count(tokens, &index);
 		array[i] = ft_calloc(len + 1, sizeof(t_token));
 		if (array[i] == NULL)
-			return (free_array(array), NULL);
+			return (free_array(array), fmalloc(shell), NULL);
 		array[i][len].value = NULL;
 		array[i][len].type = T_NULL;
 		i++;

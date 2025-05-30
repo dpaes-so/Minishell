@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/29 18:15:57 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/30 19:20:18 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	hell_born(t_mini *mini)
 {
 	mini->execution_signal = 0;
 	if (mini->env && mini->env->my_env)
-		mini->pipex.path = path_finder(mini->env->my_env);
+		mini->pipex.path = path_finder(mini->env->my_env,mini);
 	else
 		mini->pipex.path = NULL;
 	mini->wait_check = 1;
@@ -61,6 +61,14 @@ void	hell_born(t_mini *mini)
 	mini->cmd_amount = 0;
 }
 
+void fmalloc(t_mini *mini)
+{
+	ft_dprintf(2, "Minishell: Malloc: failed :(\n");
+	clear_history();
+	master_close();
+	omega_free(mini);
+	exit(2);
+}
 int	main(int ac, char **av, char **ev)
 {
 	t_mini	mini;
@@ -70,18 +78,23 @@ int	main(int ac, char **av, char **ev)
 	(void)ac;
 	(void)av;
 	ft_bzero(&mini, sizeof(t_mini));
-	my_env_start(&mini, ev);
+	if (my_env_start(&mini, ev) < 0)
+		fmalloc(&mini);
 	get_pwd(&mini);
 	mini.pipex.status = 0;
 	mem_save(&mini);
 	while (1)
 	{
 		hell_born(&mini);
-		input = readline("minishell > ");
+		if(mini.f_malloc == 1)
+			fmalloc(&mini);
+		input = readline("Minishell > ");
 		if (!input)
 			exit_childprocess(&mini, -2);
 		add_history(input);
 		mini.ast = parser(input, &mini);
+		if(mini.f_malloc == 1)
+			fmalloc(&mini);
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 14:43:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:27:25 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*find_in_env(char *str, t_mini *shell)
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)
-		return (NULL);
+		return (shell->f_malloc = 1, NULL);
 	ft_strlcpy(expand, str - count, count + 1);
 	expand = ft_strjoin(expand, "=");
 	while (shell->env->my_env && shell->env->my_env[++j])

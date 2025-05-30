@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/27 14:07:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:56:38 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	wait_child(t_mini *mini)
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 				ft_printf("\n");
-			if(sig != SIGPIPE)
+			if (sig != SIGPIPE)
 				mini->pipex.status = 128 + sig;
 		}
 		if (mini->execution_signal)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 17:52:36 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:59:22 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	return (tree_node);
 }
 
-void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
+int		create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 {
 	if (*i < 0)
-		return ;
+		return (0);
 	if (array && array[*i])
 	{
 		while (array[*i] != NULL && array[*i]->type != T_PIPE && pipe == false)
@@ -48,18 +48,23 @@ void	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 		if (array[*i] != NULL && array[*i]->type == T_PIPE && pipe == false)
 		{
 			*tree_root = tree_create_node(array[*i], 1);
+			if (tree_root == NULL)
+				return (1);
 			*i -= 1;
 			create_tree(&((*tree_root)->left), array, true, i);
 			*i += 2;
 			create_tree(&((*tree_root)->right), array, false, i);
-			return ;
+			return (0);
 		}
 		else
 		{
 			if (pipe == false)
 				*i -= 1;
 			*tree_root = tree_create_node(array[*i], 0);
-			return ;
+			if (tree_root == NULL)
+				return (1);
+			return (0);
 		}
 	}
+	return (0);
 }
