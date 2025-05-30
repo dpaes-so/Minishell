@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 22:56:17 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/30 23:53:11 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-// # define malloc(x) NULLa
+// # define malloc(x) NULL
 
 typedef enum TokenType
 {
@@ -176,7 +176,7 @@ void					init_array(t_token **array, t_token *tokens);
 void					print_array(t_token **array, t_token *tokens);
 int						create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
-void					init_tree_node(t_tree *tree_node, t_token *tokens);
+int						init_tree_node(t_tree *tree_node, t_token *tokens);
 void					tree_apply_infix(t_tree *root, int level, char *side);
 void					count_cmds(t_tree *tree, t_mini *shell);
 void					free_tree(t_tree *root);

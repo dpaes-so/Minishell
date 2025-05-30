@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 20:04:16 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:47:21 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_tree	*tree_maker(t_token **array, t_mini *shell)
 	root = NULL;
 	i = 0;
 	if (create_tree(&root, array, false, &i) == 1)
+	{
+		free_tree(root);
 		fmalloc(shell);
+	}
 	return (root);
 }
 

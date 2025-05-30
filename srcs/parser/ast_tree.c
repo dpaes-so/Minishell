@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:59:22 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:51:21 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	else
 	{
 		tree_node->node.pipe = false;
-		init_tree_node(tree_node, tokens);
+		if (init_tree_node(tree_node, tokens) == 1)
+			return (NULL);
 	}
 	return (tree_node);
 }
@@ -48,7 +49,7 @@ int		create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 		if (array[*i] != NULL && array[*i]->type == T_PIPE && pipe == false)
 		{
 			*tree_root = tree_create_node(array[*i], 1);
-			if (tree_root == NULL)
+			if (*tree_root == NULL)
 				return (1);
 			*i -= 1;
 			create_tree(&((*tree_root)->left), array, true, i);
@@ -61,7 +62,7 @@ int		create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 			if (pipe == false)
 				*i -= 1;
 			*tree_root = tree_create_node(array[*i], 0);
-			if (tree_root == NULL)
+			if (*tree_root == NULL)
 				return (1);
 			return (0);
 		}
