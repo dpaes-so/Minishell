@@ -83,12 +83,13 @@ void	exit_childprocess_exec(t_mini *mini)
 char 	**path_add(t_mini *mini,char **split)
 {
 	int i;
+	int size;
 	char **fres;
 
-	i = 0;
-	while(split[i])
-		i++;
-	fres = ft_calloc(i + 1,sizeof(char *));
+	size = 0;
+	while(split[size])
+		size++;
+	fres = ft_calloc(size + 1,sizeof(char *));
 	if(!fres)
 		fmalloc(mini, "path_add", 2);
 	i = -1;
@@ -97,6 +98,8 @@ char 	**path_add(t_mini *mini,char **split)
 		fres[i] = ft_strjoin(split[i], "/");
 		if (!fres[i])
 		{
+			while(++i < size)
+				free(split[i]);
 			free(split);
 			return (mini->f_malloc = 1, freetrix(fres), NULL);
 		}

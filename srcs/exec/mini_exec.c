@@ -47,9 +47,11 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	{
 		if (i > 0)
 			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
-					F_OK | X_OK) < 0))
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,F_OK | X_OK) < 0))
+		{
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
+			mini->pipex.path[i] = NULL;
+		}
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
