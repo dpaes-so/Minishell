@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:03:57 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 00:40:55 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,16 @@ bool	dollar_expand(t_token *token, t_mini *shell)
 		(*token).value = NULL;
 		return (true);
 	}
+	token->value = token->value - len;
 	expand = ft_calloc(amount + 1, sizeof(char));
 	if (expand == NULL)
 		return (false);
 	expand[amount] = '\0';
-	token->value = token->value - len;
 	put_expansion(token, shell, expand, amount);
 	free((*token).value - len);
 	(*token).value = ft_strdup(expand);
 	if (!(*token).value)
-		return (false);
+		return (free(expand), false);
 	free(expand);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:45:12 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 00:49:33 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ t_tree	*parser(char *input, t_mini *shell)
 	new_tokens = expand_strs(tokens, shell);
 	if (new_tokens == NULL)
 		return (free_tokens(tokens), freetrix(shell->pipex.path), NULL);
-	array = create_array(new_tokens, shell);
 	free_tokens(tokens);
+	array = create_array(new_tokens, shell);
 	free_tokens(new_tokens);
 	tree = tree_maker(array, shell);
 	if (tree == NULL)

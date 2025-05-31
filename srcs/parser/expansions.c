@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:42:38 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 00:09:54 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 	{
 		free_tokens(tokens);
 		if (new_tokens)
-			free_tokens(tokens);
+			free_tokens(new_tokens);
 		fmalloc (shell, "create_tokens_amount", 2);
 	}
 	i = -1;
