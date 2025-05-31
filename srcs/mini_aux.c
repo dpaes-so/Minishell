@@ -81,11 +81,31 @@ void	exit_childprocess_exec(t_mini *mini)
 	clear_history();
 	master_close();
 }
+char 	**path_add(t_mini *mini,char **split)
+{
+	int i;
+	char **fres;
 
+	i = 0;
+	while(split[i])
+		i++;
+	fres = ft_calloc(i + 1,sizeof(char *));
+	i = -1;
+	while (split && split[++i])
+	{
+		fres[i] = ft_strjoin(split[i], "/");
+		if (!fres[i])
+		{
+			freetrix(split);
+			return (mini->f_malloc = 1,freetrix(fres), NULL);
+		}
+	}
+	free(split);
+	return(fres);
+}
 char	**path_finder(char **envp, t_mini *mini)
 {
 	int		i;
-	char	*temp;
 	char	*str;
 	char	**split;
 
@@ -102,13 +122,5 @@ char	**path_finder(char **envp, t_mini *mini)
 	split = ft_split(str, ':');
 	if(!split)
 		fmalloc(mini);
-	i = -1;
-	while (split && split[++i])
-	{
-		temp = split[i];
-		split[i] = ft_strjoin(temp, "/");
-		if (!split[i])
-			return (mini->f_malloc = 1,freetrix(split), NULL);
-	}
-	return (split);
+	return (path_add(mini,split));
 }

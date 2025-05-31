@@ -22,16 +22,16 @@
 #include <time.h>
 
 // #define malloc(x) NULL
-// #define MALLOC_FAIL_PROBABILITY 50
+#define MALLOC_FAIL_PROBABILITY 100
 
-// static inline void *random_fail_malloc(size_t size) {
-//     if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
-//         return NULL;
-//     return malloc(size);
-// }
+static inline void *random_fail_malloc(size_t size) {
+    if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
+        return NULL;
+    return malloc(size);
+}
 
 
-// #define malloc(x) random_fail_malloc(x)
+#define malloc(x) random_fail_malloc(x)
 
 int					ft_isalpha(int c);
 

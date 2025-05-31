@@ -35,14 +35,10 @@ static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 		mini->pipex.status = 2;
 		return (*f = 1, NULL);
 	}
-	printf("ola\n");
-	if (cmds.args[1][0] == '-')
-		j++;
 	while (cmds.args[1][++j])
 	{
-		ft_dprintf(2,"ola\n");
-		if (j == 0 && (cmds.args[1][0] == '+' || cmds.args[1][0] == '-'))
-			j++;
+		if (j == 0 && (cmds.args[1][0] == '+' || cmds.args[1][0] == '-') && cmds.args[1][1] != '\0')
+			continue;
 		else if (!((cmds.args[1][j] >= '0' && cmds.args[1][j] <= '9')
 					|| (cmds.args[1][j] >= 9 && cmds.args[1][j] <= 13)
 					|| cmds.args[1][j] == ' ') || *f == 1)
@@ -52,7 +48,6 @@ static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 			return (*f = 1, NULL);
 		}
 	}
-	ft_dprintf(2,"acabou\n");
 	return (NULL);
 }
 

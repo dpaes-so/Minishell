@@ -47,10 +47,7 @@ static void	*finish_export(t_mini *mini, char *arg)
 		if (!new_env)
 			fmalloc(mini);
 		if (!ft_matrix_dup(new_env, mini->env->my_env))
-		{
-			free(new_env);
 			fmalloc(mini);
-		}
 		new_env[size] = ft_strdup(arg);
 		if (!new_env[size])
 		{
