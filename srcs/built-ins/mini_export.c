@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 15:02:50 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:52:39 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	*finish_fr(int size, char *arg, t_mini *mini)
 		size++;
 	new_export = ft_calloc((size + 2), sizeof(char *));
 	if (!new_export)
-		fmalloc(mini);
+		fmalloc(mini, "finish_fr", 2);
 	new_export = ft_matrix_dup(new_export, mini->env->my_export);
 	if (!new_export)
-		fmalloc(mini);
+		fmalloc(mini, "finish_fr", 2);
 	new_export[size] = ft_strdup(arg);
 	if (!new_export[size])
-		fmalloc(mini);
+		fmalloc(mini, "finish_fr", 2);
 	new_export[++size] = NULL;
 	freetrix(mini->env->my_export);
 	mini->env->my_export = new_export;
@@ -45,16 +45,16 @@ static void	*finish_export(t_mini *mini, char *arg)
 			size++;
 		new_env = ft_calloc((size + 2), sizeof(char *));
 		if (!new_env)
-			fmalloc(mini);
+			fmalloc(mini, "finish_export", 2);
 		if (!ft_matrix_dup(new_env, mini->env->my_env))
-			fmalloc(mini);
+			fmalloc(mini, "finish_export", 2);
 		new_env[size] = ft_strdup(arg);
 		if (!new_env[size])
 		{
 			while (--size >= 0)
 				free(new_env[size]);
 			free(new_env);
-			fmalloc(mini);
+			fmalloc(mini, "finish_export", 2);
 		}
 		new_env[size + 1] = NULL;
 		freetrix(mini->env->my_env);

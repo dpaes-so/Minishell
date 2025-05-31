@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 23:47:21 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:45:12 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_tree	*tree_maker(t_token **array, t_mini *shell)
 	if (create_tree(&root, array, false, &i) == 1)
 	{
 		free_tree(root);
-		fmalloc(shell);
+		free_array(array);
+		fmalloc(shell, "tree_maker", 2);
 	}
 	return (root);
 }
@@ -33,6 +34,11 @@ t_token	**create_array(t_token *tokens, t_mini *shell)
 
 	array = NULL;
 	array = array_creation(tokens, shell);
+	if (shell->f_malloc == 1)
+	{
+		free_tokens(tokens);
+		fmalloc(shell, "array_creation", 2);
+	}
 	init_array(array, tokens);
 	return (array);
 }

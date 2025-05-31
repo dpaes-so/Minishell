@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 14:38:55 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:59:42 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void do_unset_exp(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 		i++;
 	}
 	if(mini->env->my_export[i])
-		fmalloc(mini);
+		fmalloc(mini, "do_unset_exp", 2);
 }
 static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 {
@@ -42,7 +42,7 @@ static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 	}
 	do_unset_exp(mini,cmds,cmd_n,-1);
 	if(mini->env->my_env[i])
-		fmalloc(mini);
+		fmalloc(mini, "do_unset", 2);
 }
 
 int	build_unset(t_mini *mini, t_cmd cmds)

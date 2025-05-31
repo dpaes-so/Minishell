@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 23:53:11 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:00:09 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 void					omega_free(t_mini *mini);
-void					fmalloc(t_mini *mini);
+void					fmalloc(t_mini *mini, char *which, int code);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

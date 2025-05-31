@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 19:00:41 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:01:39 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,15 @@ char 	**path_add(t_mini *mini,char **split)
 		i++;
 	fres = ft_calloc(i + 1,sizeof(char *));
 	if(!fres)
-		fmalloc(mini);
+		fmalloc(mini, "path_add", 2);
 	i = -1;
 	while (split && split[++i])
 	{
 		fres[i] = ft_strjoin(split[i], "/");
 		if (!fres[i])
 		{
-			freetrix(split);
-			return (mini->f_malloc = 1,freetrix(fres), NULL);
+			free(split);
+			return (mini->f_malloc = 1, freetrix(fres), NULL);
 		}
 	}
 	free(split);
@@ -122,6 +122,6 @@ char	**path_finder(char **envp, t_mini *mini)
 	str = envp[i] + 5;
 	split = ft_split(str, ':');
 	if(!split)
-		fmalloc(mini);
-	return (path_add(mini,split));
+		fmalloc(mini, "path_finder", 2);
+	return (path_add(mini, split));
 }

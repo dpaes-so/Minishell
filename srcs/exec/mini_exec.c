@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/29 16:26:00 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:58:01 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 			flag = 1;
 		}
 		if(!exec)
-			fmalloc(mini);
+			fmalloc(mini, "cmdexec", 100);
 		master_close();
 		execve(exec, cmds.args, envp);
 	}
@@ -108,7 +108,7 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 		exit(1);
 	}
 	if(mini->f_malloc == 1)
-		fmalloc(mini);
+		fmalloc(mini, "execute", 2);
 }
 
 void	run_tree(t_mini *mini, t_tree *ast, int f)

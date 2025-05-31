@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 22:49:54 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:42:38 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 	k = 0;
 	new_tokens = ft_calloc(amount + 1, sizeof(t_token));
 	if (new_tokens == NULL)
-		fmalloc(shell);
+		return (shell->f_malloc = 1, NULL);
 	new_tokens[amount].type = T_NULL;
 	new_tokens[amount].value = NULL;
 	while (tokens[i].type != T_NULL)
@@ -94,7 +94,7 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
 		{
 			if (put_new_tokens(tokens, new_tokens, &k, &i) == 1)
-				fmalloc(shell);
+				return (shell->f_malloc = 1, NULL);
 		}
 		else
 		{
@@ -124,21 +124,41 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 		if (tokens[i].type != T_PIPE)
 		{
 			if (tokens[i].type != T_HERE_DOC)
-				dollar_expand(&tokens[i], shell);
+				if (dollar_expand(&tokens[i], shell) == false || shell->f_malloc == 1)
+				{
+					free_tokens(tokens);
+					fmalloc(shell, "expander", 2);
+				}
 		}
 	}
 	amount = new_tokens_amount(tokens, 0, 0, &shell->f_malloc);
 	if (shell->f_malloc == 1)
 	{
 		free_tokens(tokens);
-		fmalloc (shell);
+		fmalloc (shell, "new_tokens_amount", 2);
 	}
 	if (amount < 0)
 		return (printf("ambiguous redirect stoopid D:<\n"), NULL);
 	new_tokens = create_new_tokens(tokens, amount, 0, shell);
+	if (shell->f_malloc == 1)
+	{
+		free_tokens(tokens);
+		if (new_tokens)
+			free_tokens(tokens);
+		fmalloc (shell, "create_tokens_amount", 2);
+	}
 	i = -1;
 	while (new_tokens && new_tokens[++i].type != T_NULL)
 		if (new_tokens[i].type != T_PIPE)
+		{
 			remove_quotes(&new_tokens[i], shell);
+			if (shell->f_malloc == 1)
+			{
+				free_tokens(tokens);
+				if (new_tokens)
+					free_tokens(tokens);
+				fmalloc(shell, "create_tokens_amount", 2);
+			}
+		}
 	return (new_tokens);
 }

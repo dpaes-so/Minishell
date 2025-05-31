@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:41:10 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:58:33 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	count_tokens(char *input, t_token *result, t_mini *shell)
 			count++;
 		if (len && result && word_alloc(input - len, len, result, count
 				- 1) == false)
-			fmalloc(shell);
+			fmalloc(shell, "count_tokens", 2);
 	}
 	return (count);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_random_efunc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 18:54:31 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:00:46 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,16 @@ int	set_shlvl(t_mini *mini)
 
 static int	matrix_dup_env(t_mini *mini, char **ev)
 {
-	if (!ft_matrix_dup(mini->env->my_env, ev))
+	mini->env->my_env = ft_matrix_dup(mini->env->my_env, ev);
+	if (!mini->env->my_env)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
 		mini->f_malloc = 1;
 		return (-1);
 	}
-	if (!ft_matrix_dup(mini->env->my_export, ev))
+	mini->env->my_export = ft_matrix_dup(mini->env->my_export, ev);
+	if (!mini->env->my_export)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
@@ -95,7 +97,6 @@ int	my_env_start(t_mini *mini, char **ev)
 	mini->env->my_env = ft_calloc(k + 1, sizeof(char *));
 	if (!mini->env->my_env)
 	{
-		printf("hello\n");
 		free_env(mini->env);
 		mini->env = NULL;
 		return (mini->f_malloc = 1, -1);

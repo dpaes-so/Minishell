@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 18:27:25 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:55:32 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	pwd_update(t_mini *mini)
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
 		if(!prefix || !mini->env->my_env[i])
-			fmalloc(mini);
+			fmalloc(mini, "pwd_update", 2);
 	}
 }
 
@@ -86,7 +86,7 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 
 	pwd = ft_strdup(mini->pwd);
 	if(!pwd)
-		fmalloc(mini);
+		fmalloc(mini, "get_dir", 2);
 	if (cmds.args[1][0] == '/')
 	{
 		cd2 = ft_strdup(cmds.args[1]);
@@ -97,11 +97,11 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 	{
 		buffer = ft_strjoin(pwd, "/");
 		if(!buffer)
-			fmalloc(mini);
+			fmalloc(mini, "get_dir", 2);
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
 	}
 	if(!cd2)
-		fmalloc(mini);
+		fmalloc(mini, "get_dir", 2);
 	return (cd2);
 }
 

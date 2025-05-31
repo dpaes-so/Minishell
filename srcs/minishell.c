@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:20:18 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:47:56 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ void	shell_execution(t_mini *mini, t_tree *ast)
 	if (mini->execution_signal == 0)
 		run_tree(mini, ast, 0);
 	if(mini->f_malloc == 1)
-		fmalloc(mini);
+		fmalloc(mini, "run_tree", 2);
 	master_close();
 	wait_child(mini);
 	freetrix(mini->pipex.path);
 	if (mini->ast)
+	{
 		free_tree(mini->ast);
+		mini->ast = NULL;
+	}
 }
 
 void	hell_born(t_mini *mini)
@@ -62,13 +65,13 @@ void	hell_born(t_mini *mini)
 	mini->cmd_amount = 0;
 }
 
-void fmalloc(t_mini *mini)
+void fmalloc(t_mini *mini, char *which, int code)
 {
-	ft_dprintf(2, "Minishell: Malloc: failed :(\n");
+	ft_dprintf(2, "Minishell: Malloc %s: failed :(\n", which);
 	clear_history();
 	master_close();
 	omega_free(mini);
-	exit(100);
+	exit(code);
 }
 int	main(int ac, char **av, char **ev)
 {
@@ -80,22 +83,23 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	ft_bzero(&mini, sizeof(t_mini));
 	if (my_env_start(&mini, ev) < 0)
-		fmalloc(&mini);
+		fmalloc(&mini, "env", 2);
 	get_pwd(&mini);
 	mini.pipex.status = 0;
 	mem_save(&mini);
+	srand((unsigned int)time(NULL));
 	while (1)
 	{
 		hell_born(&mini);
 		if(mini.f_malloc == 1)
-			fmalloc(&mini);
+			fmalloc(&mini, "hell_born", 2);
 		input = readline("Minishell > ");
 		if (!input)
 			exit_childprocess(&mini, -2);
 		add_history(input);
 		mini.ast = parser(input, &mini);
 		if(mini.f_malloc == 1)
-			fmalloc(&mini);
+			fmalloc(&mini, "ast", 2);
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_more_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:47:08 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 16:04:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:55:03 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_name(char *arg,t_mini *mini)
 		len++;
 	res = ft_substr(arg, 0, len);
 	if(!res)
-		fmalloc(mini);
+		fmalloc(mini, "get_name", 2);
 	return (res);
 }
 
@@ -74,13 +74,13 @@ void	*double_check(t_mini *mini, char *arg)
 			size++;
 		new_env = ft_calloc((size + 2), sizeof(char *));
 		if (!new_env)
-			fmalloc(mini);
+			fmalloc(mini, "double_check", 2);
 		new_env = ft_matrix_dup(new_env, mini->env->my_env);
 		if (!new_env)
-			fmalloc(mini);
+			fmalloc(mini, "double_check", 2);
 		new_env[size++] = ft_strdup(arg);
 		if (!new_env)
-			fmalloc(mini);
+			fmalloc(mini, "double_check", 2);
 		new_env[size] = NULL;
 		freetrix(mini->env->my_env);
 		mini->env->my_env = new_env;
@@ -93,7 +93,7 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 	free(mini->env->my_export[break_point]);
 	mini->env->my_export[break_point] = ft_strdup(arg);
 	if(!mini->env->my_export)
-		fmalloc(mini);
+		fmalloc(mini, "check_exist", 2);
 	break_point = -1;
 	while (mini->env->my_env[++break_point])
 	{
@@ -104,7 +104,7 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 			free(mini->env->my_env[break_point]);
 			mini->env->my_env[break_point] = ft_strdup(arg);
 			if(!mini->env->my_env[break_point])
-				fmalloc(mini);
+				fmalloc(mini, "check_exist", 2);
 			free(key);
 			return (NULL);
 		}
