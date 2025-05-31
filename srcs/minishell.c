@@ -52,11 +52,10 @@ void	shell_execution(t_mini *mini, t_tree *ast)
 
 void	hell_born(t_mini *mini)
 {
+	mini->pipex.path = NULL;
 	mini->execution_signal = 0;
 	if (mini->env && mini->env->my_env)
 		mini->pipex.path = path_finder(mini->env->my_env,mini);
-	else
-		mini->pipex.path = NULL;
 	mini->wait_check = 1;
 	signals(1);
 	mini->save_fd = -1;

@@ -19,7 +19,6 @@ void	freetrix(char **matrix)
 	i = 0;
 	if (!matrix)
 		return ;
-	ft_printf("FREE'D\n");
 	while (matrix[i])
 	{
 		free(matrix[i]);
@@ -90,6 +89,8 @@ char 	**path_add(t_mini *mini,char **split)
 	while(split[i])
 		i++;
 	fres = ft_calloc(i + 1,sizeof(char *));
+	if(!fres)
+		fmalloc(mini);
 	i = -1;
 	while (split && split[++i])
 	{

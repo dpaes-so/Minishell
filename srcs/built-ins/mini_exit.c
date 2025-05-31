@@ -19,9 +19,11 @@ void	omega_free(t_mini *mini)
 		freetrix(mini->env->my_env);
 	if (mini->env && mini->env->my_env)
 		freetrix(mini->env->my_export);
-	free(mini->env);
+	if(mini->env)
+		free(mini->env);
 	free_tree(mini->ast);
-	freetrix(mini->pipex.path);
+	if(mini->pipex.path)
+		freetrix(mini->pipex.path);
 }
 
 static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
