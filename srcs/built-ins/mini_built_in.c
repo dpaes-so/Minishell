@@ -3,21 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/22 15:35:08 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:55:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-int	redir_check(t_cmd *cmds, t_mini *mini, int i)
+int	check_value(t_cmd *cmds, int i, int *fd)
+{
+	*fd = 0;
+	if (cmds->redir[i].value[0] == '\0')
+		return (ft_dprintf(2, "Minishell: %s: No such file or directory\n",
+				cmds->redir[i].value), -2);
+	return (1);
+}
+
+int	redir_check(t_cmd *cmds, int i)
 {
 	int	fd;
 
-	fd = 0;
-	(void)mini;
+	if (check_value(cmds, i, &fd) < 0)
+		return (-2);
 	if (cmds->redir[i].type == T_OUT_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -50,7 +59,7 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	i = -1;
 	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
-		fd = redir_check(cmds, mini, i);
+		fd = redir_check(cmds, i);
 		if (fd == -2)
 		{
 			fd = -1;

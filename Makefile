@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
+#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/21 18:30:23 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/05/22 16:27:20 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,9 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
-	valgrind --leak-check=full --trace-children=yes --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+
+#  --trace-children=yes
 
 clean:
 	make clean -C ./incs/libft -s

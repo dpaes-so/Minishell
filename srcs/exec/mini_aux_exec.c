@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/22 15:33:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:56:38 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	wait_child(t_mini *mini)
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 				ft_printf("\n");
-			mini->pipex.status = 128 + sig;
+			if (sig != SIGPIPE)
+				mini->pipex.status = 128 + sig;
 		}
 		if (mini->execution_signal)
 			mini->pipex.status = 130;
@@ -82,7 +83,7 @@ void	cmd_exit(char *exec, t_mini *mini, char *cmd)
 {
 	if (!cmd || !*cmd)
 	{
-		ft_dprintf(2, "Minishell: %s: command not found\n", cmd);
+		ft_dprintf(2, "Minishell: '%s': command not found\n", cmd);
 		exit_childprocess_exec(mini);
 		if (exec)
 			free(exec);

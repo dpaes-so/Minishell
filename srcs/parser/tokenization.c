@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:06:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/20 19:09:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:41:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	is_token(char **input, int *len)
 /// @param input input from readline
 /// @param result the array of tokens
 /// @return amount of tokens
-int	count_tokens(char *input, t_token *result)
+int	count_tokens(char *input, t_token *result, t_mini *shell)
 {
 	int	len;
 	int	count;
@@ -121,7 +121,7 @@ int	count_tokens(char *input, t_token *result)
 			count++;
 		if (len && result && word_alloc(input - len, len, result, count
 				- 1) == false)
-			return (0);
+			fmalloc(shell);
 	}
 	return (count);
 }
@@ -130,12 +130,12 @@ int	count_tokens(char *input, t_token *result)
 /// and the type
 /// @param input input from readline
 /// @return an array of a struct t_token
-t_token	*split_tokens(char *input)
+t_token	*split_tokens(char *input, t_mini *shell)
 {
 	t_token	*token;
 	int		amount;
 
-	amount = count_tokens(input, NULL);
+	amount = count_tokens(input, NULL, shell);
 	if (amount == 0)
 		return (NULL);
 	token = ft_calloc(amount + 1, sizeof(t_token));
@@ -143,7 +143,7 @@ t_token	*split_tokens(char *input)
 		return (NULL);
 	token[amount].value = NULL;
 	token[amount].type = T_NULL;
-	if (token && count_tokens(input, token) == 0)
+	if (token && count_tokens(input, token, shell) == 0)
 		return (NULL);
 	return (token);
 }

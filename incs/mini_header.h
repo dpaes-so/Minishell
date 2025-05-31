@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/22 16:11:23 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:53:11 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+// # define malloc(x) NULL
 
 typedef enum TokenType
 {
@@ -81,8 +83,10 @@ typedef struct s_pipe
 	char				**path;
 	int					pipefd[2];
 }						t_pipe;
+
 typedef struct s_mini
 {
+	int					f_malloc;
 	int					execution_signal;
 	int					wait_check;
 	int					cmd_amount;
@@ -97,7 +101,7 @@ typedef struct s_mini
 //----------------------------BUILT-INS ! ! ! -----------------------------
 
 int						do_redirect(t_cmd *cmds, t_mini *mini);
-void					my_env_start(t_mini *mini, char **ev);
+int						my_env_start(t_mini *mini, char **ev);
 int						build_exit(t_mini *mini, t_cmd cmds);
 int						build_echo(t_mini *mini, t_cmd cmds);
 int						build_pwd(t_mini *mini, t_cmd cmds);
@@ -127,7 +131,7 @@ int						check_char(char *s, int *ctd, int i);
 
 void					master_close(void);
 void					exit_childprocess(t_mini *mini, int ecode);
-char					**path_finder(char **envp);
+char					**path_finder(char **envp, t_mini *mini);
 void					execute(t_mini *mini, t_tree *ast, int f);
 void					cmdexec(char *envp[], t_cmd cmds, t_mini *mini);
 void					first_child(t_mini *mini, t_cmd cmds);
@@ -143,17 +147,19 @@ void					root_handler(int signal);
 void					signals(int s);
 t_mini					*mem_save(t_mini *to_save);
 char					**matrix_dup(t_mini *mini, char **ev);
-void					set_shlvl(t_mini *mini);
+int						set_shlvl(t_mini *mini);
 int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
+void					omega_free(t_mini *mini);
+void					fmalloc(t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
 t_tree					*parser(char *input, t_mini *shell);
-t_token					*split_tokens(char *input);
+t_token					*split_tokens(char *input, t_mini *shell);
 void					free_tokens(t_token *tokens);
-int						count_tokens(char *input, t_token *result);
+int						count_tokens(char *input, t_token *result, t_mini *shell);
 bool					word_alloc(char *input, int len, t_token *result,
 							int i);
 t_tokentype				token_type(char *value, int j);
@@ -165,12 +171,12 @@ bool					check_redir(t_token tokens);
 bool					error_syntax(t_mini *shell, t_token *tokens);
 int						unclosed_quotes(t_token tokens);
 int						count_nodes(t_token *tokens);
-t_token					**array_creation(t_token *tokens);
+t_token					**array_creation(t_token *tokens, t_mini *shell);
 void					init_array(t_token **array, t_token *tokens);
 void					print_array(t_token **array, t_token *tokens);
-void					create_tree(t_tree **tree_root, t_token **array,
+int						create_tree(t_tree **tree_root, t_token **array,
 							bool pipe, int *i);
-void					init_tree_node(t_tree *tree_node, t_token *tokens);
+int						init_tree_node(t_tree *tree_node, t_token *tokens);
 void					tree_apply_infix(t_tree *root, int level, char *side);
 void					count_cmds(t_tree *tree, t_mini *shell);
 void					free_tree(t_tree *root);
@@ -191,10 +197,11 @@ char					*found_dollar(t_token *token, t_mini *shell, int *flag);
 char					*status_expand(t_mini *shell);
 char					*no_dollar(t_token token);
 char					*find_env(t_token *token, t_mini *shell);
-char					*add_quotes(char *temp, int *flag);
+char					*add_quotes(char *temp, int *flag, t_mini *shell);
 void					quoting_quotes(char *new_expand, int *j, char to_put,
 							char between);
-char					**ft_arg_split(char *s, char c);
-bool					remove_quotes(t_token *token);
+char					**ft_arg_split(char *s, char c, int *flag);
+bool					remove_quotes(t_token *token, t_mini *shell);
+
 
 #endif

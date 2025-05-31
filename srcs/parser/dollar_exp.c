@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:22:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 02:26:54 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/30 22:44:03 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_dollar(t_token *token, t_mini *shell, char *expand, int *j)
 	if (temp != NULL && temp[0])
 	{
 		if ((*token).in_quotes == false)
-			temp = add_quotes(temp, &flag);
+			temp = add_quotes(temp, &flag, shell);
 		if (expand != NULL && temp != NULL)
 			ft_strlcpy(expand + *j, temp, ft_strlen(temp) + 1);
 		*j += ft_strlen(temp);
@@ -111,6 +111,8 @@ bool	dollar_expand(t_token *token, t_mini *shell)
 	put_expansion(token, shell, expand, amount);
 	free((*token).value - len);
 	(*token).value = ft_strdup(expand);
+	if (!(*token).value)
+		fmalloc(shell);
 	free(expand);
 	return (true);
 }

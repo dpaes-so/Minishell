@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:02:54 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 19:57:01 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:29:19 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ void	here_doc_signals(int signal)
 
 void	signal_handler(int signal)
 {
+	t_mini	*mini;
+
 	if (signal == SIGINT)
 	{
 		ft_printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		mini = mem_save(NULL);
+		mini->pipex.status = 130;
 	}
 }
 

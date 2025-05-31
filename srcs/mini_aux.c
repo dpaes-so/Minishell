@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 16:31:02 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:00:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	freetrix(char **matrix)
 		free(matrix[i]);
 		i++;
 	}
-	if (matrix)
-		free(matrix);
+	free(matrix);
 }
 
 void	master_close(void)
@@ -82,7 +81,7 @@ void	exit_childprocess_exec(t_mini *mini)
 	master_close();
 }
 
-char	**path_finder(char **envp)
+char	**path_finder(char **envp, t_mini *mini)
 {
 	int		i;
 	char	*temp;
@@ -106,7 +105,7 @@ char	**path_finder(char **envp)
 		temp = split[i];
 		split[i] = ft_strjoin(temp, "/");
 		if (!split[i])
-			return (freetrix(split), NULL);
+			return (mini->f_malloc = 1, freetrix(split), NULL);
 	}
 	return (split);
 }

@@ -3,32 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:00 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/21 20:10:09 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/05/30 23:47:21 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-t_tree	*tree_maker(t_token **array)
+t_tree	*tree_maker(t_token **array, t_mini *shell)
 {
 	t_tree	*root;
 	int		i;
 
 	root = NULL;
 	i = 0;
-	create_tree(&root, array, false, &i);
+	if (create_tree(&root, array, false, &i) == 1)
+	{
+		free_tree(root);
+		fmalloc(shell);
+	}
 	return (root);
 }
 
-t_token	**create_array(t_token *tokens)
+t_token	**create_array(t_token *tokens, t_mini *shell)
 {
 	t_token	**array;
 
 	array = NULL;
-	array = array_creation(tokens);
+	array = array_creation(tokens, shell);
 	init_array(array, tokens);
 	return (array);
 }
@@ -45,7 +49,7 @@ t_tree	*parser(char *input, t_mini *shell)
 	new_tokens = NULL;
 	array = NULL;
 	tree = NULL;
-	tokens = split_tokens(input);
+	tokens = split_tokens(input, shell);
 	if (tokens == NULL)
 		return (freetrix(shell->pipex.path), NULL);
 	if (error_syntax(shell, tokens) == false)
@@ -53,11 +57,12 @@ t_tree	*parser(char *input, t_mini *shell)
 	new_tokens = expand_strs(tokens, shell);
 	if (new_tokens == NULL)
 		return (free_tokens(tokens), freetrix(shell->pipex.path), NULL);
-	array = create_array(new_tokens);
+	array = create_array(new_tokens, shell);
 	free_tokens(tokens);
 	free_tokens(new_tokens);
-	tree = tree_maker(array);
+	tree = tree_maker(array, shell);
+	if (tree == NULL)
+		return (freetrix(shell->pipex.path), free_array(array), NULL);
 	count_cmds(tree, shell);
-	free_array(array);
-	return (tree);
+	return (free_array(array), tree);
 }
