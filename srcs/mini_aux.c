@@ -91,7 +91,10 @@ char 	**path_add(t_mini *mini,char **split)
 		size++;
 	fres = ft_calloc(size + 1,sizeof(char *));
 	if(!fres)
+	{
+		freetrix(split);
 		fmalloc(mini, "path_add", 2);
+	}
 	i = -1;
 	while (split && split[++i])
 	{
