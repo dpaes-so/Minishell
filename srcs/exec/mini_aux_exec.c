@@ -12,10 +12,13 @@
 
 #include "../../incs/mini_header.h"
 
+
 int	check_is_dir(char *exec, t_mini *mini, int f)
 {
 	DIR	*check;
 
+	if(!exec)
+		return(0);
 	check = opendir(exec);
 	if (check)
 	{
@@ -53,6 +56,8 @@ void	wait_child(t_mini *mini)
 			if (sig != SIGPIPE)
 				mini->pipex.status = 128 + sig;
 		}
+		if(mini->pipex.status == 100)
+			fmalloc(mini);
 		if (mini->execution_signal)
 			mini->pipex.status = 130;
 		i++;

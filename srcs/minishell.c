@@ -41,6 +41,8 @@ void	shell_execution(t_mini *mini, t_tree *ast)
 	do_here_doc(mini, ast, 0);
 	if (mini->execution_signal == 0)
 		run_tree(mini, ast, 0);
+	if(mini->f_malloc == 1)
+		fmalloc(mini);
 	master_close();
 	wait_child(mini);
 	freetrix(mini->pipex.path);
@@ -67,7 +69,7 @@ void fmalloc(t_mini *mini)
 	clear_history();
 	master_close();
 	omega_free(mini);
-	exit(2);
+	exit(100);
 }
 int	main(int ac, char **av, char **ev)
 {

@@ -12,17 +12,22 @@
 
 #include "../../incs/mini_header.h"
 
-void	*finish_fr(int size, char **new_export, char *arg, t_mini *mini)
+void	*finish_fr(int size, char *arg, t_mini *mini)
 {
+	char **new_export;
 	size = 0;
 	while (mini->env->my_export[size])
 		size++;
 	new_export = ft_calloc((size + 2), sizeof(char *));
 	if (!new_export)
-		return (NULL);
+		fmalloc(mini);
 	new_export = ft_matrix_dup(new_export, mini->env->my_export);
-	new_export[size++] = ft_strdup(arg);
-	new_export[size] = NULL;
+	if (!new_export)
+		fmalloc(mini);
+	new_export[size] = ft_strdup(arg);
+	if (!new_export[size])
+		fmalloc(mini);
+	new_export[++size] = NULL;
 	freetrix(mini->env->my_export);
 	mini->env->my_export = new_export;
 	return (NULL);
@@ -31,34 +36,44 @@ void	*finish_fr(int size, char **new_export, char *arg, t_mini *mini)
 static void	*finish_export(t_mini *mini, char *arg)
 {
 	char	**new_env;
-	char	**new_export;
 	int		size;
 
 	size = 0;
-	new_export = NULL;
 	if (ft_strchr(arg, '='))
 	{
 		while (mini->env->my_env[size])
 			size++;
 		new_env = ft_calloc((size + 2), sizeof(char *));
 		if (!new_env)
-			return (NULL);
-		new_env = ft_matrix_dup(new_env, mini->env->my_env);
-		new_env[size++] = ft_strdup(arg);
-		new_env[size] = NULL;
+			fmalloc(mini);
+		if (!ft_matrix_dup(new_env, mini->env->my_env))
+		{
+			free(new_env);
+			fmalloc(mini);
+		}
+		new_env[size] = ft_strdup(arg);
+		if (!new_env[size])
+		{
+			while (--size >= 0)
+				free(new_env[size]);
+			free(new_env);
+			fmalloc(mini);
+		}
+		new_env[size + 1] = NULL;
 		freetrix(mini->env->my_env);
 		mini->env->my_env = new_env;
 	}
-	finish_fr(size, new_export, arg, mini);
+	finish_fr(size, arg, mini);
 	return (NULL);
 }
+
 
 static void	*make_export(t_mini *mini, char *arg, int f)
 {
 	int		break_point;
 	char	*key;
 
-	key = get_name(arg);
+	key = get_name(arg,mini);
 	if (!key)
 		return (NULL);
 	break_point = -1;

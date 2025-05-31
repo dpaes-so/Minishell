@@ -116,7 +116,7 @@ void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
 char					*find_in_env(char *str, t_mini *shell);
-char					*get_name(char *arg);
+char					*get_name(char *arg,t_mini *mini);
 int						find_equal(char *in_arr, char *new_arg);
 void					*double_check(t_mini *mini, char *arg);
 int						export_redirs(t_mini *mini, t_cmd cmds);

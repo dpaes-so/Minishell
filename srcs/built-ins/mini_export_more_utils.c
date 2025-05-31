@@ -36,14 +36,18 @@ int	export_redirs(t_mini *mini, t_cmd cmds)
 	return (1);
 }
 
-char	*get_name(char *arg)
+char	*get_name(char *arg,t_mini *mini)
 {
 	int	len;
+	char *res;
 
 	len = 0;
 	while (arg[len] && arg[len] != '=')
 		len++;
-	return (ft_substr(arg, 0, len));
+	res = ft_substr(arg, 0, len);
+	if(!res)
+		fmalloc(mini);
+	return (res);
 }
 
 int	find_equal(char *in_arr, char *new_arg)
@@ -70,9 +74,13 @@ void	*double_check(t_mini *mini, char *arg)
 			size++;
 		new_env = ft_calloc((size + 2), sizeof(char *));
 		if (!new_env)
-			return (NULL);
+			fmalloc(mini);
 		new_env = ft_matrix_dup(new_env, mini->env->my_env);
+		if (!new_env)
+			fmalloc(mini);
 		new_env[size++] = ft_strdup(arg);
+		if (!new_env)
+			fmalloc(mini);
 		new_env[size] = NULL;
 		freetrix(mini->env->my_env);
 		mini->env->my_env = new_env;
@@ -84,6 +92,8 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 {
 	free(mini->env->my_export[break_point]);
 	mini->env->my_export[break_point] = ft_strdup(arg);
+	if(!mini->env->my_export)
+		fmalloc(mini);
 	break_point = -1;
 	while (mini->env->my_env[++break_point])
 	{
@@ -93,6 +103,8 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 		{
 			free(mini->env->my_env[break_point]);
 			mini->env->my_env[break_point] = ft_strdup(arg);
+			if(!mini->env->my_env[break_point])
+				fmalloc(mini);
 			free(key);
 			return (NULL);
 		}

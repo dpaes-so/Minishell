@@ -56,6 +56,8 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 			check_is_dir(exec, mini, 1);
 			flag = 1;
 		}
+		if(!exec)
+			fmalloc(mini);
 		master_close();
 		execve(exec, cmds.args, envp);
 	}
@@ -105,6 +107,8 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 		ft_putstr_fd("Error, Pipe faield", 2);
 		exit(1);
 	}
+	if(mini->f_malloc == 1)
+		fmalloc(mini);
 }
 
 void	run_tree(t_mini *mini, t_tree *ast, int f)

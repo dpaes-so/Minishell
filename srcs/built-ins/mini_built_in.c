@@ -85,6 +85,8 @@ void	get_pwd(t_mini *mini)
 	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
+	if(!mini->pwd)
+		fmalloc(mini);
 }
 
 int	build_pwd(t_mini *mini, t_cmd cmds)

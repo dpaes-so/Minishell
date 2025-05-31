@@ -57,6 +57,8 @@ void	pwd_update(t_mini *mini)
 		prefix = ft_strdup("PWD=");
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
+		if(!prefix || !mini->env->my_env[i])
+			fmalloc(mini);
 	}
 }
 
@@ -83,6 +85,8 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 	char	*pwd;
 
 	pwd = ft_strdup(mini->pwd);
+	if(!pwd)
+		fmalloc(mini);
 	if (cmds.args[1][0] == '/')
 	{
 		cd2 = ft_strdup(cmds.args[1]);
@@ -92,8 +96,12 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 	else
 	{
 		buffer = ft_strjoin(pwd, "/");
+		if(!buffer)
+			fmalloc(mini);
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
 	}
+	if(!cd2)
+		fmalloc(mini);
 	return (cd2);
 }
 

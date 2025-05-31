@@ -11,7 +11,22 @@
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
+static void do_unset_exp(t_mini *mini, t_cmd cmds, int cmd_n, int i)
+{
+	while (mini->env->my_export[++i])
+		if (ft_strncmp(mini->env->my_export[i], cmds.args[cmd_n],
+				ft_strlen(cmds.args[cmd_n])) == 0
+			&& mini->env->my_export[i][ft_strlen(cmds.args[cmd_n])] == '=')
+			break ;
+	while (mini->env->my_export[i] != NULL)
+	{
+		free(mini->env->my_export[i]);
+		mini->env->my_export[i] = ft_strdup(mini->env->my_export[i + 1]);
+		i++;
+	}
+	if(mini->env->my_export[i])
+		fmalloc(mini);
+}
 static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 {
 	while (mini->env->my_env[++i])
@@ -25,18 +40,9 @@ static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 		mini->env->my_env[i] = ft_strdup(mini->env->my_env[i + 1]);
 		i++;
 	}
-	i = -1;
-	while (mini->env->my_export[++i])
-		if (ft_strncmp(mini->env->my_export[i], cmds.args[cmd_n],
-				ft_strlen(cmds.args[cmd_n])) == 0
-			&& mini->env->my_export[i][ft_strlen(cmds.args[cmd_n])] == '=')
-			break ;
-	while (mini->env->my_export[i] != NULL)
-	{
-		free(mini->env->my_export[i]);
-		mini->env->my_export[i] = ft_strdup(mini->env->my_export[i + 1]);
-		i++;
-	}
+	do_unset_exp(mini,cmds,cmd_n,-1);
+	if(mini->env->my_env[i])
+		fmalloc(mini);
 }
 
 int	build_unset(t_mini *mini, t_cmd cmds)

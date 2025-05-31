@@ -19,6 +19,7 @@ void	freetrix(char **matrix)
 	i = 0;
 	if (!matrix)
 		return ;
+	ft_printf("FREE'D\n");
 	while (matrix[i])
 	{
 		free(matrix[i]);
@@ -99,13 +100,15 @@ char	**path_finder(char **envp, t_mini *mini)
 		return (NULL);
 	str = envp[i] + 5;
 	split = ft_split(str, ':');
+	if(!split)
+		fmalloc(mini);
 	i = -1;
 	while (split && split[++i])
 	{
 		temp = split[i];
 		split[i] = ft_strjoin(temp, "/");
 		if (!split[i])
-			return (mini->f_malloc = 1, freetrix(split), NULL);
+			return (mini->f_malloc = 1,freetrix(split), NULL);
 	}
 	return (split);
 }

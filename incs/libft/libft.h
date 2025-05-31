@@ -19,8 +19,19 @@
 # include "dprintf/ft_fdprintf.h"
 # include <stdlib.h>
 # include <unistd.h>
+#include <time.h>
 
 // #define malloc(x) NULL
+// #define MALLOC_FAIL_PROBABILITY 50
+
+// static inline void *random_fail_malloc(size_t size) {
+//     if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
+//         return NULL;
+//     return malloc(size);
+// }
+
+
+// #define malloc(x) random_fail_malloc(x)
 
 int					ft_isalpha(int c);
 
