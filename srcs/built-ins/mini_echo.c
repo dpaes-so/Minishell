@@ -72,6 +72,8 @@ static int	echo_flag(t_cmd cmds)
 
 	i = 1;
 	j = 1;
+	if(cmds.args[j][i] == '\0')
+		return (0);
 	while (cmds.args[j][i] == 'n')
 		i++;
 	if (cmds.args[j][i] != '\0')

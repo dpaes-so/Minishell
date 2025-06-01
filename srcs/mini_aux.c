@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 19:00:41 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:01:39 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,39 @@ void	exit_childprocess_exec(t_mini *mini)
 	clear_history();
 	master_close();
 }
+char 	**path_add(t_mini *mini,char **split)
+{
+	int i;
+	int size;
+	char **fres;
 
+	size = 0;
+	while(split[size])
+		size++;
+	fres = ft_calloc(size + 1,sizeof(char *));
+	if(!fres)
+	{
+		freetrix(split);
+		fmalloc(mini, "path_add", 2);
+	}
+	i = -1;
+	while (split && split[++i])
+	{
+		fres[i] = ft_strjoin(split[i], "/");
+		if (!fres[i])
+		{
+			while(++i < size)
+				free(split[i]);
+			free(split);
+			return (mini->f_malloc = 1, freetrix(fres), NULL);
+		}
+	}
+	free(split);
+	return(fres);
+}
 char	**path_finder(char **envp, t_mini *mini)
 {
 	int		i;
-	char	*temp;
 	char	*str;
 	char	**split;
 
@@ -99,13 +127,7 @@ char	**path_finder(char **envp, t_mini *mini)
 		return (NULL);
 	str = envp[i] + 5;
 	split = ft_split(str, ':');
-	i = -1;
-	while (split && split[++i])
-	{
-		temp = split[i];
-		split[i] = ft_strjoin(temp, "/");
-		if (!split[i])
-			return (mini->f_malloc = 1, freetrix(split), NULL);
-	}
-	return (split);
+	if(!split)
+		fmalloc(mini, "path_finder", 2);
+	return (path_add(mini, split));
 }

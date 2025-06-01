@@ -19,9 +19,11 @@ void	omega_free(t_mini *mini)
 		freetrix(mini->env->my_env);
 	if (mini->env && mini->env->my_env)
 		freetrix(mini->env->my_export);
-	free(mini->env);
+	if(mini->env)
+		free(mini->env);
 	free_tree(mini->ast);
-	freetrix(mini->pipex.path);
+	if(mini->pipex.path)
+		freetrix(mini->pipex.path);
 }
 
 static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
@@ -35,12 +37,10 @@ static void	*check_exit_code(t_mini *mini, t_cmd cmds, int *f)
 		mini->pipex.status = 2;
 		return (*f = 1, NULL);
 	}
-	if (cmds.args[1][0] == '-')
-		j++;
 	while (cmds.args[1][++j])
 	{
-		if (j == 0 && (cmds.args[1][0] == '+' || cmds.args[1][0] == '-'))
-			j++;
+		if (j == 0 && (cmds.args[1][0] == '+' || cmds.args[1][0] == '-') && cmds.args[1][1] != '\0')
+			continue;
 		else if (!((cmds.args[1][j] >= '0' && cmds.args[1][j] <= '9')
 					|| (cmds.args[1][j] >= 9 && cmds.args[1][j] <= 13)
 					|| cmds.args[1][j] == ' ') || *f == 1)
@@ -66,6 +66,7 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (cmds.args[1])
 	{
 		n = ft_atol(cmds.args[1], &f);
+		printf("n = %lld\n",n);
 		check_exit_code(mini, cmds, &f);
 	}
 	if (cmds.amount != 1 && f != 1)

@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:44:11 by daniel            #+#    #+#             */
-/*   Updated: 2025/05/30 23:22:30 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:30:45 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	removed(t_token *token, char *temp)
 	}
 }
 
-char	*put_quotes(char *temp, int count, t_mini *shell)
+char	*put_quotes(char *temp, int count, t_mini *shell, int *flag)
 {
 	int		i;
 	int		j;
@@ -80,7 +80,8 @@ char	*put_quotes(char *temp, int count, t_mini *shell)
 	j = 0;
 	new_expand = ft_calloc(ft_strlen(temp) + (count * 2) + 1, sizeof(char));
 	if (new_expand == NULL)
-		fmalloc(shell);
+		return (shell->f_malloc = 1, NULL);
+	*flag = 2;
 	while (temp[i])
 	{
 		if (temp[i] == '\'')
@@ -109,8 +110,7 @@ char	*add_quotes(char *temp, int *flag, t_mini *shell)
 	}
 	if (count == 0)
 		return (temp);
-	temp = put_quotes(temp, count, shell);
-	*flag = 2;
+	temp = put_quotes(temp, count, shell, flag);
 	return (temp);
 }
 
@@ -123,6 +123,11 @@ bool	remove_quotes(t_token *token, t_mini *shell)
 	if (temp == NULL)
 		return (false);
 	count = amount_quotes(token);
+	if (count == 0)
+	{
+		free (temp);
+		return (false);
+	}
 	if ((*token).type == T_HERE_DOC && count > 0)
 		(*token).in_quotes = true;
 	free((*token).value);
@@ -130,12 +135,10 @@ bool	remove_quotes(t_token *token, t_mini *shell)
 	if ((*token).value == NULL)
 	{
 		free(temp);
-		fmalloc(shell);
+		return (shell->f_malloc = 1, false);
 	}
 	(*token).value[ft_strlen(temp) - count] = '\0';
 	removed(token, temp);
 	free(temp);
-	if (count == 0)
-		return (false);
 	return (true);
 }

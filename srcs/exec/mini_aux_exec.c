@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 11:56:38 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/01 00:00:16 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
+
 int	check_is_dir(char *exec, t_mini *mini, int f)
 {
 	DIR	*check;
 
+	if(!exec)
+		return(0);
 	check = opendir(exec);
 	if (check)
 	{
@@ -53,6 +56,8 @@ void	wait_child(t_mini *mini)
 			if (sig != SIGPIPE)
 				mini->pipex.status = 128 + sig;
 		}
+		if(mini->pipex.status == 100)
+			fmalloc(mini, "wait_child", 2);
 		if (mini->execution_signal)
 			mini->pipex.status = 130;
 		i++;

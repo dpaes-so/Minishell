@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 22:56:03 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 00:51:15 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,19 @@
 # include "dprintf/ft_fdprintf.h"
 # include <stdlib.h>
 # include <unistd.h>
+#include <time.h>
 
 // #define malloc(x) NULL
+// #define MALLOC_FAIL_PROBABILITY 80
+
+// static inline void *random_fail_malloc(size_t size) {
+//     if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
+//         return NULL;
+//     return malloc(size);
+// }
+
+
+// #define malloc(x) random_fail_malloc(x)
 
 int					ft_isalpha(int c);
 

@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/29 16:26:00 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:58:01 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,21 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 	{
 		if (i > 0)
 			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,
-					F_OK | X_OK) < 0))
+		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,F_OK | X_OK) < 0))
 			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
 		else
 		{
 			exec = ft_strdup(cmds.cmd);
 			check_is_dir(exec, mini, 1);
 			flag = 1;
+		}
+		if(!exec)
+		{
+			while(mini->pipex.path[++i])
+				free(mini->pipex.path[i]);
+			free(mini->pipex.path);
+			mini->pipex.path = NULL;
+			fmalloc(mini, "cmdexec", 100);
 		}
 		master_close();
 		execve(exec, cmds.args, envp);
@@ -105,6 +112,8 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 		ft_putstr_fd("Error, Pipe faield", 2);
 		exit(1);
 	}
+	if(mini->f_malloc == 1)
+		fmalloc(mini, "execute", 2);
 }
 
 void	run_tree(t_mini *mini, t_tree *ast, int f)

@@ -24,6 +24,7 @@ char	**ft_matrix_dup(char **new_matrix, char **src)
 		{
 			while (j-- > 0)
 				free(new_matrix[j]);
+			free(new_matrix);
 			return (NULL);
 		}
 		j++;

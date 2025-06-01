@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 23:22:18 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:59:17 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,29 @@ static char	**add_exp_fail(char **env, char **env2, int size, char *arg)
 	i = -1;
 	env = ft_calloc((size + 2), sizeof(char *));
 	if (!env)
-		return (NULL);
+		return(NULL);
 	while (env2[++i])
+	{
 		env[i] = ft_strdup(env2[i]);
+		if(!env[i])
+		{
+			while(--i >= 0)
+				free(env[i]);
+			free(env);
+			return(NULL);
+		}
+	}
 	new_arg = remove_plus_sign(arg);
-	env[i++] = ft_strdup(new_arg);
-	env[i] = NULL;
+	env[i] = ft_strdup(new_arg);
 	free(new_arg);
+	if(!env[i])
+	{
+		while(--i >= 0)
+			free(env[i]);
+		free(env);
+		return(NULL);
+	}
+	env[++i] = NULL;
 	return (env);
 }
 
@@ -52,6 +68,8 @@ void	*add_exp_fr(t_mini *mini, int b_point, char *arg)
 		equal_check = 1;
 	mini->env->my_export[b_point] = ft_strjoin(mini->env->my_export[b_point],
 			ft_strchr(arg, '+') + equal_check + 1);
+	if(!mini->env->my_export[b_point])
+		fmalloc(mini, "add_exp_fr", 2);
 	return (NULL);
 }
 
@@ -76,7 +94,7 @@ void	*add_exp_agn(t_mini *mini, char *arg)
 	}
 	new_export = add_exp_fail(new_export, mini->env->my_export, size, arg);
 	if (!new_export)
-		return (NULL);
+		fmalloc(mini, "add_exp_fail", 2);
 	freetrix(mini->env->my_export);
 	return (mini->env->my_export = new_export, NULL);
 }
@@ -94,17 +112,17 @@ void	*add_export(t_mini *mini, char *arg)
 		size++;
 	while (mini->env->my_env[++b_point])
 	{
-		if (!ft_strncmp(mini->env->my_env[b_point], arg, ft_strchr(arg, '+')
-				- arg))
+		if (!ft_strncmp(mini->env->my_env[b_point], arg, ft_strchr(arg, '+')- arg))
 		{
-			mini->env->my_env[b_point] = ft_strjoin(mini->env->my_env[b_point],
-					ft_strchr(arg, '+') + 2);
+			mini->env->my_env[b_point] = ft_strjoin(mini->env->my_env[b_point],ft_strchr(arg, '+') + 2);
+			if(!mini->env->my_env[b_point])
+				fmalloc(mini, "add_export", 2);
 			return (add_exp_agn(mini, arg), NULL);
 		}
 	}
 	new_env = add_exp_fail(new_env, mini->env->my_env, size, arg);
 	if (!new_env)
-		return (NULL);
+		fmalloc(mini, "add_export", 2);
 	freetrix(mini->env->my_env);
 	return (add_exp_agn(mini, arg), mini->env->my_env = new_env, NULL);
 }

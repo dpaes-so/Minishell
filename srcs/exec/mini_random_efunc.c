@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_random_efunc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/30 18:54:31 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:00:46 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	set_shlvl(t_mini *mini)
 	if (shlvl == NULL)
 		return (-1);
 	temp = ft_strjoin(ft_strdup("SHLVL="), shlvl);
+	free(shlvl);
 	if (temp == NULL)
 		return (-1);
 	free(mini->env->my_env[i]);
@@ -49,13 +50,13 @@ int	set_shlvl(t_mini *mini)
 	if (mini->env->my_env[i] == NULL)
 		return (-1);
 	free(temp);
-	return (free(shlvl), 1);
+	return (1);
 }
 
 static int	matrix_dup_env(t_mini *mini, char **ev)
 {
 	mini->env->my_env = ft_matrix_dup(mini->env->my_env, ev);
-	if (mini->env->my_env == NULL)
+	if (!mini->env->my_env)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
@@ -63,7 +64,7 @@ static int	matrix_dup_env(t_mini *mini, char **ev)
 		return (-1);
 	}
 	mini->env->my_export = ft_matrix_dup(mini->env->my_export, ev);
-	if (mini->env->my_export == NULL)
+	if (!mini->env->my_export)
 	{
 		free_env(mini->env);
 		mini->env = NULL;

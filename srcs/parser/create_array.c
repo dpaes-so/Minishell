@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:54:38 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:43:56 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,14 @@ t_token	**array_creation(t_token *tokens, t_mini *shell)
 	amount = count_elems(tokens);
 	array = ft_calloc(amount + 1, sizeof(t_token *));
 	if (array == NULL)
-		fmalloc (shell);
+		return (shell->f_malloc = 1, NULL);
 	array[amount] = NULL;
 	while (i < amount)
 	{
 		len = token_count(tokens, &index);
 		array[i] = ft_calloc(len + 1, sizeof(t_token));
 		if (array[i] == NULL)
-			return (free_array(array), fmalloc(shell), NULL);
+			return (free_array(array), shell->f_malloc = 1, NULL);
 		array[i][len].value = NULL;
 		array[i][len].type = T_NULL;
 		i++;

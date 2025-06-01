@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 23:53:11 by daniel           ###   ########.fr       */
+/*   Updated: 2025/05/31 23:00:09 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
 char					*find_in_env(char *str, t_mini *shell);
-char					*get_name(char *arg);
+char					*get_name(char *arg,t_mini *mini);
 int						find_equal(char *in_arr, char *new_arg);
 void					*double_check(t_mini *mini, char *arg);
 int						export_redirs(t_mini *mini, t_cmd cmds);
@@ -152,7 +152,7 @@ int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 void					omega_free(t_mini *mini);
-void					fmalloc(t_mini *mini);
+void					fmalloc(t_mini *mini, char *which, int code);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
