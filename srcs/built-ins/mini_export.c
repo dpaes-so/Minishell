@@ -20,13 +20,24 @@ void	*finish_fr(int size, char *arg, t_mini *mini)
 		size++;
 	new_export = ft_calloc((size + 2), sizeof(char *));
 	if (!new_export)
+	{
+		free(new_export);
 		fmalloc(mini, "finish_fr", 2);
+	}
 	new_export = ft_matrix_dup(new_export, mini->env->my_export);
 	if (!new_export)
+	{
+		freetrix(new_export);
 		fmalloc(mini, "finish_fr", 2);
+	}
 	new_export[size] = ft_strdup(arg);
 	if (!new_export[size])
+	{
+		while (--size >= 0)
+				free(new_export[size]);
+			free(new_export);
 		fmalloc(mini, "finish_fr", 2);
+	}
 	new_export[++size] = NULL;
 	freetrix(mini->env->my_export);
 	mini->env->my_export = new_export;

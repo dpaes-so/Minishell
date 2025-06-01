@@ -124,5 +124,5 @@ void	*add_export(t_mini *mini, char *arg)
 	if (!new_env)
 		fmalloc(mini, "add_export", 2);
 	freetrix(mini->env->my_env);
-	return (add_exp_agn(mini, arg), mini->env->my_env = new_env, NULL);
+	return (mini->env->my_env = new_env,add_exp_agn(mini, arg), NULL);
 }
