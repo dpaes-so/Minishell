@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 23:51:21 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:27:13 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	{
 		tree_node->node.pipe = false;
 		if (init_tree_node(tree_node, tokens) == 1)
-			return (NULL);
+			return (free_tree(tree_node), NULL);
 	}
 	return (tree_node);
 }

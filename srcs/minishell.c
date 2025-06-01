@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:47:56 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:15:09 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ int	main(int ac, char **av, char **ev)
 	{
 		hell_born(&mini);
 		if(mini.f_malloc == 1)
-			fmalloc(&mini, "hell_born", 2);
+		fmalloc(&mini, "hell_born", 2);
 		input = readline("Minishell > ");
 		if (!input)
-			exit_childprocess(&mini, -2);
+		exit_childprocess(&mini, -2);
 		add_history(input);
 		mini.ast = parser(input, &mini);
 		if(mini.f_malloc == 1)
