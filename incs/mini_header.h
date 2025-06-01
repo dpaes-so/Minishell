@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:00:09 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 01:35:08 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-// # define malloc(x) NULL
+// # define ft_calloc(x, y) NULL
 
 typedef enum TokenType
 {

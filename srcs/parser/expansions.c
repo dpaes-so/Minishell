@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 00:09:54 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:09:01 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,15 @@ int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 {
 	t_token	*new_tokens;
-	int k;
+	int		k;
 
 	k = 0;
 	new_tokens = ft_calloc(amount + 1, sizeof(t_token));
 	if (new_tokens == NULL)
-		return (shell->f_malloc = 1, NULL);
+	{
+		shell->f_malloc = 1;
+		return (NULL);
+	}
 	new_tokens[amount].type = T_NULL;
 	new_tokens[amount].value = NULL;
 	while (tokens[i].type != T_NULL)
@@ -94,7 +97,10 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
 		{
 			if (put_new_tokens(tokens, new_tokens, &k, &i) == 1)
-				return (shell->f_malloc = 1, NULL);
+			{
+				shell->f_malloc = 1;
+				return (NULL);
+			}
 		}
 		else
 		{

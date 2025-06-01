@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/06/01 01:27:47 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:00:22 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ int	make_redirs(t_tree *tree_node, t_token *tokens)
 	return (0);
 }
 
-int	make_args(t_tree *tree_node, t_token *tokens, int index)
+int	make_args(t_tree *tree_node, t_token *tokens, int index, int j)
 {
 	int	i;
-	int	j;
 	int	amount;
 
 	amount = 0;
-	j = 0;
 	i = -1;
 	while (tokens[++i].type != T_NULL)
 		if (tokens[i].value != NULL && tokens[i].type == T_WORD)
@@ -92,7 +90,7 @@ int	make_args(t_tree *tree_node, t_token *tokens, int index)
 	return (0);
 }
 
-int		init_tree_node(t_tree *tree_node, t_token *tokens)
+int	init_tree_node(t_tree *tree_node, t_token *tokens)
 {
 	int	i;
 
@@ -114,7 +112,7 @@ int		init_tree_node(t_tree *tree_node, t_token *tokens)
 		}
 		i++;
 	}
-	if (make_args(tree_node, tokens, 0) == 1)
+	if (make_args(tree_node, tokens, 0, 0) == 1)
 		return (1);
 	return (0);
 }

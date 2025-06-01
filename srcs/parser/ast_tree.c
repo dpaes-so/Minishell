@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 01:27:13 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 02:06:24 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,17 @@ t_tree	*tree_create_node(t_token *tokens, int pipe)
 	return (tree_node);
 }
 
-int		create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
+int	create_aux(t_tree **tree_root, t_token **array, bool pipe, int *i)
+{
+	if (pipe == false)
+		*i -= 1;
+	*tree_root = tree_create_node(array[*i], 0);
+	if (*tree_root == NULL)
+		return (1);
+	return (0);
+}
+
+int	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 {
 	if (*i < 0)
 		return (0);
@@ -59,12 +69,7 @@ int		create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 		}
 		else
 		{
-			if (pipe == false)
-				*i -= 1;
-			*tree_root = tree_create_node(array[*i], 0);
-			if (*tree_root == NULL)
-				return (1);
-			return (0);
+			return (create_aux(tree_root, array, pipe, i));
 		}
 	}
 	return (0);
