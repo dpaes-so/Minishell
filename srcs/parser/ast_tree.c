@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:14:20 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 02:06:24 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 20:24:29 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ int	create_tree(t_tree **tree_root, t_token **array, bool pipe, int *i)
 			return (0);
 		}
 		else
-		{
 			return (create_aux(tree_root, array, pipe, i));
-		}
 	}
 	return (0);
 }

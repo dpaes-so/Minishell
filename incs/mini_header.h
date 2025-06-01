@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 01:35:08 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:13:43 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,9 @@ char					*add_quotes(char *temp, int *flag, t_mini *shell);
 void					quoting_quotes(char *new_expand, int *j, char to_put,
 							char between);
 char					**ft_arg_split(char *s, char c, int *flag);
+int						put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i);
+void					put_redir_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i);
+int						ambiguous_check(t_token *tokens, int i);
 bool					remove_quotes(t_token *token, t_mini *shell);
 
 

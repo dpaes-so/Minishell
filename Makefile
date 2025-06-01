@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: daniel <daniel@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/05/22 16:27:20 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/06/01 21:08:11 by daniel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SOURCES = minishell.c \
 		  parser/dollar_exp.c \
 		  parser/exp_options.c \
 		  parser/expansions_utils.c \
+		  parser/new_tokens_utils.c \
 		  parser/final_split.c \
 		  parser/quotes_funcs.c \
 		  parser/create_array.c \

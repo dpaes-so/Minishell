@@ -6,26 +6,11 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 02:09:01 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:13:26 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-
-int	ambiguous_check(t_token *tokens, int i)
-{
-	int	count;
-
-	count = 0;
-	if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
-		while (tokens[i].value[count] && ft_strchr(" ><",
-				tokens[i].value[count]) != NULL)
-			count++;
-	if (tokens[i].value && !tokens[i].value[count]
-		&& tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
-		return (-1);
-	return (count);
-}
 
 int	new_tokens_amount(t_token *tokens, int i, int j, int *flag)
 {
@@ -55,29 +40,6 @@ int	new_tokens_amount(t_token *tokens, int i, int j, int *flag)
 	return (amount);
 }
 
-int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
-{
-	char	**res;
-	int		j;
-	int		flag;
-
-	flag = 0;
-	j = -1;
-	res = ft_arg_split(tokens[*i].value, ' ', &flag);
-	while (res && res[++j])
-	{
-		new_tokens[*k].value = ft_strdup(res[j]);
-		if (tokens[*i].type == T_PIPE)
-			new_tokens[*k].type = token_type(new_tokens[*k].value, 1);
-		else
-			new_tokens[*k].type = token_type(new_tokens[*k].value, 0);
-		(*k)++;
-	}
-	(*i)++;
-	freetrix(res);
-	return (flag);
-}
-
 t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 {
 	t_token	*new_tokens;
@@ -91,7 +53,6 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 		return (NULL);
 	}
 	new_tokens[amount].type = T_NULL;
-	new_tokens[amount].value = NULL;
 	while (tokens[i].type != T_NULL)
 	{
 		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
@@ -103,40 +64,60 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 			}
 		}
 		else
-		{
-			new_tokens[k].value = ft_strdup(tokens[i].value);
-			if (tokens[i].type == T_PIPE || (tokens[i].type >= T_HERE_DOC
-					&& tokens[i].type <= T_APPEND_REDIR))
-				new_tokens[k].type = token_type(new_tokens[k].value, 1);
-			else
-				new_tokens[k].type = token_type(new_tokens[k].value, 0);
-			k++;
-			i++;
-		}
+			put_redir_tokens(tokens, new_tokens, &k, &i);
 	}
 	return (new_tokens);
 }
 
-t_token	*expand_strs(t_token *tokens, t_mini *shell)
+void	expander(t_token *tokens, t_mini *shell)
 {
-	int		i;
-	int		amount;
-	t_token	*new_tokens;
+	int	i;
 
 	i = -1;
-	amount = 0;
 	while (tokens[++i].type != T_NULL)
 	{
 		if (tokens[i].type != T_PIPE)
 		{
 			if (tokens[i].type != T_HERE_DOC)
-				if (dollar_expand(&tokens[i], shell) == false || shell->f_malloc == 1)
+			{
+				if (dollar_expand(&tokens[i], shell) == false
+					|| shell->f_malloc == 1)
 				{
 					free_tokens(tokens);
 					fmalloc(shell, "expander", 2);
 				}
+			}
 		}
 	}
+}
+
+void	quoter(t_token *tokens, t_token *new_tokens, t_mini *shell)
+{
+	int	i;
+
+	i = -1;
+	while (new_tokens && new_tokens[++i].type != T_NULL)
+	{
+		if (new_tokens[i].type != T_PIPE)
+		{
+			remove_quotes(&new_tokens[i], shell);
+			if (shell->f_malloc == 1)
+			{
+				free_tokens(tokens);
+				if (new_tokens)
+					free_tokens(tokens);
+				fmalloc(shell, "create_tokens_amount", 2);
+			}
+		}
+	}
+}
+
+t_token	*expand_strs(t_token *tokens, t_mini *shell)
+{
+	int		amount;
+	t_token	*new_tokens;
+
+	expander(tokens, shell);
 	amount = new_tokens_amount(tokens, 0, 0, &shell->f_malloc);
 	if (shell->f_malloc == 1)
 	{
@@ -153,18 +134,6 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 			free_tokens(new_tokens);
 		fmalloc (shell, "create_tokens_amount", 2);
 	}
-	i = -1;
-	while (new_tokens && new_tokens[++i].type != T_NULL)
-		if (new_tokens[i].type != T_PIPE)
-		{
-			remove_quotes(&new_tokens[i], shell);
-			if (shell->f_malloc == 1)
-			{
-				free_tokens(tokens);
-				if (new_tokens)
-					free_tokens(tokens);
-				fmalloc(shell, "create_tokens_amount", 2);
-			}
-		}
+	quoter(tokens, new_tokens, shell);
 	return (new_tokens);
 }
