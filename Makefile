@@ -6,7 +6,7 @@
 #    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/06/02 16:43:47 by dgarcez-         ###   ########.fr        #
+#    Updated: 2025/06/02 18:32:36 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ val: $(NAME)
 #  --trace-children=yes
 
 clean:
-	make clean -C ./incs/libft -s
+	@make clean -C ./incs/libft -s
 	@rm -rf $(OBJS_DIR)
 
 fclean: clean

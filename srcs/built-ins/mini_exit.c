@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:39:46 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 14:50:37 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:21:32 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	build_exit(t_mini *mini, t_cmd cmds)
 	if (cmds.args[1])
 	{
 		n = ft_atol(cmds.args[1], &f);
-		printf("n = %lld\n", n);
 		check_exit_code(mini, cmds, &f);
 	}
 	if (cmds.amount != 1 && f != 1)
