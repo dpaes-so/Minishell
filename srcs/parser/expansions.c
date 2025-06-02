@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 15:49:32 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:31:25 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,17 @@ t_token	*create_new_tokens(t_token *tokens, int amount, int i, t_mini *shell)
 	if (new_tokens == NULL)
 	{
 		shell->f_malloc = 1;
-		printf("OAOAOAOAOAOAOAOAOAOAOAOAOAOAOAOAOAOAOAOAO\n");
 		return (NULL);
 	}
 	new_tokens[amount].type = T_NULL;
 	while (tokens[i].type != T_NULL)
 	{
-		// int	j = 0;
-		// while(new_tokens && new_tokens[j].type != T_NULL)
-		// {
-		// 	printf("tok = %s j = %d\n", new_tokens[j].value, j);
-		// 	j++;
-		// }
 		if (!(tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR))
 		{
 			if (put_new_tokens(tokens, new_tokens, &k, &i) == 1)
 			{
 				shell->f_malloc = 1;
-				printf("BANANANANANANANAN\n");
-				return (free_tokens(new_tokens),NULL);
+				return (free_tokens(new_tokens), NULL);
 			}
 		}
 		else
@@ -132,7 +124,6 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 		free_tokens(tokens);
 		fmalloc (shell, "new_tokens_amount", 2);
 	}
-	printf("amount = %d\n", amount);
 	new_tokens = create_new_tokens(tokens, amount, 0, shell);
 	if (shell->f_malloc == 1)
 	{

@@ -6,30 +6,29 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 16:09:45 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:15:56 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "dprintf/ft_fdprintf.h"
 # include "get_next_line.h"
 # include "limits.h"
 # include "printf/ft_printf.h"
-# include "dprintf/ft_fdprintf.h"
 # include <stdlib.h>
+# include <time.h>
 # include <unistd.h>
-#include <time.h>
 
 // #define malloc(x) NULL
-// #define MALLOC_FAIL_PROBABILITY 80
+// #define MALLOC_FAIL_PROBABILITY 150
 
 // static inline void *random_fail_malloc(size_t size) {
 //     if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
-//         return NULL;
-//     return malloc(size);
+//         return (NULL);
+//     return (malloc(size));
 // }
-
 
 // #define malloc(x) random_fail_malloc(x)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 15:14:34 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:24:45 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	*add_exp_fail_fr(char *arg, char **env, int i)
 {
 	char	*new_arg;
-	
+
 	new_arg = remove_plus_sign(arg);
 	env[i] = ft_strdup(new_arg);
 	free(new_arg);
@@ -27,12 +27,12 @@ static void	*add_exp_fail_fr(char *arg, char **env, int i)
 		return (NULL);
 	}
 	env[++i] = NULL;
-	return(NULL);
+	return (NULL);
 }
 
 static char	**add_exp_fail(char **env, char **env2, int size, char *arg)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	env = ft_calloc((size + 2), sizeof(char *));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 14:30:41 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:28:41 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,15 @@ void	master_close(void)
 		close(i);
 }
 
-char 	**path_add(t_mini *mini,char **split)
+char	**path_add(t_mini *mini, char **split, int size)
 {
-	int i;
-	int size;
-	char **fres;
+	int		i;
+	char	**fres;
 
-	size = 0;
-	while(split[size])
+	while (split[size])
 		size++;
-	fres = ft_calloc(size + 1,sizeof(char *));
-	if(!fres)
+	fres = ft_calloc(size + 1, sizeof(char *));
+	if (!fres)
 	{
 		freetrix(split);
 		fmalloc(mini, "path_add", 2);
@@ -57,15 +55,15 @@ char 	**path_add(t_mini *mini,char **split)
 		fres[i] = ft_strjoin(split[i], "/");
 		if (!fres[i])
 		{
-			while(++i < size)
+			mini->f_malloc = 1;
+			while (++i < size)
 				free(split[i]);
-			free(split);
-			return (mini->f_malloc = 1, freetrix(fres), NULL);
+			return (free(split), freetrix(fres), NULL);
 		}
 	}
-	free(split);
-	return(fres);
+	return (free(split), fres);
 }
+
 char	**path_finder(char **envp, t_mini *mini)
 {
 	int		i;
@@ -83,7 +81,7 @@ char	**path_finder(char **envp, t_mini *mini)
 		return (NULL);
 	str = envp[i] + 5;
 	split = ft_split(str, ':');
-	if(!split)
+	if (!split)
 		fmalloc(mini, "path_finder", 2);
-	return (path_add(mini, split));
+	return (path_add(mini, split, 0));
 }

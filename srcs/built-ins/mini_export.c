@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 15:13:14 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:25:08 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*finish_fr(int size, char *arg, t_mini *mini)
 		freetrix(new_export);
 		fmalloc(mini, "finish_fr", 2);
 	}
-	finish_on_god(new_export,arg,mini,size);
+	finish_on_god(new_export, arg, mini, size);
 	return (NULL);
 }
 

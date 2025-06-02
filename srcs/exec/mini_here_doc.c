@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   mini_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:02:58 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 16:23:11 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:34:11 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+void	do_here_doc(t_mini *mini, t_tree *ast, int i)
+{
+	if (!ast)
+		return ;
+	if (ast->node.pipe == true)
+	{
+		do_here_doc(mini, ast->left, 0);
+		do_here_doc(mini, ast->right, 0);
+	}
+	else if (ast->node.redir && ast->node.redir[i].type != T_NULL)
+	{
+		while (ast->node.redir[i].type != T_NULL)
+		{
+			if (mini->execution_signal != 0)
+				break ;
+			if (ast->node.redir[i].type == T_HERE_DOC)
+				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i, mini);
+			i++;
+		}
+	}
+}
 
 static void	here_dollar_handle(int *i, char *s, int fd[2], t_mini *mini)
 {
@@ -21,10 +43,8 @@ static void	here_dollar_handle(int *i, char *s, int fd[2], t_mini *mini)
 	(*i)++;
 	if (s[(*i)] == '?')
 	{
-		s2 = status_expand(mini);
-		while (s2 && s2[j])
-			write(fd[1], &s2[j++], 1);
-		free(s2);
+		s2 = NULL;
+		favila(s2, fd, s, mini);
 		return ;
 	}
 	if (ft_isdigit(s[(*i)]))
@@ -33,6 +53,8 @@ static void	here_dollar_handle(int *i, char *s, int fd[2], t_mini *mini)
 		return ;
 	}
 	s2 = find_in_env(s + (*i), mini);
+	if (!s2)
+		return (free(s), fmalloc(mini, "here dolllar ", 100));
 	while (s[(*i)] && (ft_isalnum(s[(*i)]) || s[(*i)] == '_'))
 		(*i)++;
 	while (s2 && s2[j])
@@ -89,6 +111,10 @@ int	here_doc(t_pipe pipex, t_cmd *cmds, int j, t_mini *mini)
 	}
 	else
 		wait(&mini->execution_signal);
+	if (WIFEXITED(mini->execution_signal))
+		mini->execution_signal = WEXITSTATUS(mini->execution_signal);
+	if (mini->execution_signal == 100)
+		fmalloc(mini, "here doc", 1);
 	close(fd[1]);
 	return (fd[0]);
 }

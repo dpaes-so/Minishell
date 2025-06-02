@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_humans.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:43 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 19:47:56 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:48:52 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	first_child(t_mini *mini, t_cmd cmds)
 	int	fd;
 
 	fd = do_redirect(&cmds, mini);
-	if (!cmds.cmd || fd < 0)
+	if (fd < 0)
 		exit_childprocess(mini, 1);
+	if (!cmds.cmd || fd < 0)
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -43,8 +45,10 @@ void	last_child(t_mini *mini, t_cmd cmds)
 	int	fd;
 
 	fd = do_redirect(&cmds, mini);
-	if (!cmds.cmd || fd < 0)
+	if (fd < 0)
 		exit_childprocess(mini, 1);
+	if (!cmds.cmd)
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -83,8 +87,10 @@ void	middle_child(t_mini *mini, t_cmd cmds)
 	int	fd;
 
 	fd = do_redirect(&cmds, mini);
-	if (!cmds.cmd || fd < 0)
+	if (fd < 0)
 		exit_childprocess(mini, 1);
+	if (!cmds.cmd)
+		exit_childprocess(mini, 0);
 	if (cmds.fdout != -1)
 	{
 		dup2(cmds.fdout, STDOUT_FILENO);
@@ -112,10 +118,10 @@ void	solo_child(t_mini *mini, t_cmd cmds)
 	{
 		signals(2);
 		fd = do_redirect(&cmds, mini);
-		if (!cmds.cmd)
-			exit_childprocess(mini, 0);
 		if (fd < 0)
 			exit_childprocess(mini, 1);
+		if (!cmds.cmd)
+			exit_childprocess(mini, 0);
 		if (cmds.fdout != -1)
 			dup2(cmds.fdout, STDOUT_FILENO);
 		if (cmds.fdin != -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 15:12:51 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 17:33:54 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int						check_valid_variable_name(char *s);
 void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
-void					*add_export(t_mini *mini, char *arg,int size,int b_point);
+void					*add_export(t_mini *mini, char *arg, int size,
+							int b_point);
 char					*find_in_env(char *str, t_mini *shell);
 char					*get_name(char *arg, t_mini *mini);
 int						find_equal(char *in_arr, char *new_arg);
@@ -127,7 +128,8 @@ void					prep_export(t_mini *mini, t_cmd cmds);
 int						print_env_ex(t_mini *mini);
 char					*remove_plus_sign(char *src);
 int						check_char(char *s, int *ctd, int i);
-void					*finish_on_god(char **new_export, char *arg, t_mini *mini, int size);
+void					*finish_on_god(char **new_export, char *arg,
+							t_mini *mini, int size);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 
@@ -153,10 +155,12 @@ int						set_shlvl(t_mini *mini);
 int						check_is_dir(char *exec, t_mini *mini, int f);
 int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
+void					do_here_doc(t_mini *mini, t_tree *ast, int i);
 void					omega_free(t_mini *mini);
 void					fmalloc(t_mini *mini, char *which, int code);
 void					*set_fmalloc(t_mini *shell);
 char					*get_path(t_cmd cmds, t_mini *mini, int i, int *flag);
+void					favila(char *s2, int fd[2], char *s, t_mini *mini);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

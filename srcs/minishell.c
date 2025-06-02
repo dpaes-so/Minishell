@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 00:35:17 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 17:32:31 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/mini_header.h"
-
-void	do_here_doc(t_mini *mini, t_tree *ast, int i)
-{
-	if (!ast)
-		return ;
-	if (ast->node.pipe == true)
-	{
-		do_here_doc(mini, ast->left, 0);
-		do_here_doc(mini, ast->right, 0);
-	}
-	else if (ast->node.redir && ast->node.redir[i].type != T_NULL)
-	{
-		while (ast->node.redir[i].type != T_NULL)
-		{
-			if (mini->execution_signal != 0)
-				break ;
-			if (ast->node.redir[i].type == T_HERE_DOC)
-				ast->node.here_fd = here_doc(mini->pipex, &ast->node, i, mini);
-			i++;
-		}
-	}
-}
 
 void	shell_execution(t_mini *mini, t_tree *ast)
 {
@@ -93,7 +71,6 @@ int	main(int ac, char **av, char **ev)
 	(void)ac;
 	(void)av;
 	mini_born(&mini, ev);
-	srand((unsigned int)time(NULL));
 	while (1)
 	{
 		hell_born(&mini);
@@ -109,7 +86,6 @@ int	main(int ac, char **av, char **ev)
 		ast = mini.ast;
 		if (mini.ast == NULL)
 			continue ;
-		tree_apply_infix(mini.ast, 0, "root");
 		shell_execution(&mini, ast);
 		free(input);
 	}
