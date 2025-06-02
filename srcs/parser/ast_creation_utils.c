@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/06/02 13:11:35 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:03:29 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ void	init_redirs(t_tree *tree_node, t_token *tok)
 	int	j;
 	int	count;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (tok[i].type != T_NULL)
+	while (tok[++i].type != T_NULL)
 	{
-		if (tok[i].type >= T_HERE_DOC && tok[i].type <= T_APPEND_REDIR)
+		if (tok[i].value && tok[i].type >= T_HERE_DOC
+			&& tok[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
 			if (tok[i].type == T_OUT_REDIR || tok[i].type == T_IN_REDIR)
@@ -37,7 +38,6 @@ void	init_redirs(t_tree *tree_node, t_token *tok)
 			tree_node->node.redir[j].in_quotes = tok[i].in_quotes;
 			tree_node->node.redir[j++].ambiguous = tok[i].ambiguous;
 		}
-		i++;
 	}
 }
 

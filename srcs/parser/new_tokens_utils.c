@@ -6,11 +6,18 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:06:28 by daniel            #+#    #+#             */
-/*   Updated: 2025/06/02 13:18:46 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:14:10 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
+
+void	put_null(t_token *tokens, t_token *new_tokens, int *k, int *i)
+{
+	new_tokens[*k].value = tokens[*i].value;
+	new_tokens[*k].type = T_WORD;
+	(*k)++;
+}
 
 int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 {
@@ -21,6 +28,8 @@ int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 	flag = 0;
 	j = -1;
 	res = ft_arg_split(tokens[*i].value, ' ', &flag);
+	if (flag == 1)
+		return (flag);
 	while (res && res[++j])
 	{
 		new_tokens[*k].value = ft_strdup(res[j]);
@@ -31,11 +40,7 @@ int	put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i)
 		(*k)++;
 	}
 	if (res == NULL)
-	{
-		new_tokens[*k].value = tokens[*i].value;
-		new_tokens[*k].type = T_WORD;
-		(*k)++;
-	}
+		put_null(tokens, new_tokens, k, i);
 	(*i)++;
 	freetrix(res);
 	return (flag);
