@@ -6,7 +6,7 @@
 #    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/06/02 14:37:17 by dpaes-so         ###   ########.fr        #
+#    Updated: 2025/06/02 15:25:37 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SOURCES = minishell.c \
 		  built-ins/mini_export_utils.c \
 		  built-ins/mini_export_more_utils.c \
 		  built-ins/mini_export_even_more_utils.c \
+		  built-ins/mini_you_know_it_more_export_utils.c \
 		  built-ins/mini_unset.c \
 		  built-ins/mini_exit.c \
 		  built-ins/mini_echo.c \
@@ -78,7 +79,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
-	valgrind --leak-check=full --track-fds=yes --trace-children=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 
 #  --trace-children=yes
 

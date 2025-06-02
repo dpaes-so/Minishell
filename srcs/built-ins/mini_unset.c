@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:22 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:59:42 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:08:07 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
-static void do_unset_exp(t_mini *mini, t_cmd cmds, int cmd_n, int i)
+
+static void	do_unset_exp(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 {
 	while (mini->env->my_export[++i])
 		if (ft_strncmp(mini->env->my_export[i], cmds.args[cmd_n],
@@ -24,9 +25,10 @@ static void do_unset_exp(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 		mini->env->my_export[i] = ft_strdup(mini->env->my_export[i + 1]);
 		i++;
 	}
-	if(mini->env->my_export[i])
+	if (mini->env->my_export[i])
 		fmalloc(mini, "do_unset_exp", 2);
 }
+
 static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 {
 	while (mini->env->my_env[++i])
@@ -40,8 +42,8 @@ static void	do_unset(t_mini *mini, t_cmd cmds, int cmd_n, int i)
 		mini->env->my_env[i] = ft_strdup(mini->env->my_env[i + 1]);
 		i++;
 	}
-	do_unset_exp(mini,cmds,cmd_n,-1);
-	if(mini->env->my_env[i])
+	do_unset_exp(mini, cmds, cmd_n, -1);
+	if (mini->env->my_env[i])
 		fmalloc(mini, "do_unset", 2);
 }
 

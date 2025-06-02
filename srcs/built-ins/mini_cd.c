@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:55:32 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:55:22 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*find_in_env(char *str, t_mini *shell)
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)
-		return (shell->f_malloc = 1, NULL);
+		return (set_fmalloc(shell));
 	ft_strlcpy(expand, str - count, count + 1);
 	expand = ft_strjoin(expand, "=");
 	while (shell->env->my_env && shell->env->my_env[++j])
@@ -57,7 +57,7 @@ void	pwd_update(t_mini *mini)
 		prefix = ft_strdup("PWD=");
 		free(mini->env->my_env[i]);
 		mini->env->my_env[i] = ft_strjoin(prefix, mini->pwd);
-		if(!prefix || !mini->env->my_env[i])
+		if (!prefix || !mini->env->my_env[i])
 			fmalloc(mini, "pwd_update", 2);
 	}
 }
@@ -85,7 +85,7 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 	char	*pwd;
 
 	pwd = ft_strdup(mini->pwd);
-	if(!pwd)
+	if (!pwd)
 		fmalloc(mini, "get_dir", 2);
 	if (cmds.args[1][0] == '/')
 	{
@@ -96,11 +96,11 @@ static char	*get_dir(t_cmd cmds, char *buffer, char *cd2, t_mini *mini)
 	else
 	{
 		buffer = ft_strjoin(pwd, "/");
-		if(!buffer)
+		if (!buffer)
 			fmalloc(mini, "get_dir", 2);
 		cd2 = ft_strjoin(buffer, cmds.args[1]);
 	}
-	if(!cd2)
+	if (!cd2)
 		fmalloc(mini, "get_dir", 2);
 	return (cd2);
 }

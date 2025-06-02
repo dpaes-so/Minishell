@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:03 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/21 20:11:04 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:50:33 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	echo_flag(t_cmd cmds)
 
 	i = 1;
 	j = 1;
-	if(cmds.args[j][i] == '\0')
+	if (cmds.args[j][i] == '\0')
 		return (0);
 	while (cmds.args[j][i] == 'n')
 		i++;

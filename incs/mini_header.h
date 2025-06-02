@@ -6,7 +6,7 @@
 /*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 14:48:48 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:12:51 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int						check_valid_variable_name(char *s);
 void					get_pwd(t_mini *mini);
 void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
-void					*add_export(t_mini *mini, char *arg);
+void					*add_export(t_mini *mini, char *arg,int size,int b_point);
 char					*find_in_env(char *str, t_mini *shell);
 char					*get_name(char *arg, t_mini *mini);
 int						find_equal(char *in_arr, char *new_arg);
@@ -127,6 +127,7 @@ void					prep_export(t_mini *mini, t_cmd cmds);
 int						print_env_ex(t_mini *mini);
 char					*remove_plus_sign(char *src);
 int						check_char(char *s, int *ctd, int i);
+void					*finish_on_god(char **new_export, char *arg, t_mini *mini, int size);
 
 //----------------------------EXECUTION ! ! ! -----------------------------
 

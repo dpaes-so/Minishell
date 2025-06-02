@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_more_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:47:08 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:55:03 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:10:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int	export_redirs(t_mini *mini, t_cmd cmds)
 	return (1);
 }
 
-char	*get_name(char *arg,t_mini *mini)
+char	*get_name(char *arg, t_mini *mini)
 {
-	int	len;
-	char *res;
+	int		len;
+	char	*res;
 
 	len = 0;
 	while (arg[len] && arg[len] != '=')
 		len++;
 	res = ft_substr(arg, 0, len);
-	if(!res)
+	if (!res)
 		fmalloc(mini, "get_name", 2);
 	return (res);
 }
@@ -92,7 +92,7 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 {
 	free(mini->env->my_export[break_point]);
 	mini->env->my_export[break_point] = ft_strdup(arg);
-	if(!mini->env->my_export)
+	if (!mini->env->my_export)
 		fmalloc(mini, "check_exist", 2);
 	break_point = -1;
 	while (mini->env->my_env[++break_point])
@@ -103,7 +103,7 @@ void	*check_exist(int break_point, char *arg, char *key, t_mini *mini)
 		{
 			free(mini->env->my_env[break_point]);
 			mini->env->my_env[break_point] = ft_strdup(arg);
-			if(!mini->env->my_env[break_point])
+			if (!mini->env->my_env[break_point])
 				fmalloc(mini, "check_exist", 2);
 			free(key);
 			return (NULL);

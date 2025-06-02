@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:32:35 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:52:39 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:13:14 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	*finish_fr(int size, char *arg, t_mini *mini)
 {
-	char **new_export;
+	char	**new_export;
+
 	size = 0;
 	while (mini->env->my_export[size])
 		size++;
@@ -30,26 +31,14 @@ void	*finish_fr(int size, char *arg, t_mini *mini)
 		freetrix(new_export);
 		fmalloc(mini, "finish_fr", 2);
 	}
-	new_export[size] = ft_strdup(arg);
-	if (!new_export[size])
-	{
-		while (--size >= 0)
-				free(new_export[size]);
-			free(new_export);
-		fmalloc(mini, "finish_fr", 2);
-	}
-	new_export[++size] = NULL;
-	freetrix(mini->env->my_export);
-	mini->env->my_export = new_export;
+	finish_on_god(new_export,arg,mini,size);
 	return (NULL);
 }
 
-static void	*finish_export(t_mini *mini, char *arg)
+static void	*finish_export(t_mini *mini, char *arg, int size)
 {
 	char	**new_env;
-	int		size;
 
-	size = 0;
 	if (ft_strchr(arg, '='))
 	{
 		while (mini->env->my_env[size])
@@ -71,36 +60,34 @@ static void	*finish_export(t_mini *mini, char *arg)
 		freetrix(mini->env->my_env);
 		mini->env->my_env = new_env;
 	}
-	finish_fr(size, arg, mini);
-	return (NULL);
+	return (finish_fr(size, arg, mini), NULL);
 }
-
 
 static void	*make_export(t_mini *mini, char *arg, int f)
 {
-	int		break_point;
+	int		b_point;
 	char	*key;
 
-	key = get_name(arg,mini);
+	key = get_name(arg, mini);
 	if (!key)
 		return (NULL);
-	break_point = -1;
-	while (mini->env->my_export[++break_point])
+	b_point = -1;
+	while (mini->env->my_export[++b_point])
 	{
-		if ((!ft_strncmp(mini->env->my_export[break_point], key, ft_strlen(key))
-				&& (mini->env->my_export[break_point][ft_strlen(key)] == '='
-				|| mini->env->my_export[break_point][ft_strlen(key)] == '\0'))
+		if ((!ft_strncmp(mini->env->my_export[b_point], key, ft_strlen(key))
+				&& (mini->env->my_export[b_point][ft_strlen(key)] == '='
+				|| mini->env->my_export[b_point][ft_strlen(key)] == '\0'))
 			|| f == 2)
 		{
-			if (find_equal(mini->env->my_export[break_point], arg))
+			if (find_equal(mini->env->my_export[b_point], arg))
 				return (free(key), NULL);
 			if (f == 2)
-				return (free(key), add_export(mini, arg));
-			return (check_exist(break_point, arg, key, mini));
+				return (free(key), add_export(mini, arg, 0, -1));
+			return (check_exist(b_point, arg, key, mini));
 		}
 	}
 	free(key);
-	return (finish_export(mini, arg), NULL);
+	return (finish_export(mini, arg, 0), NULL);
 }
 
 void	prep_export(t_mini *mini, t_cmd cmds)
