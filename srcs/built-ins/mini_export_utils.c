@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:51:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/01 01:35:00 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 13:04:23 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static char	**add_exp_fail(char **env, char **env2, int size, char *arg)
 	int		i;
 
 	i = -1;
+	(void)size;
 	env = ft_calloc((size + 2), sizeof(char *));
 	if (!env)
 		return(NULL);

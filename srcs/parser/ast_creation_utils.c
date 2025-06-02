@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ast_creation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/06/02 02:18:11 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 13:11:35 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/mini_header.h"
 
-void	init_redirs(t_tree *tree_node, t_token *tokens)
+void	init_redirs(t_tree *tree_node, t_token *tok)
 {
 	int	i;
 	int	j;
@@ -20,22 +20,22 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 
 	i = 0;
 	j = 0;
-	while (tokens[i].type != T_NULL)
+	while (tok[i].type != T_NULL)
 	{
-		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
+		if (tok[i].type >= T_HERE_DOC && tok[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
-			if (tokens[i].type == T_OUT_REDIR || tokens[i].type == T_IN_REDIR)
+			if (tok[i].type == T_OUT_REDIR || tok[i].type == T_IN_REDIR)
 				count++;
-			else if (tokens[i].type == T_APPEND_REDIR || tokens[i].type == T_HERE_DOC)
+			else if (tok[i].type == T_APPEND_REDIR || tok[i].type == T_HERE_DOC)
 				count += 2;
-			while(tokens[i].value && tokens[i].value[count] && ft_strchr(" \t\n\v\f\r", tokens[i].value[count]))
+			while (tok[i].value && tok[i].value[count]
+				&& ft_strchr(" \t\n\v\f\r", tok[i].value[count]))
 				count++;
-			tree_node->node.redir[j].value = ft_strdup(tokens[i].value + count);
-			tree_node->node.redir[j].type = tokens[i].type;
-			tree_node->node.redir[j].in_quotes = tokens[i].in_quotes;
-			tree_node->node.redir[j].ambiguous = tokens[i].ambiguous;
-			j++;
+			tree_node->node.redir[j].value = ft_strdup(tok[i].value + count);
+			tree_node->node.redir[j].type = tok[i].type;
+			tree_node->node.redir[j].in_quotes = tok[i].in_quotes;
+			tree_node->node.redir[j++].ambiguous = tok[i].ambiguous;
 		}
 		i++;
 	}
