@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_random_efunc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:00:46 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:11:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	set_shlvl(t_mini *mini)
 	mini->env->my_env[i] = ft_strdup(temp);
 	if (mini->env->my_env[i] == NULL)
 		return (-1);
-	free(temp);
-	return (1);
+	return (free(temp), 1);
 }
 
 static int	matrix_dup_env(t_mini *mini, char **ev)
