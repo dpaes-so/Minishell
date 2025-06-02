@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniel <daniel@student.42.fr>              +#+  +:+       +#+         #
+#    By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/06/01 21:08:11 by daniel           ###   ########.fr        #
+#    Updated: 2025/06/02 14:37:17 by dpaes-so         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SOURCES = minishell.c \
 		  exec/mini_exec.c \
 		  exec/mini_humans.c \
 		  exec/mini_aux_exec.c \
+		  exec/mini_more_aux_exec.c \
 		  exec/mini_signal.c \
 		  exec/mini_random_efunc.c \
 		  exec/mini_here_doc.c \
@@ -77,7 +78,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/exec
 
 val: $(NAME)
-	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
+	valgrind --leak-check=full --track-fds=yes --trace-children=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 
 #  --trace-children=yes
 

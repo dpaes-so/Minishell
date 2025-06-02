@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:58:23 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:01:39 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:30:41 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,50 +36,6 @@ void	master_close(void)
 		close(i);
 }
 
-void	exit_childprocess(t_mini *mini, int ecode)
-{
-	if (mini->pwd)
-		free(mini->pwd);
-	if (mini->env)
-	{
-		if (mini->env->my_env)
-			freetrix(mini->env->my_env);
-		if (mini->env->my_export)
-			freetrix(mini->env->my_export);
-		if (mini->env)
-			free(mini->env);
-	}
-	if (ecode != -2)
-	{
-		if (mini->ast)
-			free_tree(mini->ast);
-	}
-	else
-		ecode = 0;
-	if (mini->pipex.path)
-		freetrix(mini->pipex.path);
-	clear_history();
-	master_close();
-	exit(ecode);
-}
-
-void	exit_childprocess_exec(t_mini *mini)
-{
-	if (mini->pwd)
-		free(mini->pwd);
-	if (mini->env->my_env)
-		freetrix(mini->env->my_env);
-	if (mini->env->my_export)
-		freetrix(mini->env->my_export);
-	if (mini->env)
-		free(mini->env);
-	if (mini->ast)
-		free_tree(mini->ast);
-	if (mini->pipex.path)
-		free(mini->pipex.path);
-	clear_history();
-	master_close();
-}
 char 	**path_add(t_mini *mini,char **split)
 {
 	int i;

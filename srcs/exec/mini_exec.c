@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:27:27 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 23:58:01 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:44:16 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,16 @@ void	cmdexec(char *envp[], t_cmd cmds, t_mini *mini)
 
 	flag = 0;
 	i = -1;
+	exec = NULL;
 	if (check_built_in(mini, cmds))
 		exit_childprocess(mini, 0);
 	while (flag == 0 && cmds.cmd && ++i > -1)
 	{
-		if (i > 0)
-			free(exec);
-		if (mini->pipex.path != NULL && mini->pipex.path[i] && (access(cmds.cmd,F_OK | X_OK) < 0))
-			exec = ft_strjoin(mini->pipex.path[i], cmds.cmd);
-		else
+		free(exec);
+		exec = get_path(cmds, mini, i, &flag);
+		if (!exec)
 		{
-			exec = ft_strdup(cmds.cmd);
-			check_is_dir(exec, mini, 1);
-			flag = 1;
-		}
-		if(!exec)
-		{
-			while(mini->pipex.path[++i])
+			while (mini->pipex.path[++i])
 				free(mini->pipex.path[i]);
 			free(mini->pipex.path);
 			mini->pipex.path = NULL;
@@ -112,7 +105,7 @@ void	execute(t_mini *mini, t_tree *ast, int f)
 		ft_putstr_fd("Error, Pipe faield", 2);
 		exit(1);
 	}
-	if(mini->f_malloc == 1)
+	if (mini->f_malloc == 1)
 		fmalloc(mini, "execute", 2);
 }
 

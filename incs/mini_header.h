@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 14:26:46 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:48:48 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 void					omega_free(t_mini *mini);
 void					fmalloc(t_mini *mini, char *which, int code);
 void					*set_fmalloc(t_mini *shell);
+char					*get_path(t_cmd cmds, t_mini *mini, int i, int *flag);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
