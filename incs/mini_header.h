@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 13:05:16 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:26:46 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 void					omega_free(t_mini *mini);
 void					fmalloc(t_mini *mini, char *which, int code);
+void					*set_fmalloc(t_mini *shell);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

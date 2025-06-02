@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_options.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:21:31 by daniel            #+#    #+#             */
-/*   Updated: 2025/05/31 23:08:38 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:24:46 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,17 @@ char	*status_expand(t_mini *shell)
 
 	result = ft_itoa(shell->pipex.status);
 	if (result == NULL)
-		return (shell->f_malloc = 1, NULL);
+	{
+		shell->f_malloc = 1;
+		return (NULL);
+	}
 	return (result);
+}
+
+void	*set_fmalloc(t_mini *shell)
+{
+	shell->f_malloc = 1;
+	return (NULL);
 }
 
 char	*find_env(t_token *token, t_mini *shell)
@@ -40,7 +49,7 @@ char	*find_env(t_token *token, t_mini *shell)
 	}
 	expand = ft_calloc(count + 2, sizeof(char));
 	if (expand == NULL)
-		return (shell->f_malloc = 1, NULL);
+		return (set_fmalloc(shell));
 	ft_strlcpy(expand, (*token).value - count, count + 1);
 	expand = ft_strjoin(expand, "=");
 	while (shell->env->my_env[++j])
