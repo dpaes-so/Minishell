@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:40:49 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 13:29:06 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:18:52 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@
 #include <time.h>
 
 // #define malloc(x) NULL
-#define MALLOC_FAIL_PROBABILITY 80
+// #define MALLOC_FAIL_PROBABILITY 80
 
-static inline void *random_fail_malloc(size_t size) {
-    if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
-        return NULL;
-    return malloc(size);
-}
+// static inline void *random_fail_malloc(size_t size) {
+//     if ((rand() % MALLOC_FAIL_PROBABILITY) == 0)
+//         return NULL;
+//     return malloc(size);
+// }
 
 
-#define malloc(x) random_fail_malloc(x)
+// #define malloc(x) random_fail_malloc(x)
 
 int					ft_isalpha(int c);
 

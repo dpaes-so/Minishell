@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:55:40 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:19:09 by dpaes-so         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 	i = -1;
 	while (cmds->redir && cmds->redir[++i].value != NULL)
 	{
+		if (cmds->redir[i].ambiguous)
+		{
+			ft_dprintf(2, "Minishell: %s: ambiguous redirect\n",
+				cmds->redir[i].value);
+			exit_childprocess(mini, 1);
+		}
 		fd = redir_check(cmds, i);
 		if (fd == -2)
 		{
@@ -66,13 +72,9 @@ int	do_redirect(t_cmd *cmds, t_mini *mini)
 			break ;
 		}
 		else if (fd < 0)
-		{
 			if (!check_is_dir(cmds->redir[i].value, mini, 0))
-			{
 				ft_dprintf(2, "Minishell: %s: Permission denied\n",
 					cmds->redir[i].value);
-			}
-		}
 	}
 	return (fd);
 }
@@ -85,7 +87,7 @@ void	get_pwd(t_mini *mini)
 	cdw = getcwd(cdw, 100);
 	free(mini->pwd);
 	mini->pwd = ft_strjoin(cdw, "");
-	if(!mini->pwd)
+	if (!mini->pwd)
 		fmalloc(mini, "get_pwd", 2);
 }
 
