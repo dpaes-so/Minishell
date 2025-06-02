@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:59:48 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/31 23:43:56 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 01:46:21 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	init_array(t_token **array, t_token *tokens)
 			{
 				array[i][j].value = ft_strdup(tokens[k].value);
 				array[i][j].in_quotes = tokens[k].in_quotes;
+				array[i][j].ambiguous = tokens[k].ambiguous;
 				array[i][j++].type = tokens[k++].type;
 			}
 		}

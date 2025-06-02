@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 01:25:13 by root              #+#    #+#             */
-/*   Updated: 2025/06/01 02:00:22 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 02:18:11 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ void	init_redirs(t_tree *tree_node, t_token *tokens)
 		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR)
 		{
 			count = 0;
-			while (tokens[i].value[count] && ft_strchr("><",
-					tokens[i].value[count]) != NULL)
+			if (tokens[i].type == T_OUT_REDIR || tokens[i].type == T_IN_REDIR)
 				count++;
-			while (tokens[i].value[count] && ft_strchr(" ",
-					tokens[i].value[count]) != NULL)
+			else if (tokens[i].type == T_APPEND_REDIR || tokens[i].type == T_HERE_DOC)
+				count += 2;
+			while(tokens[i].value && tokens[i].value[count] && ft_strchr(" \t\n\v\f\r", tokens[i].value[count]))
 				count++;
 			tree_node->node.redir[j].value = ft_strdup(tokens[i].value + count);
 			tree_node->node.redir[j].type = tokens[i].type;
 			tree_node->node.redir[j].in_quotes = tokens[i].in_quotes;
+			tree_node->node.redir[j].ambiguous = tokens[i].ambiguous;
 			j++;
 		}
 		i++;

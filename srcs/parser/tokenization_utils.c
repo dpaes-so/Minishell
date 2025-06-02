@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:52:31 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/05/31 22:55:57 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 00:59:32 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ bool	word_alloc(char *input, int len, t_token *result, int i)
 	result[i].value = ft_substr(input, 0, len);
 	result[i].type = token_type(result[i].value, 1);
 	result[i].in_quotes = false;
+	result[i].ambiguous = false;
 	if (result[i].value == NULL)
 	{
 		free_tokens(result);

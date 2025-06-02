@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 21:13:43 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 02:36:40 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_token
 	char				*value;
 	t_tokentype			type;
 	bool				in_quotes;
+	bool				ambiguous;
 }						t_token;
 
 typedef struct s_cmd
@@ -116,7 +117,7 @@ void					pwd_update(t_mini *mini);
 void					freetrix(char **matrix);
 void					*add_export(t_mini *mini, char *arg);
 char					*find_in_env(char *str, t_mini *shell);
-char					*get_name(char *arg,t_mini *mini);
+char					*get_name(char *arg, t_mini *mini);
 int						find_equal(char *in_arr, char *new_arg);
 void					*double_check(t_mini *mini, char *arg);
 int						export_redirs(t_mini *mini, t_cmd cmds);
@@ -159,7 +160,8 @@ void					fmalloc(t_mini *mini, char *which, int code);
 t_tree					*parser(char *input, t_mini *shell);
 t_token					*split_tokens(char *input, t_mini *shell);
 void					free_tokens(t_token *tokens);
-int						count_tokens(char *input, t_token *result, t_mini *shell);
+int						count_tokens(char *input, t_token *result,
+							t_mini *shell);
 bool					word_alloc(char *input, int len, t_token *result,
 							int i);
 t_tokentype				token_type(char *value, int j);
@@ -201,10 +203,11 @@ char					*add_quotes(char *temp, int *flag, t_mini *shell);
 void					quoting_quotes(char *new_expand, int *j, char to_put,
 							char between);
 char					**ft_arg_split(char *s, char c, int *flag);
-int						put_new_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i);
-void					put_redir_tokens(t_token *tokens, t_token *new_tokens, int *k, int *i);
+int						put_new_tokens(t_token *tokens, t_token *new_tokens,
+							int *k, int *i);
+void					put_redir_tokens(t_token *tokens, t_token *new_tokens,
+							int *k, int *i);
 int						ambiguous_check(t_token *tokens, int i);
 bool					remove_quotes(t_token *token, t_mini *shell);
-
 
 #endif

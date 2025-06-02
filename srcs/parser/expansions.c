@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:58:38 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/01 21:13:26 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 01:30:19 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ int	new_tokens_amount(t_token *tokens, int i, int j, int *flag)
 	int		amount;
 
 	amount = 0;
-	while (tokens[i].type != T_NULL)
+	while (tokens[++i].type != T_NULL)
 	{
 		j = 0;
 		count = ambiguous_check(tokens, i);
-		if (count == -1)
-			return (-1);
 		res = ft_arg_split(tokens[i].value + count, ' ', flag);
-		if (res == NULL)
+		if (res == NULL || tokens[i].ambiguous == true)
 			amount++;
-		while (res && res[j])
+		while (res && res[j] && tokens[i].ambiguous == false)
 			j++;
 		if (tokens[i].type >= T_HERE_DOC && tokens[i].type <= T_APPEND_REDIR
 			&& j > 1)
-			return (freetrix(res), -1);
+		{
+			tokens[i].ambiguous = true;
+			j = 1;
+		}
 		amount += j;
-		i++;
 		freetrix(res);
 	}
 	return (amount);
@@ -118,14 +118,13 @@ t_token	*expand_strs(t_token *tokens, t_mini *shell)
 	t_token	*new_tokens;
 
 	expander(tokens, shell);
-	amount = new_tokens_amount(tokens, 0, 0, &shell->f_malloc);
+	amount = new_tokens_amount(tokens, -1, 0, &shell->f_malloc);
 	if (shell->f_malloc == 1)
 	{
 		free_tokens(tokens);
 		fmalloc (shell, "new_tokens_amount", 2);
 	}
-	if (amount < 0)
-		return (printf("ambiguous redirect stoopid D:<\n"), NULL);
+	printf("amount = %d\n", amount);
 	new_tokens = create_new_tokens(tokens, amount, 0, shell);
 	if (shell->f_malloc == 1)
 	{

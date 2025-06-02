@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:35:39 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:29:29 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/02 01:24:20 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	**ft_arg_split(char *s, char c, int *flag)
 	int		index;
 
 	index = 0;
-	if (!s)
+	if (!s || s[0] == '\0')
 		return (NULL);
 	i = 0;
 	stringnum = countwords(s);

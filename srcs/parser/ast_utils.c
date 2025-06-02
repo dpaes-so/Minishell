@@ -6,7 +6,7 @@
 /*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:39:31 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/05/29 16:16:08 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/02 01:48:43 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,54 +21,54 @@ void	print_tabs(int level)
 	}
 }
 
-// void	print_tree(t_tree *root, int level, char *side)
-// {
-// 	int	i;
+void	print_tree(t_tree *root, int level, char *side)
+{
+	int	i;
 
-// 	i = 0;
-// 	print_tabs(level);
-// 	printf("%s side: \n", side);
-// 	if (root->node.pipe == true)
-// 	{
-// 		print_tabs(level);
-// 		printf("|\n");
-// 		return ;
-// 	}
-// 	if (root->node.cmd)
-// 	{
-// 		print_tabs(level);
-// 		printf("cmd = %s\n", root->node.cmd);
-// 	}
-// 	print_tabs(level);
-// 	printf("amount = %d\n", root->node.amount);
-// 	if (root->node.args)
-// 	{
-// 		while (root->node.args[i])
-// 		{
-// 			print_tabs(level);
-// 			printf("args = %s\n", root->node.args[i]);
-// 			i++;
-// 		}
-// 		i = 0;
-// 	}
-// 	while (root->node.redir != NULL
-// 		&& root->node.redir[i].type != T_NULL)
-// 	{
-// 		print_tabs(level);
-// 		printf("redir = %s type = %u\n", root->node.redir[i].value,
-// 			root->node.redir[i].type);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	print_tabs(level);
+	printf("%s side: \n", side);
+	if (root->node.pipe == true)
+	{
+		print_tabs(level);
+		printf("|\n");
+		return ;
+	}
+	if (root->node.cmd)
+	{
+		print_tabs(level);
+		printf("cmd = %s\n", root->node.cmd);
+	}
+	print_tabs(level);
+	printf("amount = %d\n", root->node.amount);
+	if (root->node.args)
+	{
+		while (root->node.args[i])
+		{
+			print_tabs(level);
+			printf("args = %s\n", root->node.args[i]);
+			i++;
+		}
+		i = 0;
+	}
+	while (root->node.redir != NULL
+		&& root->node.redir[i].type != T_NULL)
+	{
+		print_tabs(level);
+		printf("redir = %s type = %u ambigious = %d\n", root->node.redir[i].value,
+			root->node.redir[i].type, root->node.redir[i].ambiguous);
+		i++;
+	}
+}
 
-// void	tree_apply_infix(t_tree *root, int level, char *side)
-// {
-// 	if (root->left != NULL)
-// 		tree_apply_infix(root->right, level + 1, "right");
-// 	print_tree(root, level, side);
-// 	if (root->right != NULL)
-// 		tree_apply_infix(root->left, level + 1, "left");
-// }
+void	tree_apply_infix(t_tree *root, int level, char *side)
+{
+	if (root->left != NULL)
+		tree_apply_infix(root->right, level + 1, "right");
+	print_tree(root, level, side);
+	if (root->right != NULL)
+		tree_apply_infix(root->left, level + 1, "left");
+}
 
 void	quoting_quotes(char *new_expand, int *j, char to_put, char between)
 {
