@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 18:30:07 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:08:10 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_is_dir(char *exec, t_mini *mini, int f)
 	if (!exec)
 		return (0);
 	check = opendir(exec);
-	if (check && ft_strchr(exec,'/'))
+	if (check && ft_strchr(exec, '/'))
 	{
 		ft_dprintf(2, "Minishell: %s: Is a directory\n", exec);
 		closedir(check);

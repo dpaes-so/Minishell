@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:02:58 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 17:34:11 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:35:04 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	here_dollar_handle(int *i, char *s, int fd[2], t_mini *mini)
 		return ;
 	}
 	s2 = find_in_env(s + (*i), mini);
-	if (!s2)
+	if (!s2 && mini->f_malloc == 1)
 		return (free(s), fmalloc(mini, "here dolllar ", 100));
 	while (s[(*i)] && (ft_isalnum(s[(*i)]) || s[(*i)] == '_'))
 		(*i)++;

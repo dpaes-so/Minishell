@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:44:11 by daniel            #+#    #+#             */
-/*   Updated: 2025/06/02 14:29:04 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:44 by daniel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	*put_quotes(char *temp, int count, t_mini *shell, int *flag)
 
 	i = 0;
 	j = 0;
-	(void)count;
 	new_expand = ft_calloc(ft_strlen(temp) + (count * 2) + 1, sizeof(char));
 	if (new_expand == NULL)
 		return (set_fmalloc(shell));
