@@ -31,25 +31,21 @@ int	redir_check(t_cmd *cmds, int i)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		cmds->fdout = fd;
-		if (fd < 0)
-			return (ft_dprintf(2,"Minishell: "),perror(cmds->redir[i].value),-1);
 	}
 	else if (cmds->redir[i].type == T_IN_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_RDONLY, 0644);
 		cmds->fdin = fd;
-		if (fd < 0)
-			return (ft_dprintf(2,"Minishell: "),perror(cmds->redir[i].value),-1);
 	}
 	else if (cmds->redir[i].type == T_APPEND_REDIR)
 	{
 		fd = open(cmds->redir[i].value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		cmds->fdout = fd;
-		if (fd < 0)
-			return (ft_dprintf(2,"Minishell: "),perror(cmds->redir[i].value),-1);
 	}
 	else if (cmds->redir[i].type == T_HERE_DOC)
 		cmds->fdin = cmds->here_fd;
+	if (fd < 0)
+			return (ft_dprintf(2,"Minishell: "),perror(cmds->redir[i].value),-1);
 	return (fd);
 }
 
