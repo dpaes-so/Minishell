@@ -41,3 +41,5 @@ echo ola > txt ola > outro | echo banana > banana
 3.help exec with redirect logic
 
 4.eat a snickers
+
+FUCK THIS
