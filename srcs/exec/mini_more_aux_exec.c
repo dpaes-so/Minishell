@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:30:30 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 17:32:23 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:00:42 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,4 @@ char	*get_path(t_cmd cmds, t_mini *mini, int i, int *flag)
 		(*flag) = 1;
 	}
 	return (exec);
-}
-
-void	favila(char *s2, int fd[2], char *s, t_mini *mini)
-{
-	int	j;
-
-	j = 0;
-	s2 = status_expand(mini);
-	if (!s2)
-		return (free(s), fmalloc(mini, "here dollar ", 100));
-	while (s2 && s2[j])
-		write(fd[1], &s2[j++], 1);
-	free(s2);
 }

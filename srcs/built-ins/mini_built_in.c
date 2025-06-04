@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:42:40 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/02 17:44:31 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:26:56 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	redir_check(t_cmd *cmds, int i)
 	else if (cmds->redir[i].type == T_HERE_DOC)
 		cmds->fdin = cmds->here_fd;
 	if (fd < 0)
-			return (ft_dprintf(2,"Minishell: "),perror(cmds->redir[i].value),-1);
+		return (ft_dprintf(2, "Minishell: "), perror(cmds->redir[i].value), -1);
 	return (fd);
 }
 

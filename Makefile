@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniel <daniel@student.42.fr>              +#+  +:+       +#+         #
+#    By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/11 16:46:46 by dgarcez-          #+#    #+#              #
-#    Updated: 2025/06/03 15:51:42 by daniel           ###   ########.fr        #
+#    Updated: 2025/06/04 13:43:38 by dgarcez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SOURCES = minishell.c \
 		  exec/mini_signal.c \
 		  exec/mini_random_efunc.c \
 		  exec/mini_here_doc.c \
+		  exec/fdaniel.c \
           mini_aux.c
 
 SRCS_DIR = srcs
@@ -81,7 +82,7 @@ $(OBJS_DIR):
 val: $(NAME)
 	valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./minishell
 
-#  --trace-children=yes
+#--trace-children=yes   
 
 clean:
 	@make clean -C ./incs/libft -s

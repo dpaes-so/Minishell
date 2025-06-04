@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaes-so <dpaes-so@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:33 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 14:55:22 by dpaes-so         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:31:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ void	pwd_update(t_mini *mini)
 	char	*prefix;
 
 	i = -1;
-	if (mini->env)
+	if (!mini->env)
 		return ;
-	while (mini->env->my_env[i] && mini->env->my_env[++i])
+	while (mini->env->my_env && mini->env->my_env[++i])
+	{
 		if (ft_strnstr(mini->env->my_env[i], "PWD=", 4))
 			break ;
+	}
 	if (mini->env->my_env[i])
 	{
 		prefix = ft_strdup("PWD=");

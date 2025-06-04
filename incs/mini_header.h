@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/03 15:53:38 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:59:40 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,13 @@ int						here_doc(t_pipe pipex, t_cmd *cmds, int j,
 							t_mini *mini);
 void					do_here_doc(t_mini *mini, t_tree *ast, int i);
 void					omega_free(t_mini *mini);
+void					free_env(t_env *env);
+char					*get_path(t_cmd cmds, t_mini *mini, int i, int *flag);
 void					fmalloc(t_mini *mini, char *which, int code);
 void					*set_fmalloc(t_mini *shell);
-char					*get_path(t_cmd cmds, t_mini *mini, int i, int *flag);
 void					favila(char *s2, int fd[2], char *s, t_mini *mini);
+int						fpablo(t_mini *mini, int f, int size, char **env);
+int						fraquel(t_mini *mini, int f);
 
 //----------------------------PARSING ! ! ! -------------------------------
 

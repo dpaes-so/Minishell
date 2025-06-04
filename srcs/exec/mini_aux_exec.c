@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_aux_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel <daniel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:59:45 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/03 13:08:10 by daniel           ###   ########.fr       */
+/*   Updated: 2025/06/04 12:12:19 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ int	check_is_dir(char *exec, t_mini *mini, int f)
 			exit_childprocess(mini, 126);
 		}
 		return (1);
+	}
+	if (check)
+	{
+		freetrix(mini->pipex.path);
+		mini->pipex.path = NULL;
+		closedir(check);
 	}
 	return (0);
 }

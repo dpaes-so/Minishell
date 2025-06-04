@@ -6,7 +6,7 @@
 /*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:33:17 by dpaes-so          #+#    #+#             */
-/*   Updated: 2025/06/02 14:11:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:41:20 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	set_shlvl(t_mini *mini)
 		if (ft_strnstr(mini->env->my_env[i], "SHLVL=", 6))
 			break ;
 	if (!mini->env->my_env[i])
-		return (0);
+		return (fraquel(mini, 1));
 	sh_lvl = ft_atoi(mini->env->my_env[i] + 6);
 	sh_lvl++;
 	shlvl = ft_itoa(sh_lvl);
@@ -79,7 +79,7 @@ static int	my_env_continue(t_mini *mini, char **ev)
 		return (-1);
 	ft_sort_matrix(mini->env->my_export);
 	if (set_shlvl(mini) < 0)
-		return (mini->f_malloc = 1, -1);
+		return (set_fmalloc(mini), -1);
 	return (1);
 }
 
@@ -98,14 +98,14 @@ int	my_env_start(t_mini *mini, char **ev)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		return (mini->f_malloc = 1, -1);
+		return (set_fmalloc(mini), -1);
 	}
 	mini->env->my_export = ft_calloc(k + 1, sizeof(char *));
 	if (!mini->env->my_export)
 	{
 		free_env(mini->env);
 		mini->env = NULL;
-		return (mini->f_malloc = 1, -1);
+		return (set_fmalloc(mini), -1);
 	}
 	if (my_env_continue(mini, ev) < 0)
 		return (-1);
