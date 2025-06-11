@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:46:22 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/04 14:02:32 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:15:02 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ int	main(int ac, char **av, char **ev)
 			ft_dprintf(2, "exit\n");
 			exit_childprocess(&mini, -2);
 		}
-		fandre(mini, ast, input);
+		fandre(&mini, input);
+		ast = mini.ast;
+		if (mini.ast == NULL)
+			continue ;
+		shell_execution(&mini, ast);
+		free(input);
 	}
 }

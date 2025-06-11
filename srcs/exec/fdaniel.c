@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdaniel.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:41:30 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/04 14:02:42 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:10:37 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,12 @@ void	favila(char *s2, int fd[2], char *s, t_mini *mini)
 	free(s2);
 }
 
-void	fandre(t_mini mini, t_tree *ast, char *input)
+void	fandre(t_mini *mini, char *input)
 {
 	add_history(input);
-	mini.ast = parser(input, &mini);
-	if (mini.f_malloc == 1)
-		fmalloc(&mini, "ast", 2);
-	ast = mini.ast;
-	if (mini.ast == NULL)
-		continue ;
-	shell_execution(&mini, ast);
-	free(input);
+	mini->ast = parser(input, mini);
+	if (mini->f_malloc == 1)
+		fmalloc(mini, "ast", 2);
 }
 
 void	fmalloc(t_mini *mini, char *which, int code)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_header.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgarcez- <dgarcez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgarcez- < dgarcez-@student.42lisboa.com > +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:57 by dgarcez-          #+#    #+#             */
-/*   Updated: 2025/06/04 13:59:40 by dgarcez-         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:58 by dgarcez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void					*set_fmalloc(t_mini *shell);
 void					favila(char *s2, int fd[2], char *s, t_mini *mini);
 int						fpablo(t_mini *mini, int f, int size, char **env);
 int						fraquel(t_mini *mini, int f);
+void					fandre(t_mini *mini, char *input);
 
 //----------------------------PARSING ! ! ! -------------------------------
 
